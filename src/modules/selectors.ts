@@ -2,7 +2,11 @@ import { get, isString } from 'lodash';
 import { CreateSelectorsTypes } from './types';
 import { ensureArray, createType } from '../helpers';
 
-export const DEFAULT_REDUCER = 'redux_tiles';
+export let DEFAULT_REDUCER = 'redux_tiles';
+
+export function changeDefaultReducer(newReducer: string) {
+  DEFAULT_REDUCER = newReducer;
+}
 
 function checkValue(result: any, defaultValue = {}) {
   return result === undefined ? defaultValue : result;

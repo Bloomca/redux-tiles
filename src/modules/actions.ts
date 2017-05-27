@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import { createType } from '../helpers';
 import { AsyncActionTypes, SyncActionTypes, PromiseObject } from './types';
+import { DEFAULT_REDUCER } from './selectors';
 
 function proccessMiddleware(args: any[]) {
   if (args.length === 2) {
@@ -12,8 +13,9 @@ function proccessMiddleware(args: any[]) {
   }
 }
 
-function shouldBeFetched(): boolean {
-  return true;
+function shouldBeFetched({ getState, selectors, params }: any): boolean {
+  const { isPending, data, error } = selectors.get(DEFAULT_REDUCER, getState(), params);
+  return error === null && data === null && isPending !== true;
 }
 
 function handleMiddleware(fn: Function) {
@@ -22,7 +24,7 @@ function handleMiddleware(fn: Function) {
 }
 
 export function asyncAction({
-  START, SUCCESS, FAILURE, fn, type, caching, nesting
+  START, SUCCESS, FAILURE, fn, type, caching, nesting, selectors
 }: AsyncActionTypes, promises: PromiseObject = {}) {
   return handleMiddleware((
     { dispatch, getState, ...middlewares }: any,
@@ -39,7 +41,7 @@ export function asyncAction({
     }
 
     if (caching && !forceAsync) {
-      const isFetchingNeeded = shouldBeFetched();
+      const isFetchingNeeded = shouldBeFetched({ getState, selectors, params });
 
       if (!isFetchingNeeded) {
         return Promise.resolve();
