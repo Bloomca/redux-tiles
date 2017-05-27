@@ -1,8 +1,12 @@
 import { get, isString } from 'lodash';
 import { CreateSelectorsTypes } from './types';
-import { ensureArray } from '../helpers';
+import { ensureArray, createType } from '../helpers';
 
 export const DEFAULT_REDUCER = 'redux_tiles';
+
+function checkValue(result: any, defaultValue = {}) {
+  return result === undefined ? defaultValue : result;
+}
 
 interface LookupParams {
   topReducer: string,
@@ -28,11 +32,11 @@ function lookup({ topReducer, state, params, nesting, moduleName }: LookupParams
   }
   
   const nestedNames = isString(moduleName) ? [moduleName] : moduleName;
-  return get(state, [topReducer, ...nestedNames, ...path]) || {};
+  return checkValue(get(state, [topReducer, ...nestedNames, ...path]));
 }
 
 interface CheckArgumentsParams {
-  topReducer: string,
+  topReducer: string|undefined,
   state: Object,
   params: any,
   moduleName: string|string[]
@@ -50,7 +54,10 @@ interface CheckArgumentsParams {
  */
 function checkArguments({ topReducer, state, params, moduleName, fn }: CheckArgumentsParams) {
   if (!state) {
-    throw new Error(`Error in MODULES Selector – you have to provide state as a first argument!. Error in "${moduleName}" module.`);
+    throw new Error(`
+      Error in Redux-Tiles Selector – you have to provide
+      state as a first argument!. Error in "${createType({ type: moduleName })}" tile.`
+    );
   }
 
   return fn(topReducer, state, params);
@@ -64,12 +71,15 @@ function checkArguments({ topReducer, state, params, moduleName, fn }: CheckArgu
  */
 export function createSelectors({ moduleName, nesting }: CreateSelectorsTypes) {
   const getAll = (topReducer = DEFAULT_REDUCER, state: any) => {
-    return get(state, [topReducer, ...ensureArray(moduleName)]) || {};
+    return checkValue(get(state, [topReducer, ...ensureArray(moduleName)]));
   };
   
-  const getSpecific = (topReducer = DEFAULT_REDUCER, state: any, params: any) => lookup({ topReducer, state, params, nesting, moduleName });
+  const getSpecific = (topReducer = DEFAULT_REDUCER, state: any, params: any) =>
+    lookup({ topReducer, state, params, nesting, moduleName });
   return {
-    getAll: (topReducer: string, state: any) => checkArguments({ topReducer, state, moduleName, fn: getAll } as any),
-    get: (topReducer: string, state: any, params: any) => checkArguments({ topReducer, state, params, moduleName, fn: getSpecific })
+    getAll: (topReducer: string|undefined, state: any) =>
+      checkArguments({ topReducer, state, moduleName, fn: getAll } as any),
+    get: (topReducer: string|undefined, state: any, params?: any) =>
+      checkArguments({ topReducer, state, params, moduleName, fn: getSpecific })
   };
 }

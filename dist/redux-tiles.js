@@ -209,7 +209,7 @@ function asyncAction(_a, promises) {
             payload: { path: path }
         });
         var promise = fn(__assign({ params: params, dispatch: dispatch, getState: getState }, middlewares));
-        promises[getIdentificator] = activePromise;
+        promises[getIdentificator] = promise;
         return promise
             .then(function (data) {
             dispatch({
@@ -300,10 +300,12 @@ function createTile(params) {
             error: null
         },
         _b[types.ERROR] = function (_storeState, storeAction) { return ({
+            data: null,
             isPending: false,
             error: storeAction.error
         }); },
         _b[types.SUCCESS] = function (_storeState, storeAction) { return ({
+            error: null,
             isPending: false,
             data: storeAction.payload && storeAction.payload.data
         }); },
@@ -419,6 +421,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = require("lodash");
 var helpers_1 = require("../helpers");
 exports.DEFAULT_REDUCER = 'redux_tiles';
+function checkValue(result, defaultValue) {
+    if (defaultValue === void 0) { defaultValue = {}; }
+    return result === undefined ? defaultValue : result;
+}
 /**
  * @overview Deep lookup inside state
  * @param  {Object} state – current redux state object
@@ -434,7 +440,7 @@ function lookup(_a) {
         path = nesting(params);
     }
     var nestedNames = lodash_1.isString(moduleName) ? [moduleName] : moduleName;
-    return lodash_1.get(state, [topReducer].concat(nestedNames, path)) || {};
+    return checkValue(lodash_1.get(state, [topReducer].concat(nestedNames, path)));
 }
 /**
  * @overview check passed arguments to the Selector function.
@@ -448,7 +454,7 @@ function lookup(_a) {
 function checkArguments(_a) {
     var topReducer = _a.topReducer, state = _a.state, params = _a.params, moduleName = _a.moduleName, fn = _a.fn;
     if (!state) {
-        throw new Error("Error in MODULES Selector \u2013 you have to provide state as a first argument!. Error in \"" + moduleName + "\" module.");
+        throw new Error("\n      Error in Redux-Tiles Selector \u2013 you have to provide\n      state as a first argument!. Error in \"" + helpers_1.createType({ type: moduleName }) + "\" tile.");
     }
     return fn(topReducer, state, params);
 }
@@ -462,15 +468,19 @@ function createSelectors(_a) {
     var moduleName = _a.moduleName, nesting = _a.nesting;
     var getAll = function (topReducer, state) {
         if (topReducer === void 0) { topReducer = exports.DEFAULT_REDUCER; }
-        return lodash_1.get(state, [topReducer].concat(helpers_1.ensureArray(moduleName))) || {};
+        return checkValue(lodash_1.get(state, [topReducer].concat(helpers_1.ensureArray(moduleName))));
     };
     var getSpecific = function (topReducer, state, params) {
         if (topReducer === void 0) { topReducer = exports.DEFAULT_REDUCER; }
         return lookup({ topReducer: topReducer, state: state, params: params, nesting: nesting, moduleName: moduleName });
     };
     return {
-        getAll: function (topReducer, state) { return checkArguments({ topReducer: topReducer, state: state, moduleName: moduleName, fn: getAll }); },
-        get: function (topReducer, state, params) { return checkArguments({ topReducer: topReducer, state: state, params: params, moduleName: moduleName, fn: getSpecific }); }
+        getAll: function (topReducer, state) {
+            return checkArguments({ topReducer: topReducer, state: state, moduleName: moduleName, fn: getAll });
+        },
+        get: function (topReducer, state, params) {
+            return checkArguments({ topReducer: topReducer, state: state, params: params, moduleName: moduleName, fn: getSpecific });
+        }
     };
 }
 exports.createSelectors = createSelectors;
