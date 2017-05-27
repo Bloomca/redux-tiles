@@ -7,6 +7,7 @@
   "typings": "lib/es2015/index.d.ts",
   "main": "lib/commonjs/index.js",
   "scripts": {
+    "prepublish": "npm run build",
     "build:es2015": "tsc -P tsconfig.json",
     "build:es2015:watch": "tsc --watch -P tsconfig.json",
     "build:commonjs": "tsc -P tsconfig.commonjs.json",
