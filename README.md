@@ -128,7 +128,13 @@ const photos = createTile({
   // },
   // if you save under the same nesting array, data will be replaced
   // other branches will be merged
-  nesting: (params) => [params.page, params.count]
+  nesting: (params) => [params.page, params.count],
+
+
+  // unless we will invoke with second parameter object with asyncForce: true,
+  // it won't be requested again
+  // dispatch(actions.tiles.api.photos(params, { asyncForce: true }))
+  caching: true,
 });
 ```
 
