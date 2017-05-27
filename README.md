@@ -43,6 +43,7 @@ const authUser = createTile({
   fn: async ({ params, api, dispatch, actions, selectors, getState }) => {
     // login user
     await dispatch(actions.tiles.user.authRequest(params));
+    
     // check the result
     const { data: { id }, error } = selectors.tiles.user.authRequest(getState());
 
@@ -106,6 +107,8 @@ const photos = createTile({
   // and also available under actions and selectors as:
   // actions.tiles.api.photos
   type: ['api', 'photos'],
+  
+  
   // params is an object with which we dispatch the action
   // you can pass only one parameter, so keep it as an object
   // with different properties
@@ -113,6 +116,8 @@ const photos = createTile({
   // all other properties are from your middleware
   // fn expects promise out of this function
   fn: ({ params, api }) => api.get('/photos', params),
+  
+  
   // to nest data:
   // { 5:
   //    10: {
@@ -134,6 +139,8 @@ import { createSyncTile } from 'redux-tiles';
 
 const notifications = createSyncTile({
   type: ['notifications'],
+  
+  
   // all parameters are the same as in async tile
   fn: ({ params, dispatch, actions }) => {
     // we can dispatch async actions – but we can't wait
@@ -145,6 +152,8 @@ const notifications = createSyncTile({
       data: processData(params.data),
     };
   },
+  
+  
   // nesting works the same way
   nesting: ({ type }) => [type],
 });
@@ -171,8 +180,10 @@ Or with `Object.assign`, which will make it even less readable. This is a pretty
 ```javascript
 const infoTile = createTile({
   type: ['info', 'storage'],
+  
   // params here and in nesting are the same object
   fn: ({ params, api }) => api.get('/storage', params),
+  
   nesting: ({ quantity, id }) => [id, quantity],
 });
 ```
@@ -183,13 +194,16 @@ In order to use this library, you have to apply middleware, which will handle fu
 
 ```javascript
 import { createMiddleware } from 'redux-tiles';
+
 // these are not required, but adding them allows you
 // to do Dependency Injection pattern, so it is easier to test
 import actions from '../actions';
 import selectors from '../selectors';
+
 // it is a good idea to put API layer inside middleware, so
 // you can easily separate client and server, for instance
 import api from '../utils/api';
+
 
 // this object is optional. every property will be available inside
 // `fn` of all tiles
