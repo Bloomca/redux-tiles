@@ -1,0 +1,64 @@
+{
+  "name": "redux-tiles",
+  "version": "0.0.1",
+  "description": "Library to create and easily compose redux pieces together",
+  "jsnext:main": "lib/es2015/index.js",
+  "module": "lib/es2015/index.js",
+  "typings": "lib/es2015/index.d.ts",
+  "main": "lib/commonjs/index.js",
+  "scripts": {
+    "build:es2015": "tsc -P tsconfig.json",
+    "build:es2015:watch": "tsc --watch -P tsconfig.json",
+    "build:commonjs": "tsc -P tsconfig.commonjs.json",
+    "build:dist": "browserify lib/commonjs/index.js -o dist/redux-tiles.js && uglifyjs dist/redux-tiles.js -o dist/redux-tiles.min.js",
+    "build": "npm run build:es2015 && npm run build:commonjs && npm run build:dist",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bloomca/redux-tiles.git"
+  },
+  "keywords": [
+    "redux",
+    "redux",
+    "modules",
+    "redux",
+    "composition",
+    "redux",
+    "boilerplate"
+  ],
+  "author": "Seva Zaikov <seva.zaikov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bloomca/redux-tiles/issues"
+  },
+  "homepage": "https://github.com/Bloomca/redux-tiles#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.64",
+    "@types/redux": "^3.6.0",
+    "browserify": "^14.3.0",
+    "jest": "^20.0.4",
+    "sinon": "^2.3.2",
+    "tslint": "^5.3.2",
+    "typescript": "^2.3.3",
+    "uglify-js": "^3.0.11"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "testMatch": [
+      "**/test/*.(ts|tsx|js)"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "redux": "^3.6.0"
+  }
+}
