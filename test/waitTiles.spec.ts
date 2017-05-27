@@ -2,7 +2,7 @@ import { waitTiles, createTile, createActions, createReducers, createMiddleware 
 import { createStore, applyMiddleware } from 'redux';
 import { sleep } from 'delounce';
 
-test('should....',  async () => {
+test('waitTiles should wait until all promises will be resolved in storage',  async () => {
   const firstTile = createTile({
     type: ['some', 'another'],
     fn: async () => {
