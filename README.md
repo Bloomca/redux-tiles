@@ -5,6 +5,18 @@
 
 Redux is an awesome library to keep state management sane on scale. The problem, though, is that it is toooo verbose, and often you'd feel like you are doing literally the same thing again and again. This library tries to provide minimal abstraction on top of Redux, to allow easy composability, easy async requests, and sane testability.
 
+## TOC:
+
+- [Example of use](#user-content-example-of-use)
+- [Rationale](#user-content-rationale)
+- [Integration API](#user-content-integration-api)
+- [Tiles API](#user-content-tiles-api)
+- [Nesting](#user-content-nesting)
+- [Middleware](#user-content-middleware)
+- [Server-side Rendering](#user-content-server-side-rendering)
+
+## Example of use
+
 ```javascript
 import { createTile, createSyncTile } from 'redux-tiles';
 
