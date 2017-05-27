@@ -13,7 +13,23 @@ export interface Tile {
   },
   constants: {
     [key:string]: string
-  }
+  },
+  reflect: TileParams|SyncTileParams
+}
+
+export interface TileParams {
+  type: string|string[],
+  fn: Function,
+  caching?: boolean,
+  initialState?: any,
+  nesting?: ((params: any) => string[])|undefined
+}
+
+export interface SyncTileParams {
+  type: string|string[],
+  nesting: ((params: any) => string[])|undefined,
+  fn: Function,
+  initialState: any,
 }
 
 export interface AsyncActionTypes {

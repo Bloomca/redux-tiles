@@ -50,6 +50,9 @@ var helpers_1 = require("./helpers");
 var selectors_1 = require("./modules/selectors");
 function createSelectors(modules, topReducer) {
     if (topReducer === void 0) { topReducer = selectors_1.DEFAULT_REDUCER; }
+    if (topReducer !== selectors_1.DEFAULT_REDUCER) {
+        selectors_1.changeDefaultReducer(topReducer);
+    }
     return helpers_1.iterate(modules).reduce(function (hash, module) {
         var selector = module.selectors.get.bind(null, topReducer);
         selector.getAll = module.selectors.getAll.bind(null, topReducer);
@@ -164,6 +167,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("../helpers");
+var selectors_1 = require("./selectors");
 function proccessMiddleware(args) {
     if (args.length === 2) {
         // likely it is redux-thunk
@@ -174,8 +178,10 @@ function proccessMiddleware(args) {
         return args[0];
     }
 }
-function shouldBeFetched() {
-    return true;
+function shouldBeFetched(_a) {
+    var getState = _a.getState, selectors = _a.selectors, params = _a.params;
+    var _b = selectors.get(selectors_1.DEFAULT_REDUCER, getState(), params), isPending = _b.isPending, data = _b.data, error = _b.error;
+    return error === null && data === null && isPending !== true;
 }
 function handleMiddleware(fn) {
     return function (fnParams, additionalParams) { return function () {
@@ -187,7 +193,7 @@ function handleMiddleware(fn) {
     }; };
 }
 function asyncAction(_a, promises) {
-    var START = _a.START, SUCCESS = _a.SUCCESS, FAILURE = _a.FAILURE, fn = _a.fn, type = _a.type, caching = _a.caching, nesting = _a.nesting;
+    var START = _a.START, SUCCESS = _a.SUCCESS, FAILURE = _a.FAILURE, fn = _a.fn, type = _a.type, caching = _a.caching, nesting = _a.nesting, selectors = _a.selectors;
     if (promises === void 0) { promises = {}; }
     return handleMiddleware(function (_a, params, _b) {
         var forceAsync = (_b === void 0 ? {} : _b).forceAsync;
@@ -199,7 +205,7 @@ function asyncAction(_a, promises) {
             return activePromise;
         }
         if (caching && !forceAsync) {
-            var isFetchingNeeded = shouldBeFetched();
+            var isFetchingNeeded = shouldBeFetched({ getState: getState, selectors: selectors, params: params });
             if (!isFetchingNeeded) {
                 return Promise.resolve();
             }
@@ -253,7 +259,7 @@ function syncAction(_a) {
 }
 exports.syncAction = syncAction;
 
-},{"../helpers":4}],8:[function(require,module,exports){
+},{"../helpers":4,"./selectors":10}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var actions_1 = require("./actions");
@@ -311,7 +317,7 @@ function createTile(params) {
         }); },
         _b[types.RESET] = initialState,
         _b));
-    return { action: action, reducer: reducer, selectors: selectors, moduleName: type, constants: types };
+    return { action: action, reducer: reducer, selectors: selectors, moduleName: type, constants: types, reflect: params };
     var _b;
 }
 exports.createTile = createTile;
@@ -336,7 +342,7 @@ function createSyncTile(params) {
         _b[types.TYPE] = function (_storeState, storeAction) { return storeAction.payload && storeAction.payload.data; },
         _b));
     action.reset = actions_1.createResetAction({ type: types.RESET });
-    return { action: action, selectors: selectors, reducer: reducer, moduleName: type, constants: types };
+    return { action: action, selectors: selectors, reducer: reducer, moduleName: type, constants: types, reflect: params };
     var _b;
 }
 exports.createSyncTile = createSyncTile;
@@ -421,6 +427,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = require("lodash");
 var helpers_1 = require("../helpers");
 exports.DEFAULT_REDUCER = 'redux_tiles';
+function changeDefaultReducer(newReducer) {
+    exports.DEFAULT_REDUCER = newReducer;
+}
+exports.changeDefaultReducer = changeDefaultReducer;
 function checkValue(result, defaultValue) {
     if (defaultValue === void 0) { defaultValue = {}; }
     return result === undefined ? defaultValue : result;

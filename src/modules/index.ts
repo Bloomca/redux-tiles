@@ -2,20 +2,18 @@ import { asyncAction, createResetAction, syncAction } from './actions';
 import { createReducer } from './reducer';
 import { createSelectors } from './selectors';
 import { createType } from '../helpers';
-import { AsyncActionTypes, SyncActionTypes, CreateSelectorsTypes } from './types';
+import {
+  AsyncActionTypes,
+  SyncActionTypes,
+  CreateSelectorsTypes,
+  TileParams,
+  SyncTileParams
+} from './types';
 
 const prefix = 'Redux_Tiles_';
 
 export interface Types {
   [key:string]: string
-}
-
-export interface TileParams {
-  type: string|string[],
-  fn: Function,
-  caching?: boolean,
-  initialState?: any,
-  nesting?: ((params: any) => string[])|undefined
 }
 
 export interface ReducerAction {
@@ -79,14 +77,7 @@ export function createTile(params: TileParams) {
     [types.RESET]: initialState
   });
 
-  return { action, reducer, selectors, moduleName: type, constants: types };
-}
-
-export interface SyncTileParams {
-  type: string,
-  nesting: ((params: any) => string[])|undefined,
-  fn: Function,
-  initialState: any,
+  return { action, reducer, selectors, moduleName: type, constants: types, reflect: params };
 }
 
 export function createSyncTile(params: SyncTileParams) {
@@ -115,5 +106,5 @@ export function createSyncTile(params: SyncTileParams) {
   
   action.reset = createResetAction({ type: types.RESET });
 
-  return { action, selectors, reducer, moduleName: type, constants: types };
+  return { action, selectors, reducer, moduleName: type, constants: types, reflect: params };
 }
