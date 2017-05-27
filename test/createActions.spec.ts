@@ -7,7 +7,7 @@ test('createActions should populate actions with reset method', () => {
     fn: () => Promise.resolve()
   });
 
-  const actions = createActions([
+  const { actions } = createActions([
     firstModule
   ]);
 

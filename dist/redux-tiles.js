@@ -3,15 +3,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("./helpers");
 function createActions(modules) {
-    return helpers_1.iterate(modules).reduce(function (hash, module) {
+    // this storage will keep all promises
+    // so if the request is already in progress,
+    // we could still await it
+    var promisesStorage = {};
+    var actions = helpers_1.iterate(modules).reduce(function (hash, module) {
         var action = module.action;
         var processedAction = module.action.async
-            ? module.action()
+            ? module.action(promisesStorage)
             : module.action;
         processedAction.reset = action.reset;
         helpers_1.populateHash(hash, module.moduleName, processedAction);
         return hash;
     }, {});
+    return { promisesStorage: promisesStorage, actions: actions };
 }
 exports.createActions = createActions;
 
@@ -43,10 +48,11 @@ exports.createReducers = createReducers;
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("./helpers");
 var selectors_1 = require("./modules/selectors");
-function createSelectors(modules) {
+function createSelectors(modules, topReducer) {
+    if (topReducer === void 0) { topReducer = selectors_1.DEFAULT_REDUCER; }
     return helpers_1.iterate(modules).reduce(function (hash, module) {
-        var selector = module.selectors.get.bind(null, selectors_1.DEFAULT_REDUCER);
-        selector.getAll = module.selectors.getAll.bind(null, selectors_1.DEFAULT_REDUCER);
+        var selector = module.selectors.get.bind(null, topReducer);
+        selector.getAll = module.selectors.getAll.bind(null, topReducer);
         helpers_1.populateHash(hash, module.moduleName, selector);
         return hash;
     }, {});

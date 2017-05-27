@@ -2,6 +2,7 @@ export interface Tile {
   moduleName: string|string[],
   action: {
     (): any,
+    (promises: PromiseObject): any,
     async: boolean|undefined,
     reset: Function
   },
