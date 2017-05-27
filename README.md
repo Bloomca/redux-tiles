@@ -5,6 +5,13 @@
 
 Redux is an awesome library to keep state management sane on scale. The problem, though, is that it is toooo verbose, and often you'd feel like you are doing literally the same thing again and again. This library tries to provide minimal abstraction on top of Redux, to allow easy composability, easy async requests, and sane testability.
 
+## Installation
+
+```shell
+yarn add redux-tiles
+npm install --save redux-tiles
+```
+
 ## TOC:
 
 - [Example of use](#user-content-example-of-use)
