@@ -43,5 +43,170 @@ const authUser = createTile({
 
     return true;
   },
-})
+});
 ```
+
+## Rationale
+
+There are enough projects around to keep your state management clean (for [example](https://github.com/erikras/ducks-modular-redux)), but they are mostly about organizing, rather than removing burden of repetitive stuff from the developer. Other packages offer you full-fledge integration with REST-API, [normalizing](https://github.com/paularmstrong/normalizr) your entities, building relations between models, etc. There is nothing like this here – in fact, if you need something like this, with the ability to query your local "database", I highly advise you to create your own solution, which will be custom-tailored to your specific problem.
+
+This package focuses on very basic blocks, which are good for pretty simple applications (e.g. login/logout, fetch client data, set up calculator values).
+
+## Integration API
+
+Despite being easy-to-use package to write new modules, you'd have to do some work to integrate it into your project. In a nutshell, you have to have a middleware which will handle returned functions from dispatched actions (one is provided in this package, but [redux-thunk](https://github.com/gaearon/redux-thunk) will suffice as well), and then you have to combine all modules to create actions & reducers.
+It is better to see in a small example:
+
+```javascript
+import { createTile, createActions, createReducers, createSelectors, createMiddleware } from 'redux-tiles';
+import { createStore, applyMiddleware } from 'redux';
+
+const firstTile = createTile({
+  type: ['client', 'data'],
+  fn: ({ api, params}) => api.get('/client/info'),
+});
+
+const tiles = [
+  firstTile,
+];
+
+const { actions } = createActions(tiles);
+const reducer = createReducers(tiles);
+const selectors = createSelectors(tiles, 'myNamespace');
+
+createStore(
+  applyMiddleware(
+    createMiddleware({ actions, selectors })
+  )
+);
+```
+
+## Tiles API
+
+Tiles are the heart of this library. They are intended to be very easy to use, compose and to test.
+There are two types of tiles – asynchronous and synchronous. Modern applications are very dynamic, so async ones will be likely used more often.
+
+```javascript
+import { createTile } from 'redux-tiles';
+
+const photos = createTile({
+  // they will be structured api.photos inside redux state,
+  // and also available under actions and selectors as:
+  // actions.tiles.api.photos
+  type: ['api', 'photos'],
+  // params is an object with which we dispatch the action
+  // you can pass only one parameter, so keep it as an object
+  // with different properties
+  //
+  // all other properties are from your middleware
+  // fn expects promise out of this function
+  fn: ({ params, api }) => api.get('/photos', params),
+  // to nest data:
+  // { 5:
+  //    10: {
+  //      isPending: true,
+  //      data: null,
+  //      error: null,
+  //   },
+  // },
+  // if you save under the same nesting array, data will be replaced
+  // other branches will be merged
+  nesting: (params) => [params.page, params.count]
+});
+```
+
+We also sometimes want to keep some sync info (e.g. list of notifications), or we want to store some numbers 
+
+```javascript
+import { createSyncTile } from 'redux-tiles';
+
+const notifications = createSyncTile({
+  type: ['notifications'],
+  // all parameters are the same as in async tile
+  fn: ({ params, dispatch, actions }) => {
+    // we can dispatch async actions – but we can't wait
+    // for it inside sync tiles
+    dispatch(actions.tiles.user.dismissTerms());
+
+    return {
+      type: params.type,
+      data: processData(params.data),
+    };
+  },
+  // nesting works the same way
+  nesting: ({ type }) => [type],
+});
+```
+
+## Nesting
+
+Very often we have to separate some info, and with canonical redux we have to write something like this:
+```javascript
+case ACTION.SOME_CONSTANT:
+  return {
+    ...state,
+    [action.payload.id]: {
+      [action.payload.quantity]: {
+        ...state[action.payload.id],
+        ...action.payload.data,
+      },
+    },
+  };
+```
+
+Or with `Object.assign`, which will make it even less readable. This is a pretty common pattern, and also pretty error prone – so we have to cover such code with unit-tests, while in reality they don't do a lot of intrinsic logic – just merge. Of course, we can use something like `lodash.merge`, but it is not always suitable. In tiles we have `nesting` property, in which you can specify a function from which you can return an array of nested values. The same code as above:
+
+```javascript
+const infoTile = createTile({
+  type: ['info', 'storage'],
+  // params here and in nesting are the same object
+  fn: ({ params, api }) => api.get('/storage', params),
+  nesting: ({ quantity, id }) => [id, quantity],
+});
+```
+
+## Middleware
+
+In order to use this library, you have to apply middleware, which will handle functions returned from dispatched actions. Very basic one is provided by this package:
+
+```javascript
+import { createMiddleware } from 'redux-tiles';
+// these are not required, but adding them allows you
+// to do Dependency Injection pattern, so it is easier to test
+import actions from '../actions';
+import selectors from '../selectors';
+// it is a good idea to put API layer inside middleware, so
+// you can easily separate client and server, for instance
+import api from '../utils/api';
+
+// this object is optional. every property will be available inside
+// `fn` of all tiles
+applyMiddleware(createMiddleware({ actions, selectors, api }))
+```
+
+Also, [redux-thunk](https://github.com/gaearon/redux-thunk) is supported, but with it you can't provide your own properties. There is nothing bad to just import actions and selectors on top of the files, but then testing might require much more mocking, which can make your tests more brittle.
+
+## Server-side Rendering
+
+Redux-tiles support requests on the server side. In order to do that correctly, you are supposed to create actions for each request in Node.js. Redux-Tiles has caching for async requests – it keeps list of all active promises, so you might accidentaly share this part of the memory with other users!
+
+```javascript
+import { createActions, waitTiles } from 'redux-tiles';
+import tiles from '../../common/tiles';
+
+const { promisesStorage, actions } = createActions(tiles);
+
+// this is a futile render. It is needed only to kickstart requests
+// unfortunately, there is no way to avoid it
+renderApplication(req);
+
+await waitTiles(promisesStorage);
+
+// this time you can safely render your application – all requests
+// which were in `componentWillMount` will be fullfilled
+res.send(renderApplication(req));
+```
+
+There is also a package [delounce](https://github.com/Bloomca/delounce), from where you can get `limit` function, which will render the application if requests are taking too long.
+
+Examples are coming soon!
