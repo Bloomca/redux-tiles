@@ -38,6 +38,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.64",
     "@types/redux": "^3.6.0",
+    "@types/sinon": "^2.2.2",
     "browserify": "^14.3.0",
     "delounce": "^0.3.0",
     "jest": "^20.0.4",
@@ -47,6 +48,7 @@
     "uglify-js": "^3.0.11"
   },
   "jest": {
+    "collectCoverage": true,
     "moduleFileExtensions": [
       "ts",
       "tsx",
