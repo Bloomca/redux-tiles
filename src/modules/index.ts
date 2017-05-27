@@ -67,10 +67,12 @@ export function createTile(params: TileParams) {
       error: null
     },
     [types.ERROR]: (_storeState: any, storeAction: ReducerAction) => ({
+      data: null,
       isPending: false,
       error: storeAction.error
     }),
     [types.SUCCESS]: (_storeState: any, storeAction: ReducerAction) => ({
+      error: null,
       isPending: false,
       data: storeAction.payload && storeAction.payload.data
     }),

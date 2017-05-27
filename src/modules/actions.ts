@@ -21,8 +21,14 @@ function handleMiddleware(fn: Function) {
     fn(proccessMiddleware(args), fnParams, additionalParams);
 }
 
-export function asyncAction({ START, SUCCESS, FAILURE, fn, type, caching, nesting }: AsyncActionTypes, promises: PromiseObject = {}) {
-  return handleMiddleware(({ dispatch, getState, ...middlewares }: any, params: any, { forceAsync }: { forceAsync?: boolean } = {}) => {
+export function asyncAction({
+  START, SUCCESS, FAILURE, fn, type, caching, nesting
+}: AsyncActionTypes, promises: PromiseObject = {}) {
+  return handleMiddleware((
+    { dispatch, getState, ...middlewares }: any,
+    params: any,
+    { forceAsync }: { forceAsync?: boolean } = {}
+  ) => {
     const path = nesting ? nesting(params) : null;
 
     const getIdentificator = createType({ type });
@@ -46,7 +52,7 @@ export function asyncAction({ START, SUCCESS, FAILURE, fn, type, caching, nestin
     });
 
     const promise = fn({ params, dispatch, getState, ...middlewares });
-    promises[getIdentificator] = activePromise;
+    promises[getIdentificator] = promise;
 
     return promise
       .then((data: any) => {

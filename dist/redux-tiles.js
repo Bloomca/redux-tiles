@@ -43,7 +43,7 @@ function createReducers(modules) {
 }
 exports.createReducers = createReducers;
 
-},{"./helpers":4,"lodash":21,"redux":28}],3:[function(require,module,exports){
+},{"./helpers":4,"lodash":22,"redux":29}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("./helpers");
@@ -101,7 +101,7 @@ function createType(_a) {
 }
 exports.createType = createType;
 
-},{"lodash":21}],5:[function(require,module,exports){
+},{"lodash":22}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var modules_1 = require("./modules");
@@ -115,8 +115,10 @@ var createSelectors_1 = require("./createSelectors");
 exports.createSelectors = createSelectors_1.createSelectors;
 var middleware_1 = require("./middleware");
 exports.createMiddleware = middleware_1.createMiddleware;
+var waitTiles_1 = require("./waitTiles");
+exports.waitTiles = waitTiles_1.waitTiles;
 
-},{"./createActions":1,"./createReducers":2,"./createSelectors":3,"./middleware":6,"./modules":8}],6:[function(require,module,exports){
+},{"./createActions":1,"./createReducers":2,"./createSelectors":3,"./middleware":6,"./modules":8,"./waitTiles":11}],6:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -411,7 +413,7 @@ function reducerCreator(_a) {
 }
 exports.reducerCreator = reducerCreator;
 
-},{"lodash":21}],10:[function(require,module,exports){
+},{"lodash":22}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = require("lodash");
@@ -473,7 +475,19 @@ function createSelectors(_a) {
 }
 exports.createSelectors = createSelectors;
 
-},{"../helpers":4,"lodash":21}],11:[function(require,module,exports){
+},{"../helpers":4,"lodash":22}],11:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function waitTiles(promisesStorage) {
+    var promises = Object
+        .keys(promisesStorage)
+        .map(function (key) { return promisesStorage[key]; })
+        .filter(Boolean);
+    return Promise.all(promises);
+}
+exports.waitTiles = waitTiles;
+
+},{}],12:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -481,7 +495,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":18}],12:[function(require,module,exports){
+},{"./_root":19}],13:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     getRawTag = require('./_getRawTag'),
     objectToString = require('./_objectToString');
@@ -511,7 +525,7 @@ function baseGetTag(value) {
 
 module.exports = baseGetTag;
 
-},{"./_Symbol":11,"./_getRawTag":15,"./_objectToString":16}],13:[function(require,module,exports){
+},{"./_Symbol":12,"./_getRawTag":16,"./_objectToString":17}],14:[function(require,module,exports){
 (function (global){
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -519,7 +533,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 module.exports = freeGlobal;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var overArg = require('./_overArg');
 
 /** Built-in value references. */
@@ -527,7 +541,7 @@ var getPrototype = overArg(Object.getPrototypeOf, Object);
 
 module.exports = getPrototype;
 
-},{"./_overArg":17}],15:[function(require,module,exports){
+},{"./_overArg":18}],16:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used for built-in method references. */
@@ -575,7 +589,7 @@ function getRawTag(value) {
 
 module.exports = getRawTag;
 
-},{"./_Symbol":11}],16:[function(require,module,exports){
+},{"./_Symbol":12}],17:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -599,7 +613,7 @@ function objectToString(value) {
 
 module.exports = objectToString;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * Creates a unary function that invokes `func` with its argument transformed.
  *
@@ -616,7 +630,7 @@ function overArg(func, transform) {
 
 module.exports = overArg;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var freeGlobal = require('./_freeGlobal');
 
 /** Detect free variable `self`. */
@@ -627,7 +641,7 @@ var root = freeGlobal || freeSelf || Function('return this')();
 
 module.exports = root;
 
-},{"./_freeGlobal":13}],19:[function(require,module,exports){
+},{"./_freeGlobal":14}],20:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -658,7 +672,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     getPrototype = require('./_getPrototype'),
     isObjectLike = require('./isObjectLike');
@@ -722,7 +736,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_baseGetTag":12,"./_getPrototype":14,"./isObjectLike":19}],21:[function(require,module,exports){
+},{"./_baseGetTag":13,"./_getPrototype":15,"./isObjectLike":20}],22:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -17810,7 +17824,7 @@ module.exports = isPlainObject;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -17996,7 +18010,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18055,7 +18069,7 @@ function applyMiddleware() {
     };
   };
 }
-},{"./compose":26}],24:[function(require,module,exports){
+},{"./compose":27}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18107,7 +18121,7 @@ function bindActionCreators(actionCreators, dispatch) {
   }
   return boundActionCreators;
 }
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -18252,7 +18266,7 @@ function combineReducers(reducers) {
   };
 }
 }).call(this,require('_process'))
-},{"./createStore":27,"./utils/warning":29,"_process":22,"lodash/isPlainObject":20}],26:[function(require,module,exports){
+},{"./createStore":28,"./utils/warning":30,"_process":23,"lodash/isPlainObject":21}],27:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -18291,7 +18305,7 @@ function compose() {
     }, last.apply(undefined, arguments));
   };
 }
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18553,7 +18567,7 @@ function createStore(reducer, preloadedState, enhancer) {
     replaceReducer: replaceReducer
   }, _ref2[_symbolObservable2['default']] = observable, _ref2;
 }
-},{"lodash/isPlainObject":20,"symbol-observable":30}],28:[function(require,module,exports){
+},{"lodash/isPlainObject":21,"symbol-observable":31}],29:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -18602,7 +18616,7 @@ exports.bindActionCreators = _bindActionCreators2['default'];
 exports.applyMiddleware = _applyMiddleware2['default'];
 exports.compose = _compose2['default'];
 }).call(this,require('_process'))
-},{"./applyMiddleware":23,"./bindActionCreators":24,"./combineReducers":25,"./compose":26,"./createStore":27,"./utils/warning":29,"_process":22}],29:[function(require,module,exports){
+},{"./applyMiddleware":24,"./bindActionCreators":25,"./combineReducers":26,"./compose":27,"./createStore":28,"./utils/warning":30,"_process":23}],30:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18628,10 +18642,10 @@ function warning(message) {
   } catch (e) {}
   /* eslint-enable no-empty */
 }
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports = require('./lib/index');
 
-},{"./lib/index":31}],31:[function(require,module,exports){
+},{"./lib/index":32}],32:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -18663,7 +18677,7 @@ if (typeof self !== 'undefined') {
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ponyfill":32}],32:[function(require,module,exports){
+},{"./ponyfill":33}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -758,6 +758,10 @@ delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
 
+delounce@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/delounce/-/delounce-0.3.0.tgz#f5ac49412aa63e56f530ea3117b4419668f5ee4d"
+
 deps-sort@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/deps-sort/-/deps-sort-2.0.0.tgz#091724902e84658260eb910748cccd1af6e21fb5"
