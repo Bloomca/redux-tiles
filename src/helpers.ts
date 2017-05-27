@@ -37,6 +37,6 @@ function capitalize(str: string, i: number) {
 }
 
 export function createType({ type }: { type: string|string[] }): string {
-  const list = isString(type) ? [type] : type;
+  const list = ensureArray(type);
   return list.map(capitalize).join('');
 }

@@ -1,6 +1,7 @@
 import { asyncAction, createResetAction, syncAction } from './actions';
 import { createReducer } from './reducer';
 import { createSelectors } from './selectors';
+import { createType } from '../helpers';
 import { AsyncActionTypes, SyncActionTypes, CreateSelectorsTypes } from './types';
 
 const prefix = 'Redux_Tiles_';
@@ -30,11 +31,12 @@ const defaultState = {
 
 export function createTile(params: TileParams) {
   const { type, fn, caching, initialState = defaultState, nesting } = params;
+  const identificator = createType({ type });
   const types: Types = {
-    START: `${prefix}${type}_START`,
-    SUCCESS: `${prefix}${type}_SUCCESS`,
-    FAILURE: `${prefix}${type}_FAILURE`,
-    RESET: `${prefix}${type}_RESET`
+    START: `${prefix}${identificator}_START`,
+    SUCCESS: `${prefix}${identificator}_SUCCESS`,
+    FAILURE: `${prefix}${identificator}_FAILURE`,
+    RESET: `${prefix}${identificator}_RESET`
   };
 
   const selectorParams: CreateSelectorsTypes = {
@@ -87,9 +89,10 @@ export interface SyncTileParams {
 
 export function createSyncTile(params: SyncTileParams) {
   const { type, nesting, fn, initialState = {} } = params;
+  const identificator = createType({ type });
   const types = {
-    TYPE: `${prefix}type`,
-    RESET: `${prefix}reset`
+    TYPE: `${prefix}${identificator}type`,
+    RESET: `${prefix}${identificator}reset`
   };
 
   const selectorParams: CreateSelectorsTypes = {

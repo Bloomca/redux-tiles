@@ -96,7 +96,7 @@ function capitalize(str, i) {
 }
 function createType(_a) {
     var type = _a.type;
-    var list = lodash_1.isString(type) ? [type] : type;
+    var list = ensureArray(type);
     return list.map(capitalize).join('');
 }
 exports.createType = createType;
@@ -257,6 +257,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var actions_1 = require("./actions");
 var reducer_1 = require("./reducer");
 var selectors_1 = require("./selectors");
+var helpers_1 = require("../helpers");
 var prefix = 'Redux_Tiles_';
 var defaultState = {
     data: null,
@@ -265,11 +266,12 @@ var defaultState = {
 };
 function createTile(params) {
     var type = params.type, fn = params.fn, caching = params.caching, _a = params.initialState, initialState = _a === void 0 ? defaultState : _a, nesting = params.nesting;
+    var identificator = helpers_1.createType({ type: type });
     var types = {
-        START: "" + prefix + type + "_START",
-        SUCCESS: "" + prefix + type + "_SUCCESS",
-        FAILURE: "" + prefix + type + "_FAILURE",
-        RESET: "" + prefix + type + "_RESET"
+        START: "" + prefix + identificator + "_START",
+        SUCCESS: "" + prefix + identificator + "_SUCCESS",
+        FAILURE: "" + prefix + identificator + "_FAILURE",
+        RESET: "" + prefix + identificator + "_RESET"
     };
     var selectorParams = {
         moduleName: type,
@@ -311,9 +313,10 @@ function createTile(params) {
 exports.createTile = createTile;
 function createSyncTile(params) {
     var type = params.type, nesting = params.nesting, fn = params.fn, _a = params.initialState, initialState = _a === void 0 ? {} : _a;
+    var identificator = helpers_1.createType({ type: type });
     var types = {
-        TYPE: prefix + "type",
-        RESET: prefix + "reset"
+        TYPE: "" + prefix + identificator + "type",
+        RESET: "" + prefix + identificator + "reset"
     };
     var selectorParams = {
         moduleName: type,
@@ -334,7 +337,7 @@ function createSyncTile(params) {
 }
 exports.createSyncTile = createSyncTile;
 
-},{"./actions":7,"./reducer":9,"./selectors":10}],9:[function(require,module,exports){
+},{"../helpers":4,"./actions":7,"./reducer":9,"./selectors":10}],9:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
