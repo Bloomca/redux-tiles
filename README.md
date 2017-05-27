@@ -14,6 +14,8 @@ Redux is an awesome library to keep state management sane on scale. The problem,
 - [Nesting](#user-content-nesting)
 - [Middleware](#user-content-middleware)
 - [Server-side Rendering](#user-content-server-side-rendering)
+- [Selectors](#user-content-selectors)
+- [Tests](#user-content-tests)
 
 ## Example of use
 
@@ -242,3 +244,44 @@ res.send(renderApplication(req));
 There is also a package [delounce](https://github.com/Bloomca/delounce), from where you can get `limit` function, which will render the application if requests are taking too long.
 
 Examples are coming soon!
+
+## Selectors
+
+All tiles provide selectors. After you've collected all tiles, invoke `createSelectors` function with possible change of default namespace, and after you can just use it based on the passed type:
+
+```javascript
+import { createTile, createSelectors } from 'redux-tiles';
+
+const tile = createTile({
+  type: ['user', 'auth'],
+  fn: ...,
+  nesting: ({ id }) => [id],
+});
+
+const tiles = [tile];
+
+const selectors = createSelectors(tiles);
+const { isPending, data, error } = selectors.user.auth(state, { id: '456' });
+```
+
+## Tests
+
+Almost all business logic will be contained in "complex" tiles, which don't do requests by themselves, rather dispatching other tiles, composing results from them. It is very important to pass all needed functions via middleware, so you can easily mock it without relying on other modules. All passed data is available in tiles via `reflect` property.
+
+```javascript
+import { createTile } from 'redux-tiles';
+
+const params = {
+  type: ['auth', 'token'],
+  fn: ({ api, params }) => api.post('/token', params),
+};
+const tile = createTile(params);
+
+// same object
+assert(tile.reflect === params); // true
+```
+
+## Contributing
+
+All suggestions or participating are welcome! Also, if you have any idea about improving API, or bringing some common functionality, don't hesitate, but please create an issue!
+
