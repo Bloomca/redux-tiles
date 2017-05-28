@@ -1,11 +1,18 @@
 {
   "name": "redux-tiles",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Library to create and easily compose redux pieces together",
   "jsnext:main": "lib/es2015/index.js",
   "module": "lib/es2015/index.js",
   "typings": "lib/es2015/index.d.ts",
   "main": "lib/commonjs/index.js",
+  "files": [
+    "lib",
+    "dist",
+    "src",
+    "README.md",
+    "package.json"
+  ],
   "scripts": {
     "prepublish": "npm run build",
     "build:es2015": "tsc -P tsconfig.json",
