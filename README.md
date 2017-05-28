@@ -92,7 +92,7 @@ const tiles = [
   firstTile,
 ];
 
-const { actions } = createActions(tiles);
+const actions = createActions(tiles);
 const reducer = createReducers(tiles);
 const selectors = createSelectors(tiles, 'myNamespace');
 
@@ -229,22 +229,30 @@ Also, [redux-thunk](https://github.com/gaearon/redux-thunk) is supported, but wi
 
 ## Server-side Rendering
 
-Redux-tiles support requests on the server side. In order to do that correctly, you are supposed to create actions for each request in Node.js. Redux-Tiles has caching for async requests – it keeps list of all active promises, so you might accidentaly share this part of the memory with other users!
+Redux-tiles support requests on the server side. In order to do that correctly, you are supposed to create actions for each request in Node.js. Redux-Tiles has caching for async requests (and keeps them inside middleware, so they are not shared between different user requests) – it keeps list of all active promises, so you might accidentaly share this part of the memory with other users!
 
 ```javascript
-import { createActions, waitTiles } from 'redux-tiles';
+import { createActions, createMiddleware, createReducers, createSelectors } from 'redux-tiles';
+import { createStore, applyMiddleware } from 'redux';
 import tiles from '../../common/tiles';
 
-const { promisesStorage, actions } = createActions(tiles);
+const actions = createActions(tiles);
+const reducer = createReducers(tiles);
+const selectors = createSelectors(tiles);
+
+const { middleware, waitTiles } = createMiddleware({ actions, selectors });
+const store = createStore(reducer, {}, applyMiddleware(middleware));
 
 // this is a futile render. It is needed only to kickstart requests
 // unfortunately, there is no way to avoid it
 renderApplication(req);
 
-await waitTiles(promisesStorage);
+// wait for all requests which were fired during the render
+await waitTiles();
 
 // this time you can safely render your application – all requests
 // which were in `componentWillMount` will be fullfilled
+// remember, `componentDidMount` is not fired on the server
 res.send(renderApplication(req));
 ```
 
@@ -268,6 +276,9 @@ const tile = createTile({
 const tiles = [tile];
 
 const selectors = createSelectors(tiles);
+
+// second argument is params with which you dispatch action – it will get data
+// for corresponding nesting
 const { isPending, data, error } = selectors.user.auth(state, { id: '456' });
 ```
 
