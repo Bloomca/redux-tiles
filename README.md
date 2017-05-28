@@ -80,7 +80,7 @@ Despite being easy-to-use package to write new modules, you'd have to do some wo
 It is better to see in a small example:
 
 ```javascript
-import { createTile, createActions, createReducers, createSelectors, createMiddleware } from 'redux-tiles';
+import { createTile, createEntities, createMiddleware } from 'redux-tiles';
 import { createStore, applyMiddleware } from 'redux';
 
 const firstTile = createTile({
@@ -92,9 +92,7 @@ const tiles = [
   firstTile,
 ];
 
-const actions = createActions(tiles);
-const reducer = createReducers(tiles);
-const selectors = createSelectors(tiles, 'myNamespace');
+const { actions, reducer, selectors } = createEntities(tiles);
 
 createStore(
   applyMiddleware(
@@ -232,14 +230,11 @@ Also, [redux-thunk](https://github.com/gaearon/redux-thunk) is supported, but wi
 Redux-tiles support requests on the server side. In order to do that correctly, you are supposed to create actions for each request in Node.js. Redux-Tiles has caching for async requests (and keeps them inside middleware, so they are not shared between different user requests) – it keeps list of all active promises, so you might accidentaly share this part of the memory with other users!
 
 ```javascript
-import { createActions, createMiddleware, createReducers, createSelectors } from 'redux-tiles';
+import { createMiddleware, createEntities } from 'redux-tiles';
 import { createStore, applyMiddleware } from 'redux';
 import tiles from '../../common/tiles';
 
-const actions = createActions(tiles);
-const reducer = createReducers(tiles);
-const selectors = createSelectors(tiles);
-
+const { actions, reducer, selectors } = createEntities(tiles);
 const { middleware, waitTiles } = createMiddleware({ actions, selectors });
 const store = createStore(reducer, {}, applyMiddleware(middleware));
 

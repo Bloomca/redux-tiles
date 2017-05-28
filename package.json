@@ -1,6 +1,6 @@
 {
   "name": "redux-tiles",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Library to create and easily compose redux pieces together",
   "jsnext:main": "lib/es2015/index.js",
   "module": "lib/es2015/index.js",
