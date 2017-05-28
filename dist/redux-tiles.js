@@ -14,12 +14,28 @@ function createActions(modules) {
 }
 exports.createActions = createActions;
 
-},{"./helpers":4}],2:[function(require,module,exports){
+},{"./helpers":5}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var createActions_1 = require("./createActions");
+var createSelectors_1 = require("./createSelectors");
+var createReducers_1 = require("./createReducers");
+function createEntities(tiles, topReducer) {
+    return {
+        actions: createActions_1.createActions(tiles),
+        reducer: createReducers_1.createReducers(tiles, topReducer),
+        selectors: createSelectors_1.createSelectors(tiles)
+    };
+}
+exports.createEntities = createEntities;
+
+},{"./createActions":1,"./createReducers":3,"./createSelectors":4}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var redux_1 = require("redux");
 var lodash_1 = require("lodash");
 var helpers_1 = require("./helpers");
+var selectors_1 = require("./modules/selectors");
 function createNestedReducers(value) {
     return redux_1.combineReducers(Object.keys(value).reduce(function (hash, key) {
         var elem = value[key];
@@ -28,7 +44,11 @@ function createNestedReducers(value) {
     }, {}));
 }
 exports.createNestedReducers = createNestedReducers;
-function createReducers(modules) {
+function createReducers(modules, topReducer) {
+    if (topReducer === void 0) { topReducer = selectors_1.DEFAULT_REDUCER; }
+    if (topReducer !== selectors_1.DEFAULT_REDUCER) {
+        selectors_1.changeDefaultReducer(topReducer);
+    }
     var nestedModules = helpers_1.iterate(modules).reduce(function (hash, module) {
         helpers_1.populateHash(hash, module.moduleName, module.reducer);
         return hash;
@@ -37,26 +57,21 @@ function createReducers(modules) {
 }
 exports.createReducers = createReducers;
 
-},{"./helpers":4,"lodash":22,"redux":29}],3:[function(require,module,exports){
+},{"./helpers":5,"./modules/selectors":11,"lodash":23,"redux":30}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("./helpers");
-var selectors_1 = require("./modules/selectors");
-function createSelectors(modules, topReducer) {
-    if (topReducer === void 0) { topReducer = selectors_1.DEFAULT_REDUCER; }
-    if (topReducer !== selectors_1.DEFAULT_REDUCER) {
-        selectors_1.changeDefaultReducer(topReducer);
-    }
+function createSelectors(modules) {
     return helpers_1.iterate(modules).reduce(function (hash, module) {
-        var selector = module.selectors.get.bind(null, topReducer);
-        selector.getAll = module.selectors.getAll.bind(null, topReducer);
+        var selector = module.selectors.get;
+        selector.getAll = module.selectors.getAll;
         helpers_1.populateHash(hash, module.moduleName, selector);
         return hash;
     }, {});
 }
 exports.createSelectors = createSelectors;
 
-},{"./helpers":4,"./modules/selectors":10}],4:[function(require,module,exports){
+},{"./helpers":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = require("lodash");
@@ -98,7 +113,7 @@ function createType(_a) {
 }
 exports.createType = createType;
 
-},{"lodash":22}],5:[function(require,module,exports){
+},{"lodash":23}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var modules_1 = require("./modules");
@@ -110,10 +125,12 @@ var createReducers_1 = require("./createReducers");
 exports.createReducers = createReducers_1.createReducers;
 var createSelectors_1 = require("./createSelectors");
 exports.createSelectors = createSelectors_1.createSelectors;
+var createEntities_1 = require("./createEntities");
+exports.createEntities = createEntities_1.createEntities;
 var middleware_1 = require("./middleware");
 exports.createMiddleware = middleware_1.createMiddleware;
 
-},{"./createActions":1,"./createReducers":2,"./createSelectors":3,"./middleware":6,"./modules":8}],6:[function(require,module,exports){
+},{"./createActions":1,"./createEntities":2,"./createReducers":3,"./createSelectors":4,"./middleware":7,"./modules":9}],7:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -144,7 +161,7 @@ function createMiddleware(paramsToInject) {
 }
 exports.createMiddleware = createMiddleware;
 
-},{"./waitTiles":11}],7:[function(require,module,exports){
+},{"./waitTiles":12}],8:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -165,7 +182,6 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("../helpers");
-var selectors_1 = require("./selectors");
 function proccessMiddleware(args) {
     if (args.length === 2) {
         // likely it is redux-thunk
@@ -178,8 +194,9 @@ function proccessMiddleware(args) {
 }
 function shouldBeFetched(_a) {
     var getState = _a.getState, selectors = _a.selectors, params = _a.params;
-    var _b = selectors.get(selectors_1.DEFAULT_REDUCER, getState(), params), isPending = _b.isPending, data = _b.data, error = _b.error;
-    return error === null && data === null && isPending !== true;
+    var _b = selectors.get(getState(), params), isPending = _b.isPending, data = _b.data, error = _b.error;
+    // intentionally to check on empty objects
+    return error == null && data == null && isPending !== true;
 }
 function handleMiddleware(fn) {
     return function (fnParams, additionalParams) { return function () {
@@ -256,7 +273,7 @@ function syncAction(_a) {
 }
 exports.syncAction = syncAction;
 
-},{"../helpers":4,"./selectors":10}],8:[function(require,module,exports){
+},{"../helpers":5}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = require("lodash");
@@ -271,7 +288,7 @@ var defaultState = {
     error: null
 };
 function createTile(params) {
-    var type = params.type, fn = params.fn, caching = params.caching, _a = params.initialState, initialState = _a === void 0 ? defaultState : _a, nesting = params.nesting;
+    var type = params.type, fn = params.fn, caching = params.caching, _a = params.initialState, initialState = _a === void 0 ? {} : _a, nesting = params.nesting, _b = params.selectorFallback, selectorFallback = _b === void 0 ? defaultState : _b;
     var identificator = helpers_1.createType({ type: type });
     var types = {
         START: "" + prefix + identificator + "_START",
@@ -280,6 +297,7 @@ function createTile(params) {
         RESET: "" + prefix + identificator + "_RESET"
     };
     var selectorParams = {
+        selectorFallback: selectorFallback,
         moduleName: type,
         nesting: nesting
     };
@@ -296,36 +314,37 @@ function createTile(params) {
     };
     var action = actions_1.asyncAction(actionParams);
     action.reset = actions_1.createResetAction({ type: types.RESET });
-    var reducer = reducer_1.createReducer(initialState, (_b = {},
-        _b[types.START] = {
+    var reducer = reducer_1.createReducer(initialState, (_c = {},
+        _c[types.START] = {
             data: null,
             isPending: true,
             error: null
         },
-        _b[types.ERROR] = function (_storeState, storeAction) { return ({
+        _c[types.ERROR] = function (_storeState, storeAction) { return ({
             data: null,
             isPending: false,
             error: storeAction.error
         }); },
-        _b[types.SUCCESS] = function (_storeState, storeAction) { return ({
+        _c[types.SUCCESS] = function (_storeState, storeAction) { return ({
             error: null,
             isPending: false,
             data: storeAction.payload && storeAction.payload.data
         }); },
-        _b[types.RESET] = initialState,
-        _b));
+        _c[types.RESET] = initialState,
+        _c));
     return { action: action, reducer: reducer, selectors: selectors, moduleName: type, constants: types, reflect: params };
-    var _b;
+    var _c;
 }
 exports.createTile = createTile;
 function createSyncTile(params) {
-    var type = params.type, nesting = params.nesting, _a = params.fn, fn = _a === void 0 ? lodash_1.identity : _a, _b = params.initialState, initialState = _b === void 0 ? {} : _b;
+    var type = params.type, nesting = params.nesting, _a = params.fn, fn = _a === void 0 ? lodash_1.identity : _a, _b = params.initialState, initialState = _b === void 0 ? {} : _b, selectorFallback = params.selectorFallback;
     var identificator = helpers_1.createType({ type: type });
     var types = {
         TYPE: "" + prefix + identificator + "type",
         RESET: "" + prefix + identificator + "reset"
     };
     var selectorParams = {
+        selectorFallback: selectorFallback,
         moduleName: type,
         nesting: nesting
     };
@@ -347,7 +366,7 @@ function createSyncTile(params) {
 }
 exports.createSyncTile = createSyncTile;
 
-},{"../helpers":4,"./actions":7,"./reducer":9,"./selectors":10,"lodash":22}],9:[function(require,module,exports){
+},{"../helpers":5,"./actions":8,"./reducer":10,"./selectors":11,"lodash":23}],10:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -421,18 +440,17 @@ function reducerCreator(_a) {
 }
 exports.reducerCreator = reducerCreator;
 
-},{"lodash":22}],10:[function(require,module,exports){
+},{"lodash":23}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = require("lodash");
 var helpers_1 = require("../helpers");
-exports.DEFAULT_REDUCER = 'redux_tiles';
+exports.DEFAULT_REDUCER = '';
 function changeDefaultReducer(newReducer) {
     exports.DEFAULT_REDUCER = newReducer;
 }
 exports.changeDefaultReducer = changeDefaultReducer;
 function checkValue(result, defaultValue) {
-    if (defaultValue === void 0) { defaultValue = {}; }
     return result === undefined ? defaultValue : result;
 }
 /**
@@ -444,13 +462,15 @@ function checkValue(result, defaultValue) {
  * @return {Object} – stored data
  */
 function lookup(_a) {
-    var topReducer = _a.topReducer, state = _a.state, params = _a.params, nesting = _a.nesting, moduleName = _a.moduleName;
+    var state = _a.state, params = _a.params, nesting = _a.nesting, moduleName = _a.moduleName, selectorFallback = _a.selectorFallback;
     var path = [];
+    var topReducer = exports.DEFAULT_REDUCER;
     if (nesting) {
         path = nesting(params);
     }
-    var nestedNames = lodash_1.isString(moduleName) ? [moduleName] : moduleName;
-    return checkValue(lodash_1.get(state, [topReducer].concat(nestedNames, path)));
+    var nestedNames = helpers_1.ensureArray(moduleName);
+    var topReducerArray = Boolean(topReducer) ? [topReducer] : [];
+    return checkValue(lodash_1.get(state, topReducerArray.concat(nestedNames, path)), selectorFallback);
 }
 /**
  * @overview check passed arguments to the Selector function.
@@ -462,11 +482,11 @@ function lookup(_a) {
  * @return {Any} – result of function invokation
  */
 function checkArguments(_a) {
-    var topReducer = _a.topReducer, state = _a.state, params = _a.params, moduleName = _a.moduleName, fn = _a.fn;
+    var state = _a.state, params = _a.params, moduleName = _a.moduleName, fn = _a.fn;
     if (!state) {
         throw new Error("\n      Error in Redux-Tiles Selector \u2013 you have to provide\n      state as a first argument!. Error in \"" + helpers_1.createType({ type: moduleName }) + "\" tile.");
     }
-    return fn(topReducer, state, params);
+    return fn(state, params);
 }
 /**
  * @overview function to create selectors for modules
@@ -475,27 +495,26 @@ function checkArguments(_a) {
  * @return {Object} – object with selectors for all and specific data
  */
 function createSelectors(_a) {
-    var moduleName = _a.moduleName, nesting = _a.nesting;
-    var getAll = function (topReducer, state) {
-        if (topReducer === void 0) { topReducer = exports.DEFAULT_REDUCER; }
-        return checkValue(lodash_1.get(state, [topReducer].concat(helpers_1.ensureArray(moduleName))));
+    var moduleName = _a.moduleName, nesting = _a.nesting, selectorFallback = _a.selectorFallback;
+    var getAll = function (state) {
+        var topReducerArray = Boolean(exports.DEFAULT_REDUCER) ? [exports.DEFAULT_REDUCER] : [];
+        return checkValue(lodash_1.get(state, topReducerArray.concat(helpers_1.ensureArray(moduleName))));
     };
-    var getSpecific = function (topReducer, state, params) {
-        if (topReducer === void 0) { topReducer = exports.DEFAULT_REDUCER; }
-        return lookup({ topReducer: topReducer, state: state, params: params, nesting: nesting, moduleName: moduleName });
+    var getSpecific = function (state, params) {
+        return lookup({ state: state, params: params, nesting: nesting, moduleName: moduleName, selectorFallback: selectorFallback });
     };
     return {
-        getAll: function (topReducer, state) {
-            return checkArguments({ topReducer: topReducer, state: state, moduleName: moduleName, fn: getAll });
+        getAll: function (state) {
+            return checkArguments({ state: state, moduleName: moduleName, fn: getAll });
         },
-        get: function (topReducer, state, params) {
-            return checkArguments({ topReducer: topReducer, state: state, params: params, moduleName: moduleName, fn: getSpecific });
+        get: function (state, params) {
+            return checkArguments({ state: state, params: params, moduleName: moduleName, fn: getSpecific });
         }
     };
 }
 exports.createSelectors = createSelectors;
 
-},{"../helpers":4,"lodash":22}],11:[function(require,module,exports){
+},{"../helpers":5,"lodash":23}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function waitTiles(promisesStorage) {
@@ -507,7 +526,7 @@ function waitTiles(promisesStorage) {
 }
 exports.waitTiles = waitTiles;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -515,7 +534,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":19}],13:[function(require,module,exports){
+},{"./_root":20}],14:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     getRawTag = require('./_getRawTag'),
     objectToString = require('./_objectToString');
@@ -545,7 +564,7 @@ function baseGetTag(value) {
 
 module.exports = baseGetTag;
 
-},{"./_Symbol":12,"./_getRawTag":16,"./_objectToString":17}],14:[function(require,module,exports){
+},{"./_Symbol":13,"./_getRawTag":17,"./_objectToString":18}],15:[function(require,module,exports){
 (function (global){
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -553,7 +572,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 module.exports = freeGlobal;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 var overArg = require('./_overArg');
 
 /** Built-in value references. */
@@ -561,7 +580,7 @@ var getPrototype = overArg(Object.getPrototypeOf, Object);
 
 module.exports = getPrototype;
 
-},{"./_overArg":18}],16:[function(require,module,exports){
+},{"./_overArg":19}],17:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used for built-in method references. */
@@ -609,7 +628,7 @@ function getRawTag(value) {
 
 module.exports = getRawTag;
 
-},{"./_Symbol":12}],17:[function(require,module,exports){
+},{"./_Symbol":13}],18:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -633,7 +652,7 @@ function objectToString(value) {
 
 module.exports = objectToString;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * Creates a unary function that invokes `func` with its argument transformed.
  *
@@ -650,7 +669,7 @@ function overArg(func, transform) {
 
 module.exports = overArg;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var freeGlobal = require('./_freeGlobal');
 
 /** Detect free variable `self`. */
@@ -661,7 +680,7 @@ var root = freeGlobal || freeSelf || Function('return this')();
 
 module.exports = root;
 
-},{"./_freeGlobal":14}],20:[function(require,module,exports){
+},{"./_freeGlobal":15}],21:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -692,7 +711,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     getPrototype = require('./_getPrototype'),
     isObjectLike = require('./isObjectLike');
@@ -756,7 +775,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_baseGetTag":13,"./_getPrototype":15,"./isObjectLike":20}],22:[function(require,module,exports){
+},{"./_baseGetTag":14,"./_getPrototype":16,"./isObjectLike":21}],23:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -17844,7 +17863,7 @@ module.exports = isPlainObject;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -18030,7 +18049,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18089,7 +18108,7 @@ function applyMiddleware() {
     };
   };
 }
-},{"./compose":27}],25:[function(require,module,exports){
+},{"./compose":28}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18141,7 +18160,7 @@ function bindActionCreators(actionCreators, dispatch) {
   }
   return boundActionCreators;
 }
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -18286,7 +18305,7 @@ function combineReducers(reducers) {
   };
 }
 }).call(this,require('_process'))
-},{"./createStore":28,"./utils/warning":30,"_process":23,"lodash/isPlainObject":21}],27:[function(require,module,exports){
+},{"./createStore":29,"./utils/warning":31,"_process":24,"lodash/isPlainObject":22}],28:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -18325,7 +18344,7 @@ function compose() {
     }, last.apply(undefined, arguments));
   };
 }
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18587,7 +18606,7 @@ function createStore(reducer, preloadedState, enhancer) {
     replaceReducer: replaceReducer
   }, _ref2[_symbolObservable2['default']] = observable, _ref2;
 }
-},{"lodash/isPlainObject":21,"symbol-observable":31}],29:[function(require,module,exports){
+},{"lodash/isPlainObject":22,"symbol-observable":32}],30:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -18636,7 +18655,7 @@ exports.bindActionCreators = _bindActionCreators2['default'];
 exports.applyMiddleware = _applyMiddleware2['default'];
 exports.compose = _compose2['default'];
 }).call(this,require('_process'))
-},{"./applyMiddleware":24,"./bindActionCreators":25,"./combineReducers":26,"./compose":27,"./createStore":28,"./utils/warning":30,"_process":23}],30:[function(require,module,exports){
+},{"./applyMiddleware":25,"./bindActionCreators":26,"./combineReducers":27,"./compose":28,"./createStore":29,"./utils/warning":31,"_process":24}],31:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18662,10 +18681,10 @@ function warning(message) {
   } catch (e) {}
   /* eslint-enable no-empty */
 }
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = require('./lib/index');
 
-},{"./lib/index":32}],32:[function(require,module,exports){
+},{"./lib/index":33}],33:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -18697,7 +18716,7 @@ if (typeof self !== 'undefined') {
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ponyfill":33}],33:[function(require,module,exports){
+},{"./ponyfill":34}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18721,4 +18740,4 @@ function symbolObservablePonyfill(root) {
 
 	return result;
 };
-},{}]},{},[5]);
+},{}]},{},[6]);

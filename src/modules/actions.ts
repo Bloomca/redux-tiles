@@ -15,7 +15,8 @@ function proccessMiddleware(args: any[]) {
 
 function shouldBeFetched({ getState, selectors, params }: any): boolean {
   const { isPending, data, error } = selectors.get(getState(), params);
-  return error === null && data === null && isPending !== true;
+  // intentionally to check on empty objects
+  return error == null && data == null && isPending !== true;
 }
 
 function handleMiddleware(fn: Function) {
