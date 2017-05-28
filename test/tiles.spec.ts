@@ -19,3 +19,41 @@ test('createSyncTile should be able to reflect all passed info', () => {
 
   expect(params).toBe(syncTile.reflect);
 });
+
+test('createTile should return default value if not in the state', () => {
+  const params = {
+    type: ['some', 'user'],
+    fn: () => 'some message!'
+  };
+  const syncTile = createTile(params);
+
+  const data = syncTile.selectors.get({});
+
+  expect(data).toEqual({ data: null, error: null, isPending: false });
+});
+
+test('createTile should return overriden value if not in the state', () => {
+  const params = {
+    type: ['some', 'user'],
+    fn: () => 'some message!',
+    selectorFallback: { myProperty: true }
+  };
+  const syncTile = createTile(params);
+
+  const data = syncTile.selectors.get({});
+
+  expect(data).toEqual({ myProperty: true });
+});
+
+test('createSyncTile should return overriden value if not in the state', () => {
+  const params = {
+    type: ['some', 'user'],
+    fn: () => 'some message!',
+    selectorFallback: { myProperty: true }
+  };
+  const syncTile = createSyncTile(params);
+
+  const data = syncTile.selectors.get({});
+
+  expect(data).toEqual({ myProperty: true });
+});

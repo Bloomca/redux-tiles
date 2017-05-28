@@ -22,7 +22,8 @@ export interface TileParams {
   fn: Function,
   caching?: boolean,
   initialState?: any,
-  nesting?: ((params: any) => string[])|undefined
+  nesting?: ((params: any) => string[])|undefined,
+  selectorFallback?: any
 }
 
 export interface SyncTileParams {
@@ -30,6 +31,7 @@ export interface SyncTileParams {
   fn?: Function,
   nesting?: ((params: any) => string[])|undefined,
   initialState?: any,
+  selectorFallback?: any
 }
 
 export interface AsyncActionTypes {
@@ -57,5 +59,6 @@ export interface PromiseObject {
 
 export interface CreateSelectorsTypes {
   moduleName: string|string[]
-  nesting: ((params: any) => string[])|undefined
+  nesting: ((params: any) => string[])|undefined,
+  selectorFallback: any
 }

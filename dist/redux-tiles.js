@@ -6,17 +6,11 @@ function createActions(modules) {
     // this storage will keep all promises
     // so if the request is already in progress,
     // we could still await it
-    var promisesStorage = {};
     var actions = helpers_1.iterate(modules).reduce(function (hash, module) {
-        var action = module.action;
-        var processedAction = module.action.async
-            ? module.action(promisesStorage)
-            : module.action;
-        processedAction.reset = action.reset;
-        helpers_1.populateHash(hash, module.moduleName, processedAction);
+        helpers_1.populateHash(hash, module.moduleName, module.action);
         return hash;
     }, {});
-    return { promisesStorage: promisesStorage, actions: actions };
+    return actions;
 }
 exports.createActions = createActions;
 
@@ -118,10 +112,8 @@ var createSelectors_1 = require("./createSelectors");
 exports.createSelectors = createSelectors_1.createSelectors;
 var middleware_1 = require("./middleware");
 exports.createMiddleware = middleware_1.createMiddleware;
-var waitTiles_1 = require("./waitTiles");
-exports.waitTiles = waitTiles_1.waitTiles;
 
-},{"./createActions":1,"./createReducers":2,"./createSelectors":3,"./middleware":6,"./modules":8,"./waitTiles":11}],6:[function(require,module,exports){
+},{"./createActions":1,"./createReducers":2,"./createSelectors":3,"./middleware":6,"./modules":8}],6:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -132,21 +124,27 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var waitTiles_1 = require("./waitTiles");
 function createMiddleware(paramsToInject) {
     if (paramsToInject === void 0) { paramsToInject = {}; }
-    return function (_a) {
+    var promisesStorage = {};
+    var middleware = function (_a) {
         var dispatch = _a.dispatch, getState = _a.getState;
         return function (next) { return function (action) {
             if (typeof action === 'function') {
-                return action(__assign({ dispatch: dispatch, getState: getState }, paramsToInject));
+                return action(__assign({ dispatch: dispatch, getState: getState, promisesStorage: promisesStorage }, paramsToInject));
             }
             return next(action);
         }; };
     };
+    return {
+        middleware: middleware,
+        waitTiles: waitTiles_1.waitTiles.bind(null, promisesStorage)
+    };
 }
 exports.createMiddleware = createMiddleware;
 
-},{}],7:[function(require,module,exports){
+},{"./waitTiles":11}],7:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -192,15 +190,14 @@ function handleMiddleware(fn) {
         return fn(proccessMiddleware(args), fnParams, additionalParams);
     }; };
 }
-function asyncAction(_a, promises) {
+function asyncAction(_a) {
     var START = _a.START, SUCCESS = _a.SUCCESS, FAILURE = _a.FAILURE, fn = _a.fn, type = _a.type, caching = _a.caching, nesting = _a.nesting, selectors = _a.selectors;
-    if (promises === void 0) { promises = {}; }
     return handleMiddleware(function (_a, params, _b) {
         var forceAsync = (_b === void 0 ? {} : _b).forceAsync;
-        var dispatch = _a.dispatch, getState = _a.getState, middlewares = __rest(_a, ["dispatch", "getState"]);
+        var dispatch = _a.dispatch, getState = _a.getState, _c = _a.promisesStorage, promisesStorage = _c === void 0 ? {} : _c, middlewares = __rest(_a, ["dispatch", "getState", "promisesStorage"]);
         var path = nesting ? nesting(params) : null;
         var getIdentificator = helpers_1.createType({ type: type });
-        var activePromise = promises[getIdentificator];
+        var activePromise = promisesStorage[getIdentificator];
         if (activePromise) {
             return activePromise;
         }
@@ -215,14 +212,14 @@ function asyncAction(_a, promises) {
             payload: { path: path }
         });
         var promise = fn(__assign({ params: params, dispatch: dispatch, getState: getState }, middlewares));
-        promises[getIdentificator] = promise;
+        promisesStorage[getIdentificator] = promise;
         return promise
             .then(function (data) {
             dispatch({
                 type: SUCCESS,
                 payload: { path: path, data: data }
             });
-            promises[getIdentificator] = undefined;
+            promisesStorage[getIdentificator] = undefined;
         })
             .catch(function (error) {
             dispatch({
@@ -230,7 +227,7 @@ function asyncAction(_a, promises) {
                 type: FAILURE,
                 payload: { path: path },
             });
-            promises[getIdentificator] = undefined;
+            promisesStorage[getIdentificator] = undefined;
         });
     });
 }
@@ -262,6 +259,7 @@ exports.syncAction = syncAction;
 },{"../helpers":4,"./selectors":10}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var lodash_1 = require("lodash");
 var actions_1 = require("./actions");
 var reducer_1 = require("./reducer");
 var selectors_1 = require("./selectors");
@@ -296,8 +294,7 @@ function createTile(params) {
         nesting: nesting,
         selectors: selectors
     };
-    var action = actions_1.asyncAction.bind(null, actionParams);
-    action.async = true;
+    var action = actions_1.asyncAction(actionParams);
     action.reset = actions_1.createResetAction({ type: types.RESET });
     var reducer = reducer_1.createReducer(initialState, (_b = {},
         _b[types.START] = {
@@ -322,7 +319,7 @@ function createTile(params) {
 }
 exports.createTile = createTile;
 function createSyncTile(params) {
-    var type = params.type, nesting = params.nesting, fn = params.fn, _a = params.initialState, initialState = _a === void 0 ? {} : _a;
+    var type = params.type, nesting = params.nesting, _a = params.fn, fn = _a === void 0 ? lodash_1.identity : _a, _b = params.initialState, initialState = _b === void 0 ? {} : _b;
     var identificator = helpers_1.createType({ type: type });
     var types = {
         TYPE: "" + prefix + identificator + "type",
@@ -338,16 +335,19 @@ function createSyncTile(params) {
         nesting: nesting,
         fn: fn
     });
-    var reducer = reducer_1.createReducer(initialState, (_b = {},
-        _b[types.TYPE] = function (_storeState, storeAction) { return storeAction.payload && storeAction.payload.data; },
-        _b));
+    var reducer = reducer_1.createReducer(initialState, (_c = {},
+        _c[types.TYPE] = function (_storeState, storeAction) {
+            return storeAction.payload && storeAction.payload.data;
+        },
+        _c[types.RESET] = initialState,
+        _c));
     action.reset = actions_1.createResetAction({ type: types.RESET });
     return { action: action, selectors: selectors, reducer: reducer, moduleName: type, constants: types, reflect: params };
-    var _b;
+    var _c;
 }
 exports.createSyncTile = createSyncTile;
 
-},{"../helpers":4,"./actions":7,"./reducer":9,"./selectors":10}],9:[function(require,module,exports){
+},{"../helpers":4,"./actions":7,"./reducer":9,"./selectors":10,"lodash":22}],9:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {

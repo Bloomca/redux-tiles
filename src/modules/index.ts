@@ -30,7 +30,7 @@ const defaultState = {
 }
 
 export function createTile(params: TileParams) {
-  const { type, fn, caching, initialState = defaultState, nesting } = params;
+  const { type, fn, caching, initialState = {}, nesting, selectorFallback = defaultState } = params;
   const identificator = createType({ type });
   const types: Types = {
     START: `${prefix}${identificator}_START`,
@@ -40,6 +40,7 @@ export function createTile(params: TileParams) {
   };
 
   const selectorParams: CreateSelectorsTypes = {
+    selectorFallback,
     moduleName: type,
     nesting
   };
@@ -82,7 +83,7 @@ export function createTile(params: TileParams) {
 }
 
 export function createSyncTile(params: SyncTileParams) {
-  const { type, nesting, fn = identity, initialState = {} } = params;
+  const { type, nesting, fn = identity, initialState = {}, selectorFallback } = params;
   const identificator = createType({ type });
   const types = {
     TYPE: `${prefix}${identificator}type`,
@@ -90,6 +91,7 @@ export function createSyncTile(params: SyncTileParams) {
   };
 
   const selectorParams: CreateSelectorsTypes = {
+    selectorFallback,
     moduleName: type,
     nesting
   };

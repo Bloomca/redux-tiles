@@ -1,5 +1,18 @@
 import { createSelectors, DEFAULT_REDUCER } from '../src/modules/selectors';
 
+test('createSelectors should return selectorFallback value for async Tile', () => {
+  const { get } = createSelectors({
+    moduleName: 'myTile',
+    nesting: () => ['some', 'another'],
+    selectorFallback: { some: '123' }
+  });
+
+  const result = get(
+    {}
+  );
+  expect(result).toEqual({ some: '123' });
+});
+
 test('createSelectors should select with nesting', () => {
   const { get } = createSelectors({
     moduleName: 'myTile',
@@ -7,10 +20,7 @@ test('createSelectors should select with nesting', () => {
   });
 
   const result = get(
-    undefined,
-    { [DEFAULT_REDUCER]:
-      { myTile: { some: { another: 23 } } }
-    }
+    { myTile: { some: { another: 23 } } }
   );
   expect(result).toBe(23);
 });
@@ -22,10 +32,7 @@ test('createSelectors should correctly select with combining reducers', () => {
   });
 
   const result = get(
-    undefined,
-    { [DEFAULT_REDUCER]:
-      { myTile: { nested: { some: { another: 23 } } } }
-    }
+    { myTile: { nested: { some: { another: 23 } } } }
   );
   expect(result).toBe(23);
 });
@@ -37,8 +44,7 @@ test('createSelectors should select correctly with params as a function', () => 
   });
 
   const result = get(
-    'my prefix',
-    { ['my prefix']: { myTile: { nested: { one: { two: 125 } } }}},
+    { myTile: { nested: { one: { two: 125 } } }},
     { id: 'one', type: 'two' }
   );
 
@@ -52,8 +58,7 @@ test('createSelectors should select correctly return if value is not an undefine
   });
 
   const result = get(
-    'my prefix',
-    { ['my prefix']: { myTile: { nested: { one: { two: false } } }}},
+    { myTile: { nested: { one: { two: false } } }},
     { id: 'one', type: 'two' }
   );
 
