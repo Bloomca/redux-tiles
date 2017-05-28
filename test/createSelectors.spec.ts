@@ -1,6 +1,7 @@
 import { createSelectors, createTile } from '../src';
+import { changeDefaultReducer } from '../src/modules/selectors';
 
-test('createSelectors should get data from default namespace', () => {
+test('createSelectors should get data without namespace', () => {
   const module = createTile({
     type: 'userAuth',
     fn: () => Promise.resolve('some'),
@@ -10,7 +11,7 @@ test('createSelectors should get data from default namespace', () => {
     module
   ]);
 
-  const state = { redux_tiles: { userAuth: { myData: 123 } }};
+  const state = { userAuth: { myData: 123 } };
   expect(selectors.userAuth(state)).toEqual({ myData: 123 });
 });
 
@@ -20,9 +21,10 @@ test('createSelectors should get data from our own namespace', () => {
     fn: () => Promise.resolve('some'),
   });
   
+  changeDefaultReducer('myTiles');
   const selectors = createSelectors([
     module
-  ], 'myTiles');
+  ]);
 
   const state = { myTiles: { user: { auth: { myData: 123 } }} };
   expect(selectors.user.auth(state)).toEqual({ myData: 123 });

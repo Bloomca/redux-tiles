@@ -50,7 +50,7 @@ test('createReducers should create no nesting by default', () => {
 
   expect(newState).toEqual({
     some: { data: null, isPending: true, error: null },
-    another: { data: null, isPending: false, error: null }
+    another: {}
   });
 });
 
@@ -133,7 +133,7 @@ test('createReducers should create correct nesting', () => {
       nesting: { data: null, isPending: true, error: null }
     },
     another: {
-      nesting: { data: null, isPending: false, error: null }
+      nesting: {}
     }
   });
 });
