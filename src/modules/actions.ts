@@ -25,16 +25,17 @@ function handleMiddleware(fn: Function) {
 
 export function asyncAction({
   START, SUCCESS, FAILURE, fn, type, caching, nesting, selectors
-}: AsyncActionTypes, promises: PromiseObject = {}) {
+}: AsyncActionTypes) {
   return handleMiddleware((
-    { dispatch, getState, ...middlewares }: any,
+    { dispatch, getState, promisesStorage = {}, ...middlewares }:
+    { dispatch: Dispatch<any>, getState: () => any, promisesStorage: PromiseObject },
     params: any,
     { forceAsync }: { forceAsync?: boolean } = {}
   ) => {
     const path = nesting ? nesting(params) : null;
 
     const getIdentificator = createType({ type });
-    const activePromise = promises[getIdentificator];
+    const activePromise = promisesStorage[getIdentificator];
 
     if (activePromise) {
       return activePromise;
@@ -54,7 +55,7 @@ export function asyncAction({
     });
 
     const promise = fn({ params, dispatch, getState, ...middlewares });
-    promises[getIdentificator] = promise;
+    promisesStorage[getIdentificator] = promise;
 
     return promise
       .then((data: any) => {
@@ -62,7 +63,7 @@ export function asyncAction({
           type: SUCCESS,
           payload: { path, data }
         });
-        promises[getIdentificator] = undefined;
+        promisesStorage[getIdentificator] = undefined;
       })
       .catch((error: any) => {
         dispatch({
@@ -70,7 +71,7 @@ export function asyncAction({
           type: FAILURE,
           payload: { path },
         });
-        promises[getIdentificator] = undefined;
+        promisesStorage[getIdentificator] = undefined;
       });
   });
 }

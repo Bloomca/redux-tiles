@@ -3,7 +3,6 @@ import { createActions } from './createActions';
 import { createReducers } from './createReducers';
 import { createSelectors } from './createSelectors';
 import { createMiddleware } from './middleware';
-import { waitTiles } from './waitTiles';
 
 export {
   createTile,
@@ -11,6 +10,5 @@ export {
   createReducers,
   createActions,
   createSelectors,
-  createMiddleware,
-  waitTiles
+  createMiddleware
 };
