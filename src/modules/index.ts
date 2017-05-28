@@ -1,3 +1,4 @@
+import { identity } from 'lodash';
 import { asyncAction, createResetAction, syncAction } from './actions';
 import { createReducer } from './reducer';
 import { createSelectors } from './selectors';
@@ -7,7 +8,8 @@ import {
   SyncActionTypes,
   CreateSelectorsTypes,
   TileParams,
-  SyncTileParams
+  SyncTileParams,
+  OverloadedAction
 } from './types';
 
 const prefix = 'Redux_Tiles_';
@@ -54,8 +56,7 @@ export function createTile(params: TileParams) {
     nesting,
     selectors
   };
-  const action = asyncAction.bind(null, actionParams);
-  action.async = true;
+  const action: OverloadedAction = asyncAction(actionParams);
   action.reset = createResetAction({ type: types.RESET });
 
   const reducer = createReducer(initialState, {
@@ -81,7 +82,7 @@ export function createTile(params: TileParams) {
 }
 
 export function createSyncTile(params: SyncTileParams) {
-  const { type, nesting, fn, initialState = {} } = params;
+  const { type, nesting, fn = identity, initialState = {} } = params;
   const identificator = createType({ type });
   const types = {
     TYPE: `${prefix}${identificator}type`,
@@ -94,14 +95,16 @@ export function createSyncTile(params: SyncTileParams) {
   };
   const selectors = createSelectors(selectorParams);
 
-  const action: any = syncAction({
+  const action: OverloadedAction = syncAction({
     TYPE: types.TYPE,
     nesting,
     fn
   } as SyncActionTypes);
 
   const reducer = createReducer(initialState, {
-    [types.TYPE]: (_storeState: any, storeAction: ReducerAction) => storeAction.payload && storeAction.payload.data
+    [types.TYPE]: (_storeState: any, storeAction: ReducerAction) =>
+      storeAction.payload && storeAction.payload.data,
+    [types.RESET]: initialState
   });
   
   action.reset = createResetAction({ type: types.RESET });

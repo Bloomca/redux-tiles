@@ -1,11 +1,11 @@
+export interface OverloadedAction {
+  (params?: any, additionalParams?: any): any,
+  reset?: Function
+}
+
 export interface Tile {
   moduleName: string|string[],
-  action: {
-    (): any,
-    (promises: PromiseObject): any,
-    async: boolean|undefined,
-    reset: Function
-  },
+  action: OverloadedAction,
   reducer: Function,
   selectors: {
     get: Function,
@@ -27,9 +27,9 @@ export interface TileParams {
 
 export interface SyncTileParams {
   type: string|string[],
-  nesting: ((params: any) => string[])|undefined,
-  fn: Function,
-  initialState: any,
+  fn?: Function,
+  nesting?: ((params: any) => string[])|undefined,
+  initialState?: any,
 }
 
 export interface AsyncActionTypes {

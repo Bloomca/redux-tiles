@@ -1,5 +1,5 @@
 import { createReducers, createNestedReducers } from '../src/createReducers';
-import { createTile } from '../src';
+import { createTile, createSyncTile } from '../src';
 
 test('createNestedResources should create correct function', () => {
   const firstModule = createTile({
@@ -51,7 +51,61 @@ test('createReducers should create no nesting by default', () => {
   expect(newState).toEqual({
     some: { data: null, isPending: true, error: null },
     another: { data: null, isPending: false, error: null }
-  })
+  });
+});
+
+test('createReducers should create correct default values with different initial state', () => {
+  const firstModule = createSyncTile({
+    type: 'some',
+    fn: () => 'some',
+    initialState: { some: 123 }
+  });
+
+  const secondModule = createSyncTile({
+    type: 'another',
+    fn: () => 'more info',
+    initialState: { another: false }
+  });
+
+  const reducer = createReducers([
+    firstModule, secondModule
+  ]);
+
+  const newState = reducer({}, {
+    type: 'SOME RANDOM CONSTANT',
+    payload: {}
+  });
+
+  expect(newState).toEqual({
+    some: { some: 123 },
+    another: { another: false }
+  });
+});
+
+test('createReducers should reset to initial state correctly after reset', () => {
+  const firstModule = createSyncTile({
+    type: 'some',
+    fn: () => 'some',
+    initialState: { some: 123 }
+  });
+
+  const reducer = createReducers([
+    firstModule
+  ]);
+
+  const firstState = reducer({}, {
+    type: firstModule.constants.TYPE,
+    payload: { data: 'some new info' }
+  });
+
+  const newState = reducer(firstState, {
+    type: firstModule.constants.RESET,
+    payload: {}
+  });
+
+  expect(newState).toEqual({
+    some: { some: 123 },
+  });
 });
 
 test('createReducers should create correct nesting', () => {
@@ -81,5 +135,5 @@ test('createReducers should create correct nesting', () => {
     another: {
       nesting: { data: null, isPending: false, error: null }
     }
-  })
+  });
 });
