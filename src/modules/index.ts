@@ -23,14 +23,8 @@ export interface ReducerAction {
   error: string|Object|undefined|null
 }
 
-const defaultState = {
-  data: null,
-  isPending: false,
-  error: null
-}
-
 export function createTile(params: TileParams) {
-  const { type, fn, caching, initialState = {}, nesting, selectorFallback = defaultState } = params;
+  const { type, fn, caching, initialState = {}, nesting, selectorFallback = null } = params;
   const identificator = createType({ type });
   const types: Types = {
     START: `${prefix}${identificator}_START`,
@@ -40,7 +34,11 @@ export function createTile(params: TileParams) {
   };
 
   const selectorParams: CreateSelectorsTypes = {
-    selectorFallback,
+    selectorFallback: {
+      isPending: false,
+      error: null,
+      data: selectorFallback
+    },
     moduleName: type,
     nesting
   };
