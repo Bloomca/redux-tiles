@@ -9,7 +9,8 @@ import {
   CreateSelectorsTypes,
   TileParams,
   SyncTileParams,
-  OverloadedAction
+  OverloadedAction,
+  Tile
 } from './types';
 
 const prefix = 'Redux_Tiles_';
@@ -29,7 +30,7 @@ const defaultState = {
   error: null
 }
 
-export function createTile(params: TileParams) {
+export function createTile(params: TileParams): Tile {
   const { type, fn, caching, initialState = {}, nesting, selectorFallback = defaultState } = params;
   const identificator = createType({ type });
   const types: Types = {
@@ -82,7 +83,7 @@ export function createTile(params: TileParams) {
   return { action, reducer, selectors, moduleName: type, constants: types, reflect: params };
 }
 
-export function createSyncTile(params: SyncTileParams) {
+export function createSyncTile(params: SyncTileParams): Tile {
   const { type, nesting, fn = identity, initialState = {}, selectorFallback } = params;
   const identificator = createType({ type });
   const types = {

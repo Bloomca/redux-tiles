@@ -35,7 +35,7 @@ export function asyncAction({
   ) => {
     const path = nesting ? nesting(params) : null;
 
-    const getIdentificator = createType({ type });
+    const getIdentificator = createType({ type, path });
     const activePromise = promisesStorage[getIdentificator];
 
     if (activePromise) {

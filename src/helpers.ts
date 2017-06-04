@@ -36,7 +36,7 @@ function capitalize(str: string, i: number) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-export function createType({ type }: { type: string|string[] }): string {
-  const list = ensureArray(type);
+export function createType({ type, path }: { type: string|string[], path?: null|undefined|string[] }): string {
+  const list = ensureArray(type).concat(path == null ? [] : path.map(String));
   return list.map(capitalize).join('');
 }

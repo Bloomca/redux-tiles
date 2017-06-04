@@ -186,3 +186,23 @@ test('syncAction should dispatch processedData immediately', () => {
   const call = dispatch.getCall(0);
   expect(call.args[0].payload.data).toEqual(params);
 });
+
+test('async Action should invoke action with different params', async () => {
+  const action = stub();
+  action.returns(new Promise(res => setTimeout(() => res({ some: true }), 10)));
+  const tile = createTile({
+    type: ['some', 'nested', 'type'],
+    fn: action,
+    nesting: ({ id }) => [id],
+  });
+
+  const promisesStorage = {};
+  const middlewares = { promisesStorage, dispatch: () => {} };
+
+  const promise1 = tile.action({ id: 1 })(middlewares);
+  const promise2 = tile.action({ id: 2 })(middlewares);
+
+  await Promise.all([promise1, promise2]);
+
+  expect(action.calledTwice).toBe(true);
+});
