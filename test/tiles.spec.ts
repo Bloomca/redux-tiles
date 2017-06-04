@@ -38,11 +38,11 @@ test('createTile should return overriden value if not in the state', () => {
     fn: () => 'some message!',
     selectorFallback: { myProperty: true }
   };
-  const syncTile = createTile(params);
+  const tile = createTile(params);
 
-  const data = syncTile.selectors.get({});
+  const data = tile.selectors.get({});
 
-  expect(data).toEqual({ myProperty: true });
+  expect(data).toEqual({ isPending: false, error: null, data: { myProperty: true } });
 });
 
 test('createSyncTile should return overriden value if not in the state', () => {
