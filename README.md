@@ -5,6 +5,7 @@
 
 Redux is an awesome library to keep state management sane on scale. The problem, though, is that it is toooo verbose, and often you'd feel like you are doing literally the same thing again and again. This library tries to provide minimal abstraction on top of Redux, to allow easy composability, easy async requests, and sane testability.
 
+[More about rationale behind this library](http://blog.bloomca.me/2017/06/02/why-i-created-redux-tiles-library.html)
 [Examples](./examples)
 
 ## Installation
