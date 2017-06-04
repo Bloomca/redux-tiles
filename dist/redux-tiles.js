@@ -282,13 +282,8 @@ var reducer_1 = require("./reducer");
 var selectors_1 = require("./selectors");
 var helpers_1 = require("../helpers");
 var prefix = 'Redux_Tiles_';
-var defaultState = {
-    data: null,
-    isPending: false,
-    error: null
-};
 function createTile(params) {
-    var type = params.type, fn = params.fn, caching = params.caching, _a = params.initialState, initialState = _a === void 0 ? {} : _a, nesting = params.nesting, _b = params.selectorFallback, selectorFallback = _b === void 0 ? defaultState : _b;
+    var type = params.type, fn = params.fn, caching = params.caching, _a = params.initialState, initialState = _a === void 0 ? {} : _a, nesting = params.nesting, _b = params.selectorFallback, selectorFallback = _b === void 0 ? null : _b;
     var identificator = helpers_1.createType({ type: type });
     var types = {
         START: "" + prefix + identificator + "_START",
@@ -297,7 +292,11 @@ function createTile(params) {
         RESET: "" + prefix + identificator + "_RESET"
     };
     var selectorParams = {
-        selectorFallback: selectorFallback,
+        selectorFallback: {
+            isPending: false,
+            error: null,
+            data: selectorFallback
+        },
         moduleName: type,
         nesting: nesting
     };

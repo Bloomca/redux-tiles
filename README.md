@@ -93,12 +93,9 @@ const tiles = [
 ];
 
 const { actions, reducer, selectors } = createEntities(tiles);
+const { middleware } = createMiddleware({ actions, selectors });
 
-createStore(
-  applyMiddleware(
-    createMiddleware({ actions, selectors })
-  )
-);
+createStore(reducer, applyMiddleware(middleware));
 ```
 
 ## Tiles API
@@ -220,7 +217,9 @@ import api from '../utils/api';
 
 // this object is optional. every property will be available inside
 // `fn` of all tiles
-applyMiddleware(createMiddleware({ actions, selectors, api }))
+// also, `waitTiles` is helpful for server-side-rendering
+const { middleware, waitTiles } = createMiddleware({ actions, selectors, api });
+applyMiddleware(middleware);
 ```
 
 Also, [redux-thunk](https://github.com/gaearon/redux-thunk) is supported, but with it you can't provide your own properties. There is nothing bad to just import actions and selectors on top of the files, but then testing might require much more mocking, which can make your tests more brittle.
