@@ -107,8 +107,8 @@ function capitalize(str, i) {
     return str[0].toUpperCase() + str.slice(1);
 }
 function createType(_a) {
-    var type = _a.type;
-    var list = ensureArray(type);
+    var type = _a.type, path = _a.path;
+    var list = ensureArray(type).concat(path == null ? [] : path.map(String));
     return list.map(capitalize).join('');
 }
 exports.createType = createType;
@@ -213,7 +213,7 @@ function asyncAction(_a) {
         var forceAsync = (_b === void 0 ? {} : _b).forceAsync;
         var dispatch = _a.dispatch, getState = _a.getState, _c = _a.promisesStorage, promisesStorage = _c === void 0 ? {} : _c, middlewares = __rest(_a, ["dispatch", "getState", "promisesStorage"]);
         var path = nesting ? nesting(params) : null;
-        var getIdentificator = helpers_1.createType({ type: type });
+        var getIdentificator = helpers_1.createType({ type: type, path: path });
         var activePromise = promisesStorage[getIdentificator];
         if (activePromise) {
             return activePromise;
