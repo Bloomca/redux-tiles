@@ -45,6 +45,22 @@ test('createTile should return overriden value if not in the state', () => {
   expect(data).toEqual({ isPending: false, error: null, data: { myProperty: true } });
 });
 
+test('createTile should create new state if error', () => {
+  const someTile = createTile({
+    type: ['some'],
+    fn: () => Promise.reject({ some: 'error' })
+  });
+
+  const error = new Error('some');
+  const action = {
+    type: someTile.constants.FAILURE,
+    payload: { path: null },
+    error: new Error('some')
+  };
+  const newState: {} = someTile.reducer({}, action);
+  expect(newState).toEqual({ isPending: false, error, data: null });
+});
+
 test('createSyncTile should return overriden value if not in the state', () => {
   const params = {
     type: ['some', 'user'],

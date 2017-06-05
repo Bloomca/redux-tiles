@@ -70,7 +70,7 @@ export function createTile(params: ITileParams): ITile {
       isPending: true,
       error: null
     },
-    [types.ERROR]: (_storeState: {}, storeAction: IReducerAction): IData => ({
+    [types.FAILURE]: (_storeState: {}, storeAction: IReducerAction): IData => ({
       data: null,
       isPending: false,
       error: storeAction.error

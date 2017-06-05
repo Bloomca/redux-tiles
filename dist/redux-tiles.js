@@ -2,15 +2,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("./helpers");
-function createActions(modules) {
+function createActions(tiles) {
     // this storage will keep all promises
     // so if the request is already in progress,
     // we could still await it
-    var actions = helpers_1.iterate(modules).reduce(function (hash, module) {
-        helpers_1.populateHash(hash, module.moduleName, module.action);
+    return helpers_1.iterate(tiles).reduce(function (hash, tile) {
+        helpers_1.populateHash(hash, tile.moduleName, tile.action);
         return hash;
     }, {});
-    return actions;
 }
 exports.createActions = createActions;
 
@@ -18,8 +17,8 @@ exports.createActions = createActions;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var createActions_1 = require("./createActions");
-var createSelectors_1 = require("./createSelectors");
 var createReducers_1 = require("./createReducers");
+var createSelectors_1 = require("./createSelectors");
 function createEntities(tiles, topReducer) {
     return {
         actions: createActions_1.createActions(tiles),
@@ -32,8 +31,8 @@ exports.createEntities = createEntities;
 },{"./createActions":1,"./createReducers":3,"./createSelectors":4}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var redux_1 = require("redux");
 var lodash_1 = require("lodash");
+var redux_1 = require("redux");
 var helpers_1 = require("./helpers");
 var selectors_1 = require("./modules/selectors");
 function createNestedReducers(value) {
@@ -61,11 +60,11 @@ exports.createReducers = createReducers;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("./helpers");
-function createSelectors(modules) {
-    return helpers_1.iterate(modules).reduce(function (hash, module) {
-        var selector = module.selectors.get;
-        selector.getAll = module.selectors.getAll;
-        helpers_1.populateHash(hash, module.moduleName, selector);
+function createSelectors(tiles) {
+    return helpers_1.iterate(tiles).reduce(function (hash, tile) {
+        var selector = tile.selectors.get;
+        selector.getAll = tile.selectors.getAll;
+        helpers_1.populateHash(hash, tile.moduleName, selector);
         return hash;
     }, {});
 }
@@ -94,10 +93,10 @@ function populateHash(hash, path, value) {
     return populateHash(hash[property], path.slice(1), value);
 }
 exports.populateHash = populateHash;
-function iterate(modules) {
-    return lodash_1.isArray(modules)
-        ? modules
-        : Object.keys(modules).reduce(function (arr, values) { return arr.concat(values); }, []);
+function iterate(tiles) {
+    return lodash_1.isArray(tiles)
+        ? tiles
+        : Object.keys(tiles).reduce(function (arr, values) { return arr.concat(values); }, []);
 }
 exports.iterate = iterate;
 function capitalize(str, i) {
@@ -116,19 +115,19 @@ exports.createType = createType;
 },{"lodash":23}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var modules_1 = require("./modules");
-exports.createTile = modules_1.createTile;
-exports.createSyncTile = modules_1.createSyncTile;
 var createActions_1 = require("./createActions");
 exports.createActions = createActions_1.createActions;
+var createEntities_1 = require("./createEntities");
+exports.createEntities = createEntities_1.createEntities;
 var createReducers_1 = require("./createReducers");
 exports.createReducers = createReducers_1.createReducers;
 var createSelectors_1 = require("./createSelectors");
 exports.createSelectors = createSelectors_1.createSelectors;
-var createEntities_1 = require("./createEntities");
-exports.createEntities = createEntities_1.createEntities;
 var middleware_1 = require("./middleware");
 exports.createMiddleware = middleware_1.createMiddleware;
+var modules_1 = require("./modules");
+exports.createSyncTile = modules_1.createSyncTile;
+exports.createTile = modules_1.createTile;
 
 },{"./createActions":1,"./createEntities":2,"./createReducers":3,"./createSelectors":4,"./middleware":7,"./modules":9}],7:[function(require,module,exports){
 "use strict";
@@ -183,7 +182,11 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("../helpers");
 function proccessMiddleware(args) {
-    if (args.length === 2) {
+    if (args.length === 3) {
+        // let's assume it is redux-thunk with extra argument
+        return __assign({ dispatch: args[0], getState: args[1] }, args[2]);
+    }
+    else if (args.length === 2) {
         // likely it is redux-thunk
         return { dispatch: args[0], getState: args[1] };
     }
@@ -191,11 +194,13 @@ function proccessMiddleware(args) {
         // our own middleware
         return args[0];
     }
+    // no idea what it is
+    throw new Error('Redux-Tiles expects own middleware, or redux-thunk');
 }
 function shouldBeFetched(_a) {
     var getState = _a.getState, selectors = _a.selectors, params = _a.params;
     var _b = selectors.get(getState(), params), isPending = _b.isPending, data = _b.data, error = _b.error;
-    // intentionally to check on empty objects
+    // == intentionally to check on empty objects
     return error == null && data == null && isPending !== true;
 }
 function handleMiddleware(fn) {
@@ -242,7 +247,7 @@ function asyncAction(_a) {
             dispatch({
                 error: error,
                 type: FAILURE,
-                payload: { path: path },
+                payload: { path: path }
             });
             promisesStorage[getIdentificator] = undefined;
         });
@@ -277,10 +282,10 @@ exports.syncAction = syncAction;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = require("lodash");
+var helpers_1 = require("../helpers");
 var actions_1 = require("./actions");
 var reducer_1 = require("./reducer");
 var selectors_1 = require("./selectors");
-var helpers_1 = require("../helpers");
 var prefix = 'Redux_Tiles_';
 function createTile(params) {
     var type = params.type, fn = params.fn, caching = params.caching, _a = params.initialState, initialState = _a === void 0 ? {} : _a, nesting = params.nesting, _b = params.selectorFallback, selectorFallback = _b === void 0 ? null : _b;
@@ -313,13 +318,13 @@ function createTile(params) {
     };
     var action = actions_1.asyncAction(actionParams);
     action.reset = actions_1.createResetAction({ type: types.RESET });
-    var reducer = reducer_1.createReducer(initialState, (_c = {},
+    var reducerObject = (_c = {},
         _c[types.START] = {
             data: null,
             isPending: true,
             error: null
         },
-        _c[types.ERROR] = function (_storeState, storeAction) { return ({
+        _c[types.FAILURE] = function (_storeState, storeAction) { return ({
             data: null,
             isPending: false,
             error: storeAction.error
@@ -330,7 +335,8 @@ function createTile(params) {
             data: storeAction.payload && storeAction.payload.data
         }); },
         _c[types.RESET] = initialState,
-        _c));
+        _c);
+    var reducer = reducer_1.createReducer(initialState, reducerObject);
     return { action: action, reducer: reducer, selectors: selectors, moduleName: type, constants: types, reflect: params };
     var _c;
 }
@@ -348,17 +354,19 @@ function createSyncTile(params) {
         nesting: nesting
     };
     var selectors = selectors_1.createSelectors(selectorParams);
-    var action = actions_1.syncAction({
+    var actionParams = {
         TYPE: types.TYPE,
         nesting: nesting,
         fn: fn
-    });
-    var reducer = reducer_1.createReducer(initialState, (_c = {},
+    };
+    var action = actions_1.syncAction(actionParams);
+    var reducerObject = (_c = {},
         _c[types.TYPE] = function (_storeState, storeAction) {
             return storeAction.payload && storeAction.payload.data;
         },
         _c[types.RESET] = initialState,
-        _c));
+        _c);
+    var reducer = reducer_1.createReducer(initialState, reducerObject);
     action.reset = actions_1.createResetAction({ type: types.RESET });
     return { action: action, selectors: selectors, reducer: reducer, moduleName: type, constants: types, reflect: params };
     var _c;
