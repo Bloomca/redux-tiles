@@ -2610,6 +2610,10 @@ tslib@^1.6.0:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.7.1.tgz#bc8004164691923a79fe8378bbeb3da2017538ec"
 
+tslint-microsoft-contrib@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-5.0.0.tgz#0ff6389ce3dbc5ea103782900a7806fffa1450ff"
+
 tslint@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.3.2.tgz#e56459fb095a7307f103b84052174f5e3bbef6ed"

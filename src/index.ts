@@ -1,9 +1,9 @@
-import { createTile, createSyncTile } from './modules';
 import { createActions } from './createActions';
+import { createEntities } from './createEntities';
 import { createReducers } from './createReducers';
 import { createSelectors } from './createSelectors';
-import { createEntities } from './createEntities';
 import { createMiddleware } from './middleware';
+import { createSyncTile, createTile } from './modules';
 
 export {
   createTile,

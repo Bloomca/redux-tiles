@@ -1,23 +1,23 @@
 import { get, isString } from 'lodash';
-import { CreateSelectorsTypes } from './types';
-import { ensureArray, createType } from '../helpers';
+import { createType, ensureArray } from '../helpers';
+import { ICreateSelectorsTypes, IData, ISelectors, SyncData } from './types';
 
-export let DEFAULT_REDUCER = '';
+export let DEFAULT_REDUCER: string = '';
 
-export function changeDefaultReducer(newReducer: string) {
+export function changeDefaultReducer(newReducer: string): void {
   DEFAULT_REDUCER = newReducer;
 }
 
-function checkValue(result: any, defaultValue?: any) {
+function checkValue(result: any, defaultValue?: any): {} {
   return result === undefined ? defaultValue : result;
 }
 
-interface LookupParams {
-  selectorFallback: any,
-  state: Object,
-  params: any,
-  nesting: ((params: any) => string[])|undefined,
-  moduleName: string|string[]
+interface ILookupParams {
+  selectorFallback: any;
+  state: Object;
+  params: any;
+  nesting: ((params: any) => string[])|undefined;
+  moduleName: string|string[];
 }
 
 /**
@@ -28,24 +28,25 @@ interface LookupParams {
  * @param  {String} moduleName – string to access module data
  * @return {Object} – stored data
  */
-function lookup({ state, params, nesting, moduleName, selectorFallback }: LookupParams) {
+function lookup({ state, params, nesting, moduleName, selectorFallback }: ILookupParams): IData|SyncData {
   let path: string[] = [];
-  const topReducer = DEFAULT_REDUCER;
+  const topReducer: string = DEFAULT_REDUCER;
 
   if (nesting) {
     path = nesting(params);
   }
-  
-  const nestedNames = ensureArray(moduleName);
-  const topReducerArray = Boolean(topReducer) ? [topReducer]: []
+
+  const nestedNames: string[] = ensureArray(moduleName);
+  const topReducerArray: string[] = Boolean(topReducer) ? [topReducer] : [];
+
   return checkValue(get(state, [...topReducerArray, ...nestedNames, ...path]), selectorFallback);
 }
 
-interface CheckArgumentsParams {
-  state: Object,
-  params: any,
-  moduleName: string|string[]
-  fn: Function
+interface ICheckArgumentsParams {
+  state: {};
+  params: any;
+  moduleName: string|string[];
+  fn: Function;
 }
 
 /**
@@ -57,7 +58,7 @@ interface CheckArgumentsParams {
  * @param  {Function} fn – function to invoke if check was passed
  * @return {Any} – result of function invokation
  */
-function checkArguments({ state, params, moduleName, fn }: CheckArgumentsParams) {
+function checkArguments({ state, params, moduleName, fn }: ICheckArgumentsParams): {} {
   if (!state) {
     throw new Error(`
       Error in Redux-Tiles Selector – you have to provide
@@ -74,18 +75,22 @@ function checkArguments({ state, params, moduleName, fn }: CheckArgumentsParams)
  * @param  {Function} nesting – function to create nested data inside store
  * @return {Object} – object with selectors for all and specific data
  */
-export function createSelectors({ moduleName, nesting, selectorFallback }: CreateSelectorsTypes) {
-  const getAll = (state: any) => {
-    const topReducerArray = Boolean(DEFAULT_REDUCER) ? [DEFAULT_REDUCER] : []
+export function createSelectors(
+  { moduleName, nesting, selectorFallback }: ICreateSelectorsTypes
+): ISelectors {
+  const getAll: Function = (state: any): any => {
+    const topReducerArray: string[] = Boolean(DEFAULT_REDUCER) ? [DEFAULT_REDUCER] : [];
+
     return checkValue(get(state, [...topReducerArray, ...ensureArray(moduleName)]));
   };
-  
-  const getSpecific = (state: any, params: any) =>
+
+  const getSpecific: Function = (state: {}, params: any): IData|SyncData =>
     lookup({ state, params, nesting, moduleName, selectorFallback });
+
   return {
-    getAll: (state: any) =>
+    getAll: (state: any): {} =>
       checkArguments({ state, moduleName, fn: getAll } as any),
-    get: (state: any, params?: any) =>
+    get: (state: any, params?: any): IData|SyncData =>
       checkArguments({ state, params, moduleName, fn: getSpecific })
   };
 }

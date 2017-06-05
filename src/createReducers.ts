@@ -1,24 +1,26 @@
+import { isFunction, isString } from 'lodash';
 import { combineReducers, Reducer } from 'redux';
-import { isString, isFunction } from 'lodash';
 import { iterate, populateHash } from './helpers';
-import { Tile } from './modules/types';
-import { DEFAULT_REDUCER, changeDefaultReducer } from './modules/selectors';
+import { changeDefaultReducer, DEFAULT_REDUCER } from './modules/selectors';
+import { ITile } from './modules/types';
 
-export function createNestedReducers(value: any) {
+export function createNestedReducers(value: any): Reducer<any> {
   return combineReducers(Object.keys(value).reduce((hash: any, key: string) => {
-    const elem = value[key];
+    const elem: Function|{} = value[key];
     hash[key] = isFunction(elem) ? elem : createNestedReducers(elem);
+
     return hash;
   }, {}));
 }
 
-export function createReducers(modules: Tile[], topReducer = DEFAULT_REDUCER) {
+export function createReducers(modules: ITile[], topReducer: string = DEFAULT_REDUCER): Reducer<any> {
   if (topReducer !== DEFAULT_REDUCER) {
     changeDefaultReducer(topReducer);
   }
-  
-  const nestedModules = iterate(modules).reduce((hash, module: Tile) => {
+
+  const nestedModules: any = iterate(modules).reduce((hash: any, module: ITile) => {
     populateHash(hash, module.moduleName, module.reducer);
+
     return hash;
   }, {});
 

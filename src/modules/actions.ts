@@ -1,9 +1,17 @@
 import { Dispatch } from 'redux';
 import { createType } from '../helpers';
-import { AsyncActionTypes, SyncActionTypes, PromiseObject } from './types';
 import { DEFAULT_REDUCER } from './selectors';
+import { IAsyncActionTypes, IPromiseObject, ISyncActionTypes } from './types';
 
-function proccessMiddleware(args: any[]) {
+interface IProcessedMiddleware {
+  dispatch: Dispatch<{}>;
+  getState(): {};
+  [key: string]: any;
+}
+
+export type FnResult = (params: any, additionalParams?: any) => any;
+
+function proccessMiddleware(args: any[]): IProcessedMiddleware {
   if (args.length === 2) {
     // likely it is redux-thunk
     return { dispatch: args[0], getState: args[1] };
@@ -11,39 +19,43 @@ function proccessMiddleware(args: any[]) {
     // our own middleware
     return args[0];
   }
+
+  // no idea what it is
+  throw new Error('Redux-Tiles expect own middleware, or redux-thunk');
 }
 
 function shouldBeFetched({ getState, selectors, params }: any): boolean {
   const { isPending, data, error } = selectors.get(getState(), params);
-  // intentionally to check on empty objects
+
+  // == intentionally to check on empty objects
   return error == null && data == null && isPending !== true;
 }
 
-function handleMiddleware(fn: Function) {
-  return (fnParams: any, additionalParams: any) => (...args: any[]) =>
+function handleMiddleware(fn: Function): FnResult {
+  return (fnParams: any, additionalParams: any): Function => (...args: any[]): any =>
     fn(proccessMiddleware(args), fnParams, additionalParams);
 }
 
 export function asyncAction({
   START, SUCCESS, FAILURE, fn, type, caching, nesting, selectors
-}: AsyncActionTypes) {
+}: IAsyncActionTypes): FnResult {
   return handleMiddleware((
     { dispatch, getState, promisesStorage = {}, ...middlewares }:
-    { dispatch: Dispatch<any>, getState: () => any, promisesStorage: PromiseObject },
+    { dispatch: Dispatch<{}>, promisesStorage: IPromiseObject, getState(): {} },
     params: any,
     { forceAsync }: { forceAsync?: boolean } = {}
   ) => {
-    const path = nesting ? nesting(params) : null;
+    const path: string[]|null = nesting ? nesting(params) : null;
 
-    const getIdentificator = createType({ type, path });
-    const activePromise = promisesStorage[getIdentificator];
+    const getIdentificator: string = createType({ type, path });
+    const activePromise: Promise<any>|undefined = promisesStorage[getIdentificator];
 
     if (activePromise) {
       return activePromise;
     }
 
     if (caching && !forceAsync) {
-      const isFetchingNeeded = shouldBeFetched({ getState, selectors, params });
+      const isFetchingNeeded: boolean = shouldBeFetched({ getState, selectors, params });
 
       if (!isFetchingNeeded) {
         return Promise.resolve();
@@ -55,7 +67,7 @@ export function asyncAction({
       payload: { path }
     });
 
-    const promise = fn({ params, dispatch, getState, ...middlewares });
+    const promise: Promise<any> = fn({ params, dispatch, getState, ...middlewares });
     promisesStorage[getIdentificator] = promise;
 
     return promise
@@ -70,20 +82,20 @@ export function asyncAction({
         dispatch({
           error,
           type: FAILURE,
-          payload: { path },
+          payload: { path }
         });
         promisesStorage[getIdentificator] = undefined;
       });
   });
 }
 
-export function createResetAction({ type }: { type: string }) {
+export function createResetAction({ type }: { type: string }): Function {
   return handleMiddleware(({ dispatch }: { dispatch: Dispatch<any> }) => dispatch({ type }));
 }
 
-export function syncAction({ TYPE, fn, nesting }: SyncActionTypes) {
+export function syncAction({ TYPE, fn, nesting }: ISyncActionTypes): FnResult {
   return handleMiddleware(({ dispatch, getState, ...middlewares }: any, params: any) => {
-    const path = nesting ? nesting(params) : null;
+    const path: string[]|null = nesting ? nesting(params) : null;
 
     return dispatch({
       type: TYPE,
