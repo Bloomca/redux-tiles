@@ -12,7 +12,10 @@ interface IProcessedMiddleware {
 export type FnResult = (params: any, additionalParams?: any) => any;
 
 function proccessMiddleware(args: any[]): IProcessedMiddleware {
-  if (args.length === 2) {
+  if (args.length === 3) {
+    // let's assume it is redux-thunk with extra argument
+    return { dispatch: args[0], getState: args[1], ...args[2] };
+  } else if (args.length === 2) {
     // likely it is redux-thunk
     return { dispatch: args[0], getState: args[1] };
   } else if (args.length === 1 && typeof args[0] === 'object') {
@@ -21,7 +24,7 @@ function proccessMiddleware(args: any[]): IProcessedMiddleware {
   }
 
   // no idea what it is
-  throw new Error('Redux-Tiles expect own middleware, or redux-thunk');
+  throw new Error('Redux-Tiles expects own middleware, or redux-thunk');
 }
 
 function shouldBeFetched({ getState, selectors, params }: any): boolean {
