@@ -45,7 +45,7 @@ export function createTile(params: ITileParams): ITile {
       error: null,
       data: selectorFallback
     },
-    moduleName: type,
+    tileName: type,
     nesting
   };
 
@@ -84,7 +84,7 @@ export function createTile(params: ITileParams): ITile {
   };
   const reducer: Reducer<any> = createReducer(initialState, reducerObject);
 
-  return { action, reducer, selectors, moduleName: type, constants: types, reflect: params };
+  return { action, reducer, selectors, tileName: type, constants: types, reflect: params };
 }
 
 export function createSyncTile(params: ISyncTileParams): ITile {
@@ -97,7 +97,7 @@ export function createSyncTile(params: ISyncTileParams): ITile {
 
   const selectorParams: ICreateSelectorsTypes = {
     selectorFallback,
-    moduleName: type,
+    tileName: type,
     nesting
   };
   const selectors: ISelectors = createSelectors(selectorParams);
@@ -117,5 +117,5 @@ export function createSyncTile(params: ISyncTileParams): ITile {
   };
   const reducer: Reducer<any> = createReducer(initialState, reducerObject);
 
-  return { action, selectors, reducer, moduleName: type, constants: types, reflect: params };
+  return { action, selectors, reducer, tileName: type, constants: types, reflect: params };
 }

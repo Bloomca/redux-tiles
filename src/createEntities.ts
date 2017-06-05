@@ -1,7 +1,7 @@
 import { createActions } from './createActions';
 import { createReducers } from './createReducers';
 import { createSelectors } from './createSelectors';
-import { ITile } from './modules/types';
+import { ITile } from './tiles/types';
 
 export function createEntities(tiles: ITile[], topReducer?: string): any {
   return {

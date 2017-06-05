@@ -1,8 +1,8 @@
-import { createSelectors, DEFAULT_REDUCER } from '../src/modules/selectors';
+import { createSelectors, DEFAULT_REDUCER } from '../src/tiles/selectors';
 
 test('createSelectors should return selectorFallback value for async Tile', () => {
   const { get } = createSelectors({
-    moduleName: 'myTile',
+    tileName: 'myTile',
     nesting: () => ['some', 'another'],
     selectorFallback: { some: '123' }
   });
@@ -15,7 +15,7 @@ test('createSelectors should return selectorFallback value for async Tile', () =
 
 test('createSelectors should select with nesting', () => {
   const { get } = createSelectors({
-    moduleName: 'myTile',
+    tileName: 'myTile',
     nesting: () => ['some', 'another']
   });
 
@@ -27,7 +27,7 @@ test('createSelectors should select with nesting', () => {
 
 test('createSelectors should correctly select with combining reducers', () => {
   const { get } = createSelectors({
-    moduleName: ['myTile', 'nested'],
+    tileName: ['myTile', 'nested'],
     nesting: () => ['some', 'another']
   });
 
@@ -39,7 +39,7 @@ test('createSelectors should correctly select with combining reducers', () => {
 
 test('createSelectors should select correctly with params as a function', () => {
   const { get } = createSelectors({
-    moduleName: ['myTile', 'nested'],
+    tileName: ['myTile', 'nested'],
     nesting: ({ id, type }) => [id, type],
   });
 
@@ -53,7 +53,7 @@ test('createSelectors should select correctly with params as a function', () => 
 
 test('createSelectors should select correctly return if value is not an undefined', () => {
   const { get } = createSelectors({
-    moduleName: ['myTile', 'nested'],
+    tileName: ['myTile', 'nested'],
     nesting: ({ id, type }) => [id, type],
   });
 

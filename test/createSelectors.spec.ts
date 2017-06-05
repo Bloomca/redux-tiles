@@ -1,5 +1,5 @@
 import { createSelectors, createTile } from '../src';
-import { changeDefaultReducer } from '../src/modules/selectors';
+import { changeDefaultReducer } from '../src/tiles/selectors';
 
 test('createSelectors should get data without namespace', () => {
   const module = createTile({

@@ -1,4 +1,4 @@
-import * as tileReducer from '../src/modules/reducer';
+import * as tileReducer from '../src/tiles/reducer';
 
 test('createReducer should not touch state if it is not for it\'s action', () => {
   const action = 'SOME_ACTION';

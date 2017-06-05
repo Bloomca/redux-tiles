@@ -7,7 +7,7 @@ function createActions(tiles) {
     // so if the request is already in progress,
     // we could still await it
     return helpers_1.iterate(tiles).reduce(function (hash, tile) {
-        helpers_1.populateHash(hash, tile.moduleName, tile.action);
+        helpers_1.populateHash(hash, tile.tileName, tile.action);
         return hash;
     }, {});
 }
@@ -34,7 +34,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = require("lodash");
 var redux_1 = require("redux");
 var helpers_1 = require("./helpers");
-var selectors_1 = require("./modules/selectors");
+var selectors_1 = require("./tiles/selectors");
 function createNestedReducers(value) {
     return redux_1.combineReducers(Object.keys(value).reduce(function (hash, key) {
         var elem = value[key];
@@ -49,14 +49,14 @@ function createReducers(modules, topReducer) {
         selectors_1.changeDefaultReducer(topReducer);
     }
     var nestedModules = helpers_1.iterate(modules).reduce(function (hash, module) {
-        helpers_1.populateHash(hash, module.moduleName, module.reducer);
+        helpers_1.populateHash(hash, module.tileName, module.reducer);
         return hash;
     }, {});
     return createNestedReducers(nestedModules);
 }
 exports.createReducers = createReducers;
 
-},{"./helpers":5,"./modules/selectors":11,"lodash":23,"redux":30}],4:[function(require,module,exports){
+},{"./helpers":5,"./tiles/selectors":11,"lodash":23,"redux":30}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = require("./helpers");
@@ -64,7 +64,7 @@ function createSelectors(tiles) {
     return helpers_1.iterate(tiles).reduce(function (hash, tile) {
         var selector = tile.selectors.get;
         selector.getAll = tile.selectors.getAll;
-        helpers_1.populateHash(hash, tile.moduleName, selector);
+        helpers_1.populateHash(hash, tile.tileName, selector);
         return hash;
     }, {});
 }
@@ -125,11 +125,11 @@ var createSelectors_1 = require("./createSelectors");
 exports.createSelectors = createSelectors_1.createSelectors;
 var middleware_1 = require("./middleware");
 exports.createMiddleware = middleware_1.createMiddleware;
-var modules_1 = require("./modules");
-exports.createSyncTile = modules_1.createSyncTile;
-exports.createTile = modules_1.createTile;
+var tiles_1 = require("./tiles");
+exports.createSyncTile = tiles_1.createSyncTile;
+exports.createTile = tiles_1.createTile;
 
-},{"./createActions":1,"./createEntities":2,"./createReducers":3,"./createSelectors":4,"./middleware":7,"./modules":9}],7:[function(require,module,exports){
+},{"./createActions":1,"./createEntities":2,"./createReducers":3,"./createSelectors":4,"./middleware":7,"./tiles":9}],7:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -302,7 +302,7 @@ function createTile(params) {
             error: null,
             data: selectorFallback
         },
-        moduleName: type,
+        tileName: type,
         nesting: nesting
     };
     var selectors = selectors_1.createSelectors(selectorParams);
@@ -337,7 +337,7 @@ function createTile(params) {
         _c[types.RESET] = initialState,
         _c);
     var reducer = reducer_1.createReducer(initialState, reducerObject);
-    return { action: action, reducer: reducer, selectors: selectors, moduleName: type, constants: types, reflect: params };
+    return { action: action, reducer: reducer, selectors: selectors, tileName: type, constants: types, reflect: params };
     var _c;
 }
 exports.createTile = createTile;
@@ -350,7 +350,7 @@ function createSyncTile(params) {
     };
     var selectorParams = {
         selectorFallback: selectorFallback,
-        moduleName: type,
+        tileName: type,
         nesting: nesting
     };
     var selectors = selectors_1.createSelectors(selectorParams);
@@ -368,7 +368,7 @@ function createSyncTile(params) {
         _c[types.RESET] = initialState,
         _c);
     var reducer = reducer_1.createReducer(initialState, reducerObject);
-    return { action: action, selectors: selectors, reducer: reducer, moduleName: type, constants: types, reflect: params };
+    return { action: action, selectors: selectors, reducer: reducer, tileName: type, constants: types, reflect: params };
     var _c;
 }
 exports.createSyncTile = createSyncTile;
@@ -465,17 +465,17 @@ function checkValue(result, defaultValue) {
  * @param  {Object} state – current redux state object
  * @param  {Any} params – argument with which action was dispatched
  * @param  {Function} nesting – function to create nested data inside store
- * @param  {String} moduleName – string to access module data
+ * @param  {String} tileName – string to access module data
  * @return {Object} – stored data
  */
 function lookup(_a) {
-    var state = _a.state, params = _a.params, nesting = _a.nesting, moduleName = _a.moduleName, selectorFallback = _a.selectorFallback;
+    var state = _a.state, params = _a.params, nesting = _a.nesting, tileName = _a.tileName, selectorFallback = _a.selectorFallback;
     var path = [];
     var topReducer = exports.DEFAULT_REDUCER;
     if (nesting) {
         path = nesting(params);
     }
-    var nestedNames = helpers_1.ensureArray(moduleName);
+    var nestedNames = helpers_1.ensureArray(tileName);
     var topReducerArray = Boolean(topReducer) ? [topReducer] : [];
     return checkValue(lodash_1.get(state, topReducerArray.concat(nestedNames, path)), selectorFallback);
 }
@@ -484,38 +484,38 @@ function lookup(_a) {
  * The single purpose is for readability, to throw sane error
  * @param  {Object} state – redux state
  * @param  {Any} params – argument with which action was dispatched
- * @param  {String} moduleName – string to access module data
+ * @param  {String} tileName – string to access module data
  * @param  {Function} fn – function to invoke if check was passed
  * @return {Any} – result of function invokation
  */
 function checkArguments(_a) {
-    var state = _a.state, params = _a.params, moduleName = _a.moduleName, fn = _a.fn;
+    var state = _a.state, params = _a.params, tileName = _a.tileName, fn = _a.fn;
     if (!state) {
-        throw new Error("\n      Error in Redux-Tiles Selector \u2013 you have to provide\n      state as a first argument!. Error in \"" + helpers_1.createType({ type: moduleName }) + "\" tile.");
+        throw new Error("\n      Error in Redux-Tiles Selector \u2013 you have to provide\n      state as a first argument!. Error in \"" + helpers_1.createType({ type: tileName }) + "\" tile.");
     }
     return fn(state, params);
 }
 /**
  * @overview function to create selectors for modules
- * @param  {String} moduleName – string to access module data
+ * @param  {String} tileName – string to access module data
  * @param  {Function} nesting – function to create nested data inside store
  * @return {Object} – object with selectors for all and specific data
  */
 function createSelectors(_a) {
-    var moduleName = _a.moduleName, nesting = _a.nesting, selectorFallback = _a.selectorFallback;
+    var tileName = _a.tileName, nesting = _a.nesting, selectorFallback = _a.selectorFallback;
     var getAll = function (state) {
         var topReducerArray = Boolean(exports.DEFAULT_REDUCER) ? [exports.DEFAULT_REDUCER] : [];
-        return checkValue(lodash_1.get(state, topReducerArray.concat(helpers_1.ensureArray(moduleName))));
+        return checkValue(lodash_1.get(state, topReducerArray.concat(helpers_1.ensureArray(tileName))));
     };
     var getSpecific = function (state, params) {
-        return lookup({ state: state, params: params, nesting: nesting, moduleName: moduleName, selectorFallback: selectorFallback });
+        return lookup({ state: state, params: params, nesting: nesting, tileName: tileName, selectorFallback: selectorFallback });
     };
     return {
         getAll: function (state) {
-            return checkArguments({ state: state, moduleName: moduleName, fn: getAll });
+            return checkArguments({ state: state, tileName: tileName, fn: getAll });
         },
         get: function (state, params) {
-            return checkArguments({ state: state, params: params, moduleName: moduleName, fn: getSpecific });
+            return checkArguments({ state: state, params: params, tileName: tileName, fn: getSpecific });
         }
     };
 }

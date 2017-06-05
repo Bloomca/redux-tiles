@@ -1,5 +1,5 @@
 import { Action, Dispatch, Middleware } from 'redux';
-import { IPromiseObject } from './modules/types';
+import { IPromiseObject } from './tiles/types';
 import { waitTiles } from './waitTiles';
 
 export function createMiddleware(paramsToInject: any = {}): { middleware: Middleware, waitTiles: Function} {

@@ -1,4 +1,4 @@
-import { IPromiseObject } from './modules/types';
+import { IPromiseObject } from './tiles/types';
 
 export function waitTiles(promisesStorage: IPromiseObject): Promise<any> {
   const promises: (Promise<any>|undefined)[] = Object

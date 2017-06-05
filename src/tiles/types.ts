@@ -6,7 +6,7 @@ export interface IOverloadedAction {
 }
 
 export interface ITile {
-  moduleName: string|string[];
+  tileName: string|string[];
   action: IOverloadedAction;
   reducer: Function;
   selectors: {
@@ -60,7 +60,7 @@ export interface IPromiseObject {
 }
 
 export interface ICreateSelectorsTypes {
-  moduleName: string|string[];
+  tileName: string|string[];
   nesting: ((params: any) => string[])|undefined;
   selectorFallback: any;
 }

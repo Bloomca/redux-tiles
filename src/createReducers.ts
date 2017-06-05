@@ -1,8 +1,8 @@
 import { isFunction, isString } from 'lodash';
 import { combineReducers, Reducer } from 'redux';
 import { iterate, populateHash } from './helpers';
-import { changeDefaultReducer, DEFAULT_REDUCER } from './modules/selectors';
-import { ITile } from './modules/types';
+import { changeDefaultReducer, DEFAULT_REDUCER } from './tiles/selectors';
+import { ITile } from './tiles/types';
 
 export function createNestedReducers(value: any): Reducer<any> {
   return combineReducers(Object.keys(value).reduce((hash: any, key: string) => {
@@ -19,7 +19,7 @@ export function createReducers(modules: ITile[], topReducer: string = DEFAULT_RE
   }
 
   const nestedModules: any = iterate(modules).reduce((hash: any, module: ITile) => {
-    populateHash(hash, module.moduleName, module.reducer);
+    populateHash(hash, module.tileName, module.reducer);
 
     return hash;
   }, {});

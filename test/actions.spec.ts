@@ -1,6 +1,6 @@
 import { spy, stub } from 'sinon';
-import { createTile } from '../src/modules';
-import { asyncAction, syncAction } from '../src/modules/actions';
+import { createTile } from '../src/tiles';
+import { asyncAction, syncAction } from '../src/tiles/actions';
 
 test('should create an action', () => {
   const tile = createTile({
