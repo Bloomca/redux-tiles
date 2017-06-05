@@ -94,7 +94,7 @@ test('createReducers should reset to initial state correctly after reset', () =>
   ]);
 
   const firstState = reducer({}, {
-    type: firstModule.constants.TYPE,
+    type: firstModule.constants.SET,
     payload: { data: 'some new info' }
   });
 

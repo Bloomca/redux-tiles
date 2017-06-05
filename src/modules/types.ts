@@ -50,7 +50,7 @@ export interface IAsyncActionTypes {
 }
 
 export interface ISyncActionTypes {
-  TYPE: string;
+  SET: string;
   fn: Function;
   nesting: ((params: any) => string[])|undefined;
 }

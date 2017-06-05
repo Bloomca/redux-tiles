@@ -91,8 +91,8 @@ export function createSyncTile(params: ISyncTileParams): ITile {
   const { type, nesting, fn = identity, initialState = {}, selectorFallback } = params;
   const identificator: string = createType({ type });
   const types: ITypes = {
-    TYPE: `${prefix}${identificator}type`,
-    RESET: `${prefix}${identificator}reset`
+    SET: `${prefix}${identificator}_SET`,
+    RESET: `${prefix}${identificator}_RESET`
   };
 
   const selectorParams: ICreateSelectorsTypes = {
@@ -103,11 +103,12 @@ export function createSyncTile(params: ISyncTileParams): ITile {
   const selectors: ISelectors = createSelectors(selectorParams);
 
   const actionParams: ISyncActionTypes = {
-    TYPE: types.TYPE,
+    SET: types.SET,
     nesting,
     fn
   };
   const action: IOverloadedAction = syncAction(actionParams);
+  action.reset = createResetAction({ type: types.RESET });
 
   const reducerObject: ReducerObject = {
     [types.TYPE]: (_storeState: {}, storeAction: IReducerAction): SyncData =>
@@ -115,8 +116,6 @@ export function createSyncTile(params: ISyncTileParams): ITile {
     [types.RESET]: initialState
   };
   const reducer: Reducer<any> = createReducer(initialState, reducerObject);
-
-  action.reset = createResetAction({ type: types.RESET });
 
   return { action, selectors, reducer, moduleName: type, constants: types, reflect: params };
 }

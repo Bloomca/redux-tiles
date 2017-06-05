@@ -96,12 +96,12 @@ export function createResetAction({ type }: { type: string }): Function {
   return handleMiddleware(({ dispatch }: { dispatch: Dispatch<any> }) => dispatch({ type }));
 }
 
-export function syncAction({ TYPE, fn, nesting }: ISyncActionTypes): FnResult {
+export function syncAction({ SET, fn, nesting }: ISyncActionTypes): FnResult {
   return handleMiddleware(({ dispatch, getState, ...middlewares }: any, params: any) => {
     const path: string[]|null = nesting ? nesting(params) : null;
 
     return dispatch({
-      type: TYPE,
+      type: SET,
       payload: {
         path,
         data: fn({ params, dispatch, getState, ...middlewares })

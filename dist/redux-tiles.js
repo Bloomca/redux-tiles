@@ -263,12 +263,12 @@ function createResetAction(_a) {
 }
 exports.createResetAction = createResetAction;
 function syncAction(_a) {
-    var TYPE = _a.TYPE, fn = _a.fn, nesting = _a.nesting;
+    var SET = _a.SET, fn = _a.fn, nesting = _a.nesting;
     return handleMiddleware(function (_a, params) {
         var dispatch = _a.dispatch, getState = _a.getState, middlewares = __rest(_a, ["dispatch", "getState"]);
         var path = nesting ? nesting(params) : null;
         return dispatch({
-            type: TYPE,
+            type: SET,
             payload: {
                 path: path,
                 data: fn(__assign({ params: params, dispatch: dispatch, getState: getState }, middlewares))
@@ -345,8 +345,8 @@ function createSyncTile(params) {
     var type = params.type, nesting = params.nesting, _a = params.fn, fn = _a === void 0 ? lodash_1.identity : _a, _b = params.initialState, initialState = _b === void 0 ? {} : _b, selectorFallback = params.selectorFallback;
     var identificator = helpers_1.createType({ type: type });
     var types = {
-        TYPE: "" + prefix + identificator + "type",
-        RESET: "" + prefix + identificator + "reset"
+        SET: "" + prefix + identificator + "_SET",
+        RESET: "" + prefix + identificator + "_RESET"
     };
     var selectorParams = {
         selectorFallback: selectorFallback,
@@ -355,11 +355,12 @@ function createSyncTile(params) {
     };
     var selectors = selectors_1.createSelectors(selectorParams);
     var actionParams = {
-        TYPE: types.TYPE,
+        SET: types.SET,
         nesting: nesting,
         fn: fn
     };
     var action = actions_1.syncAction(actionParams);
+    action.reset = actions_1.createResetAction({ type: types.RESET });
     var reducerObject = (_c = {},
         _c[types.TYPE] = function (_storeState, storeAction) {
             return storeAction.payload && storeAction.payload.data;
@@ -367,7 +368,6 @@ function createSyncTile(params) {
         _c[types.RESET] = initialState,
         _c);
     var reducer = reducer_1.createReducer(initialState, reducerObject);
-    action.reset = actions_1.createResetAction({ type: types.RESET });
     return { action: action, selectors: selectors, reducer: reducer, moduleName: type, constants: types, reflect: params };
     var _c;
 }
