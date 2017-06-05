@@ -1,40 +1,45 @@
 import { identity } from 'lodash';
+import { Reducer } from 'redux';
+import { createType } from '../helpers';
 import { asyncAction, createResetAction, syncAction } from './actions';
 import { createReducer } from './reducer';
 import { createSelectors } from './selectors';
-import { createType } from '../helpers';
 import {
-  AsyncActionTypes,
-  SyncActionTypes,
-  CreateSelectorsTypes,
-  TileParams,
-  SyncTileParams,
-  OverloadedAction,
-  Tile
+  IAsyncActionTypes,
+  ICreateSelectorsTypes,
+  IData,
+  IOverloadedAction,
+  ISelectors,
+  ISyncActionTypes,
+  ISyncTileParams,
+  ITile,
+  ITileParams,
+  ReducerObject,
+  SyncData
 } from './types';
 
-const prefix = 'Redux_Tiles_';
+const prefix: string = 'Redux_Tiles_';
 
-export interface Types {
-  [key:string]: string
+export interface ITypes {
+  [key: string]: string;
 }
 
-export interface ReducerAction {
-  payload: { data: any }|undefined,
-  error: string|Object|undefined|null
+export interface IReducerAction {
+  payload: { data: any }|undefined;
+  error: string|Object|undefined|null;
 }
 
-export function createTile(params: TileParams): Tile {
+export function createTile(params: ITileParams): ITile {
   const { type, fn, caching, initialState = {}, nesting, selectorFallback = null } = params;
-  const identificator = createType({ type });
-  const types: Types = {
+  const identificator: string = createType({ type });
+  const types: ITypes = {
     START: `${prefix}${identificator}_START`,
     SUCCESS: `${prefix}${identificator}_SUCCESS`,
     FAILURE: `${prefix}${identificator}_FAILURE`,
     RESET: `${prefix}${identificator}_RESET`
   };
 
-  const selectorParams: CreateSelectorsTypes = {
+  const selectorParams: ICreateSelectorsTypes = {
     selectorFallback: {
       isPending: false,
       error: null,
@@ -44,9 +49,9 @@ export function createTile(params: TileParams): Tile {
     nesting
   };
 
-  const selectors = createSelectors(selectorParams);
-  
-  const actionParams: AsyncActionTypes = {
+  const selectors: ISelectors = createSelectors(selectorParams);
+
+  const actionParams: IAsyncActionTypes = {
     START: types.START,
     SUCCESS: types.SUCCESS,
     FAILURE: types.FAILURE,
@@ -56,58 +61,61 @@ export function createTile(params: TileParams): Tile {
     nesting,
     selectors
   };
-  const action: OverloadedAction = asyncAction(actionParams);
+  const action: IOverloadedAction = asyncAction(actionParams);
   action.reset = createResetAction({ type: types.RESET });
 
-  const reducer = createReducer(initialState, {
+  const reducerObject: ReducerObject = {
     [types.START]: {
       data: null,
       isPending: true,
       error: null
     },
-    [types.ERROR]: (_storeState: any, storeAction: ReducerAction) => ({
+    [types.ERROR]: (_storeState: {}, storeAction: IReducerAction): IData => ({
       data: null,
       isPending: false,
       error: storeAction.error
     }),
-    [types.SUCCESS]: (_storeState: any, storeAction: ReducerAction) => ({
+    [types.SUCCESS]: (_storeState: {}, storeAction: IReducerAction): IData => ({
       error: null,
       isPending: false,
       data: storeAction.payload && storeAction.payload.data
     }),
     [types.RESET]: initialState
-  });
+  };
+  const reducer: Reducer<any> = createReducer(initialState, reducerObject);
 
   return { action, reducer, selectors, moduleName: type, constants: types, reflect: params };
 }
 
-export function createSyncTile(params: SyncTileParams): Tile {
+export function createSyncTile(params: ISyncTileParams): ITile {
   const { type, nesting, fn = identity, initialState = {}, selectorFallback } = params;
-  const identificator = createType({ type });
-  const types = {
+  const identificator: string = createType({ type });
+  const types: ITypes = {
     TYPE: `${prefix}${identificator}type`,
     RESET: `${prefix}${identificator}reset`
   };
 
-  const selectorParams: CreateSelectorsTypes = {
+  const selectorParams: ICreateSelectorsTypes = {
     selectorFallback,
     moduleName: type,
     nesting
   };
-  const selectors = createSelectors(selectorParams);
+  const selectors: ISelectors = createSelectors(selectorParams);
 
-  const action: OverloadedAction = syncAction({
+  const actionParams: ISyncActionTypes = {
     TYPE: types.TYPE,
     nesting,
     fn
-  } as SyncActionTypes);
+  };
+  const action: IOverloadedAction = syncAction(actionParams);
 
-  const reducer = createReducer(initialState, {
-    [types.TYPE]: (_storeState: any, storeAction: ReducerAction) =>
+  const reducerObject: ReducerObject = {
+    [types.TYPE]: (_storeState: {}, storeAction: IReducerAction): SyncData =>
       storeAction.payload && storeAction.payload.data,
     [types.RESET]: initialState
-  });
-  
+  };
+  const reducer: Reducer<any> = createReducer(initialState, reducerObject);
+
   action.reset = createResetAction({ type: types.RESET });
 
   return { action, selectors, reducer, moduleName: type, constants: types, reflect: params };

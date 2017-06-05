@@ -1,27 +1,22 @@
 {
+  "extends": "tslint-microsoft-contrib",
   "rules": {
-    "max-line-length": {
-      "options": [120]
-    },
-    "new-parens": true,
-    "no-arg": true,
-    "no-bitwise": true,
-    "no-conditional-assignment": true,
-    "no-consecutive-blank-lines": false,
-    "no-console": {
-      "options": [
-          "debug",
-          "info",
-          "log",
-          "time",
-          "timeEnd",
-          "trace"
-      ]
-    }
-  },
-  "jsRules": {
-    "max-line-length": {
-      "options": [120]
-    }
+    "no-any": false,
+    "missing-jsdoc": false,
+    "no-relative-imports": false,
+    "no-unused-variable": [true, {"ignore-pattern": "^_"}],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "allow-leading-underscore"
+    ],
+    "no-function-expression": false,
+    "no-reserved-keywords": false,
+    "prefer-type-cast": false,
+    "align": [
+      false
+    ],
+    "newline-before-return": false,
+    "export-name": false
   }
 }

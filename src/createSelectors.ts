@@ -1,12 +1,12 @@
 import { iterate, populateHash } from './helpers';
-import { Tile } from './modules/types';
+import { ITile } from './modules/types';
 
-export function createSelectors(modules: Tile[]|{ [key:string]: Tile }) {
-  return iterate(modules).reduce((hash, module: Tile) => {
-    const selector: any = module.selectors.get;
-    selector.getAll = module.selectors.getAll;
+export function createSelectors(tiles: ITile[]|{ [key: string]: ITile }): any {
+  return iterate(tiles).reduce((hash: any, tile: ITile) => {
+    const selector: any = tile.selectors.get;
+    selector.getAll = tile.selectors.getAll;
+    populateHash(hash, tile.moduleName, selector);
 
-    populateHash(hash, module.moduleName, selector);
     return hash;
   }, {});
 }

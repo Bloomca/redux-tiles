@@ -1,9 +1,9 @@
-import { PromiseObject } from './modules/types';
+import { IPromiseObject } from './modules/types';
 
-export function waitTiles(promisesStorage: PromiseObject) {
-  const promises = Object
+export function waitTiles(promisesStorage: IPromiseObject): Promise<any> {
+  const promises: (Promise<any>|undefined)[] = Object
     .keys(promisesStorage)
-    .map(key => promisesStorage[key])
+    .map((key: string) => promisesStorage[key])
     .filter(Boolean);
 
   return Promise.all(promises);

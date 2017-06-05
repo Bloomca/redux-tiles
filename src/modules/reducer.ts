@@ -1,5 +1,6 @@
-import { get, forEachRight, mapValues, isFunction } from 'lodash';
-import { Action } from 'redux';
+import { forEachRight, get, isFunction, mapValues } from 'lodash';
+import { Action, Reducer } from 'redux';
+import { ReducerObject } from './types';
 
 /**
  * @overview create reducer function from the object
@@ -8,9 +9,9 @@ import { Action } from 'redux';
  * reduce functions to change store as values
  * @return {Function} – function to act as a reducer
  */
-export function createReducerFromObject(initialState: any, handlers: { [key:string]: Function|Object }) {
-  return function reducer(state = initialState, action: any) {
-    const handler = handlers[action.type];
+export function createReducerFromObject(initialState: any, handlers: ReducerObject): Reducer<any> {
+  return function reducer(state: {} = initialState, action: Action): {} {
+    const handler: Function|{} = handlers[action.type];
 
     return typeof handler === 'function' ? handler(state, action) : state;
   };
@@ -23,10 +24,10 @@ export function createReducerFromObject(initialState: any, handlers: { [key:stri
  * newValues to set at store as values
  * @return {Function} – function to act as a reducer
  */
-export function createReducer(initialState: any, handlers: { [key:string]: Function|Object }) {
+export function createReducer(initialState: any, handlers: ReducerObject): Reducer<any> {
   return createReducerFromObject(
     initialState,
-    mapValues(handlers, (value: any) => (state: any, action: Action) => reducerCreator({
+    mapValues(handlers, (value: any) => (state: any, action: Action): any => reducerCreator({
       state,
       action,
       newValue: isFunction(value) ? value(state, action) : value
@@ -41,26 +42,26 @@ export function createReducer(initialState: any, handlers: { [key:string]: Funct
  * @param  {Any} newValue – new value to set up in state in corresponding path
  * @return {Object} – changed reducer
  */
-export function reducerCreator({ action, state, newValue }: any) {
+export function reducerCreator({ action, state, newValue }: any): any {
   const { path } = action.payload;
 
-  const hasNoNestInStore = !path;
+  const hasNoNestInStore: boolean = !path;
   if (hasNoNestInStore) {
     return newValue;
   }
 
-  let result = {};
-  let lookupPath;
+  let result: any = {};
+  let lookupPath: string[];
 
   // index stays as it was in original array, so the first
   // element in the iteration has `i` of the last element!
   forEachRight(path, (el: string, i: number) => {
-    const isLastItem = i === path.length - 1;
-    const newNestedResult = {
+    const isLastItem: boolean = i === path.length - 1;
+    const newNestedResult: any = {
       [el]: isLastItem ? newValue : result
     };
     lookupPath = path.slice(0, i);
-    const oldState = get(state, lookupPath) || {};
+    const oldState: any = get(state, lookupPath) || {};
     result = {
       ...oldState,
       ...newNestedResult
