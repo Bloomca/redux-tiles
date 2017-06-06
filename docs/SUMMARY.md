@@ -6,5 +6,9 @@
   * [Comparison with other Solutions](./introduction/Comparison.md)
 
 * [API](./api/README.md)
-  * [CreateTile](./api/CreateTile.md)
-  * [CreateMiddleware](./api/CreateMiddleware)
+  * [createTile](./api/createTile.md)
+  * [createMiddleware](./api/createMiddleware)
+  * [createActions](./api/createActions.md)
+  * [createReducers](./api/createReducers.md)
+  * [createSelectors](./api/createSelectors.md)
+  * [createEntities](./api/createEntities.md)
