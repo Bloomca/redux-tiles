@@ -18,3 +18,24 @@ actions.user.data.get === userTile.action; // true
 ```
 
 This function is a pure sugar, but it is nice to have them nested exactly the same way it is in the `type` property.
+
+## Tiles parameter
+
+`createActions` takes a single parameter, `tiles`, and it can be an array or an object of tiles. The next structure is allowed:
+
+```javascript
+const userTiles = [userLogin, userData, userPreferences];
+const uiTiles = [notifications, popup];
+const arrayTiles = [
+  ...userTiles,
+  ...uiTiles
+];
+
+const objectTiles = {
+  userLogin,
+  userData,
+  userPreferences,
+  notifications,
+  popup
+};
+```

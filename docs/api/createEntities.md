@@ -25,3 +25,24 @@ const reducer = combineReducers({
   redux_tiles: reduxTileReducer,
 });
 ```
+
+## Tiles parameter
+
+`createActions` takes a single parameter, `tiles`, and it can be an array or an object of tiles. The next structure is allowed:
+
+```javascript
+const userTiles = [userLogin, userData, userPreferences];
+const uiTiles = [notifications, popup];
+const arrayTiles = [
+  ...userTiles,
+  ...uiTiles
+];
+
+const objectTiles = {
+  userLogin,
+  userData,
+  userPreferences,
+  notifications,
+  popup
+};
+```

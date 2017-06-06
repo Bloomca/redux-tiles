@@ -12,3 +12,24 @@ const reducer = createReducer(tiles, 'redux_tiles');
 ```
 
 One might ask, why we specify namespace here, if it affects only selectors? Well, we combine reducers, and we have to provide correct namespace, and therefore it is more correct to provide it here – here is a reason, not just a consequence, as in selectors.
+
+## Tiles parameter
+
+`createActions` takes a single parameter, `tiles`, and it can be an array or an object of tiles. The next structure is allowed:
+
+```javascript
+const userTiles = [userLogin, userData, userPreferences];
+const uiTiles = [notifications, popup];
+const arrayTiles = [
+  ...userTiles,
+  ...uiTiles
+];
+
+const objectTiles = {
+  userLogin,
+  userData,
+  userPreferences,
+  notifications,
+  popup
+};
+```

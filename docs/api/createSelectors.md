@@ -12,3 +12,24 @@ const selectors = createSelectors(tiles);
 ## Note on the top reducer
 
 If you integrate redux-tiles into existing project, or you have other, non-tiled reducers, you have to specify namespace in [createEntities](./createEntities.md) or [createReducers](./createReducers.md), so that selectors will try to get correct data.
+
+## Tiles parameter
+
+`createActions` takes a single parameter, `tiles`, and it can be an array or an object of tiles. The next structure is allowed:
+
+```javascript
+const userTiles = [userLogin, userData, userPreferences];
+const uiTiles = [notifications, popup];
+const arrayTiles = [
+  ...userTiles,
+  ...uiTiles
+];
+
+const objectTiles = {
+  userLogin,
+  userData,
+  userPreferences,
+  notifications,
+  popup
+};
+```
