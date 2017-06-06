@@ -1,6 +1,6 @@
 # TOC
 
-* [Read Me](../README.md)
+* [Read Me](./original_readme.md)
 
 * [Introduction](./introduction/README.md)
   * [Motivation](./introduction/Motivation.md)
