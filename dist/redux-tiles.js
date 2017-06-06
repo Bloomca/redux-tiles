@@ -96,7 +96,10 @@ exports.populateHash = populateHash;
 function iterate(tiles) {
     return lodash_1.isArray(tiles)
         ? tiles
-        : Object.keys(tiles).reduce(function (arr, values) { return arr.concat(values); }, []);
+        : Object.keys(tiles).reduce(function (arr, key) {
+            var values = tiles[key];
+            return arr.concat(values);
+        }, []);
 }
 exports.iterate = iterate;
 function capitalize(str, i) {
@@ -281,7 +284,6 @@ exports.syncAction = syncAction;
 },{"../helpers":5}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var lodash_1 = require("lodash");
 var helpers_1 = require("../helpers");
 var actions_1 = require("./actions");
 var reducer_1 = require("./reducer");
@@ -342,7 +344,7 @@ function createTile(params) {
 }
 exports.createTile = createTile;
 function createSyncTile(params) {
-    var type = params.type, nesting = params.nesting, _a = params.fn, fn = _a === void 0 ? lodash_1.identity : _a, _b = params.initialState, initialState = _b === void 0 ? {} : _b, selectorFallback = params.selectorFallback;
+    var type = params.type, nesting = params.nesting, _a = params.fn, fn = _a === void 0 ? function (fnParams) { return fnParams.params; } : _a, _b = params.initialState, initialState = _b === void 0 ? {} : _b, selectorFallback = params.selectorFallback;
     var identificator = helpers_1.createType({ type: type });
     var types = {
         SET: "" + prefix + identificator + "_SET",
@@ -373,7 +375,7 @@ function createSyncTile(params) {
 }
 exports.createSyncTile = createSyncTile;
 
-},{"../helpers":5,"./actions":8,"./reducer":10,"./selectors":11,"lodash":23}],10:[function(require,module,exports){
+},{"../helpers":5,"./actions":8,"./reducer":10,"./selectors":11}],10:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
