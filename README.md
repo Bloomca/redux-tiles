@@ -300,3 +300,6 @@ assert(tile.reflect === params); // true
 
 All suggestions or participating are welcome! Also, if you have any idea about improving API, or bringing some common functionality, don't hesitate, but please create an issue!
 
+## LICENSE
+
+MIT
