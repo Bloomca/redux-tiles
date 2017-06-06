@@ -1,4 +1,5 @@
 import { createTile, createSyncTile } from '../src';
+import { spy } from 'sinon';
 
 test('createTile should be able to reflect all passed info', () => {
   const params = {
@@ -72,4 +73,24 @@ test('createSyncTile should return overriden value if not in the state', () => {
   const data = syncTile.selectors.get({});
 
   expect(data).toEqual({ myProperty: true });
+});
+
+test('createSyncTile should return params if no function was given', () => {
+  const syncTile = createSyncTile({ type: 'some' });
+
+  const params = { some: 123 };
+  const dispatch = spy();
+  syncTile.action(params)({ dispatch });
+
+  const call = dispatch.getCall(0);
+  const arg = call.args[0];
+
+  const resultAction = {
+    type: syncTile.constants.SET,
+    payload: {
+      path: null,
+      data: params
+    }
+  };
+  expect(arg).toEqual(resultAction);
 });

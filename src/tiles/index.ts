@@ -1,4 +1,3 @@
-import { identity } from 'lodash';
 import { Reducer } from 'redux';
 import { createType } from '../helpers';
 import { asyncAction, createResetAction, syncAction } from './actions';
@@ -88,7 +87,7 @@ export function createTile(params: ITileParams): ITile {
 }
 
 export function createSyncTile(params: ISyncTileParams): ITile {
-  const { type, nesting, fn = identity, initialState = {}, selectorFallback } = params;
+  const { type, nesting, fn = (fnParams: any): any => fnParams.params, initialState = {}, selectorFallback } = params;
   const identificator: string = createType({ type });
   const types: ITypes = {
     SET: `${prefix}${identificator}_SET`,
