@@ -22,10 +22,13 @@ export function populateHash(hash: any, path: string[]|string, value: any): { [k
   return populateHash(hash[property], path.slice(1), value);
 }
 
-export function iterate(tiles: any[]|{ [key: string]: any}): any[] {
+export function iterate(tiles: any[]|{ [key: string]: any }): any[] {
   return isArray(tiles)
     ? tiles
-    : Object.keys(tiles).reduce((arr: any[], values: any) => arr.concat(values), []);
+    : Object.keys(tiles).reduce((arr: any[], key: string) => {
+      const values: any = (tiles as { [key: string]: any })[key];
+      return arr.concat(values);
+    }, []);
 }
 
 function capitalize(str: string, i: number): string {

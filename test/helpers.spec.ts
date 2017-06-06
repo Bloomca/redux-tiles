@@ -1,4 +1,14 @@
-import { populateHash } from '../src/helpers';
+import { iterate, populateHash } from '../src/helpers';
+
+test('iterate should correctly transform object to array', () => {
+  const tiles = {
+    tile1: 'first',
+    tile2: 'second'
+  };
+  const processedArray = iterate(tiles);
+  expect(processedArray.includes('first')).toBe(true);
+  expect(processedArray.includes('second')).toBe(true);
+});
 
 test('populateHash should create nested path', () => {
   const obj = {};
