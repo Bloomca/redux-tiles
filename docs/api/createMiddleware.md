@@ -21,7 +21,7 @@ const store = createStore(reducer, applyMiddleware(middleware));
 
 While some might argue that it is actually anti-pattern, I personally think that it is a good strategy – less dependencies, more consistent access to other parts of state and dispatching other actions.
 
-## WaitTiles function and server-side rendering
+## waitTiles function and server-side rendering
 
 Also, we get in returned object `waitTiles` function. What does it do? Well, this function gets active promises and waits for them – so if you dispatch 5 async modules, all of these promises will be collected by the middleware, and this function after invokation will wait for them. You can use it for server-side rendering – you do "dry-run" rendering first time, prefetching needed data in `componentWillMount`, then you await for `waitTiles()`, and after resolving render will give you markup with prefetched data!
 Remember, though, that you have to instantiate new store for each request, otherwise this storage will be for requests, which will create a mess.
