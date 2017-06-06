@@ -55,9 +55,6 @@ const userTile = createTile({
   // we will invoke with the second parameter `forceAsync: true`:
   // dispatch(actions.hn_api.user({ id: 'someID' }, { forceAsync: true }));
   caching: true,
-
-  // this value specifies which 
-  selectorFallback: { name: 'dummy' }
 });
 ```
 
