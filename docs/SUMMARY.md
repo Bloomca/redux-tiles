@@ -7,7 +7,7 @@
 
 * [API](./api/README.md)
   * [createTile](./api/createTile.md)
-  * [createMiddleware](./api/createMiddleware)
+  * [createMiddleware](./api/createMiddleware.md)
   * [createActions](./api/createActions.md)
   * [createReducers](./api/createReducers.md)
   * [createSelectors](./api/createSelectors.md)
