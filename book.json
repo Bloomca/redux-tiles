@@ -1,3 +1,5 @@
 {
-  "root": "./docs"
+  "root": "./docs",
+  "title": "Redux-Tiles documentation",
+  "author": "Seva Zaikov <seva.zaikov@gmail.com>"
 }
