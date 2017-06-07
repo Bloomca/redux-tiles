@@ -10,10 +10,15 @@ Redux is an awesome library to keep state management sane on scale. The problem,
 
 ## Installation
 
+To install latest stable version, run:
 ```shell
-yarn add redux-tiles
 npm install --save redux-tiles
 ```
+
+This package was built with the idea in mind, that people will use it usually using some bundling tool – [Webpack](https://webpack.js.org/), [Browserify](http://browserify.org/) or [Rollup](http://rollupjs.org/). The package itself is written in TypeScript, and therefore provides typings out of the box.
+
+If you for some reason don't use bundler, you can use UMD builds, which are located in [dist folder](https://unpkg.com/redux-tiles@0.4.7/dist/). Just include it in your page via `script` tag, and then you will have it under `window.ReduxTiles` global variable.
+
 
 ## TOC:
 
