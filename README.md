@@ -7,6 +7,8 @@ Redux is an awesome library to keep state management sane on scale. The problem,
 
 >**[More about rationale behind this library](http://blog.bloomca.me/2017/06/02/why-i-created-redux-tiles-library.html)**<br>
 >**[Examples](./examples)**
+> - [hacker news API](./examples/hacker-news-api)
+> - [calculator](./examples/calculator)
 
 ## Installation
 
