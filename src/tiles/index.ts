@@ -110,7 +110,7 @@ export function createSyncTile(params: ISyncTileParams): ITile {
   action.reset = createResetAction({ type: types.RESET });
 
   const reducerObject: ReducerObject = {
-    [types.TYPE]: (_storeState: {}, storeAction: IReducerAction): SyncData =>
+    [types.SET]: (_storeState: {}, storeAction: IReducerAction): SyncData =>
       storeAction.payload && storeAction.payload.data,
     [types.RESET]: initialState
   };
