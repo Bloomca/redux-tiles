@@ -16,3 +16,7 @@
   * [createReducers](./api/createReducers.md)
   * [createSelectors](./api/createSelectors.md)
   * [createEntities](./api/createEntities.md)
+
+* [Examples](./examples/README.md)
+  * [Calculator](./examples/calculator.md)
+  * [HackerNews API](./examples/hacker-news-api.md)
