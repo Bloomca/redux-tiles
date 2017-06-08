@@ -1,7 +1,7 @@
 {
-  "name": "hacker-news-api",
+  "name": "calculator-with-redux-tiles",
   "version": "1.0.0",
-  "description": "Example of building hacker news API with redux-tiles",
+  "description": "Example of building calculator redux modules with redux-tiles",
   "main": "index.js",
   "scripts": {
     "test": "jest"
@@ -9,21 +9,20 @@
   "keywords": [
     "redux-tiles",
     "redux",
-    "hn",
-    "hn",
-    "API",
-    "hacker-news",
-    "API"
+    "calculator",
+    "actions",
+    "reducer",
+    "selectors"
   ],
   "author": "Seva Zaikov <seva.zaikov@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "firebase": "^4.1.1",
     "redux": "^3.6.0",
     "redux-tiles": "^0.4.10"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "eslint": "^3.19.0",
     "jest": "^20.0.4"

@@ -1,4 +1,6 @@
 import app from '../index';
+// 10 second timeout – might take a whie!
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 test('wait Tiles should wait until we load all stories', async () => {
   app.store.dispatch(app.actions.hn_api.pages({ type: 'topstories' }));
