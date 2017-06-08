@@ -29,7 +29,18 @@ export interface IReducerAction {
 }
 
 export function createTile(params: ITileParams): ITile {
-  const { type, fn, caching, initialState = {}, nesting, selectorFallback = null } = params;
+  const {
+    type,
+    fn,
+    caching,
+    initialState = {
+      isPending: false,
+      error: null,
+      data: null
+    },
+    nesting,
+    selectorFallback = null
+  } = params;
   const identificator: string = createType({ type });
   const types: ITypes = {
     START: `${prefix}${identificator}_START`,

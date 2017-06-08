@@ -39,5 +39,30 @@ const chooseParams = createSyncTile({
   // same as in `createTile` – separate data, so they will stored inside
   // store independently
   nesting: ({ type }) => [type],
+
+  // initial state to put into reducer. If you store list of elements,
+  // and don't want to check whether type of data is array or object,
+  // use this property
+  initialState: [],
+});
+```
+
+## Example
+
+Let's create a tile for listing list of all notifications which were triggered. We won't remove them here for the sake of simplicity, but we can easily add it with filtering. 
+
+```javascript
+import { createSyncTile } from 'redux-tiles';
+
+const notificationsList = createSyncTile({
+  // to have nice nesting inside redux state
+  type: ['ui', 'notifications'],
+  // this is a sync function, but we can dispatch async actions inside as well
+  fn: ({ selectors, getState, params: newNotification }) => {
+    const currentList = selectors.ui.notifications(getState());
+    return currentList.concat(newNotification);
+  },
+  // to avoid checks which type data for module is right now
+  initialState: [],
 });
 ```
