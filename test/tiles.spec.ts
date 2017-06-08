@@ -1,4 +1,5 @@
-import { createTile, createSyncTile } from '../src';
+import { createTile, createSyncTile, createEntities, createMiddleware } from '../src';
+import { createStore, applyMiddleware } from 'redux';
 import { spy } from 'sinon';
 
 test('createTile should be able to reflect all passed info', () => {
@@ -93,4 +94,43 @@ test('createSyncTile should return params if no function was given', () => {
     }
   };
   expect(arg).toEqual(resultAction);
+});
+
+test('createSyncTile should update values after dispatching action correctly', () => {
+  const someTile = createSyncTile({ type: 'some' });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  store.dispatch(actions.some('some'));
+  const result = selectors.some(store.getState());
+  expect(result).toBe('some');
+});
+
+test('createTile should update values after dispatching action correctly', async () => {
+  const someTile = createTile({
+    type: 'some',
+    fn: () => Promise.resolve({ some: true }),
+  });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  await store.dispatch(actions.some('some'));
+  const result = selectors.some(store.getState());
+  expect(result).toEqual({ isPending: false, error: null, data: { some: true } });
+});
+
+test('createTile should update values after dispatching action with rejection correctly', async () => {
+  const someTile = createTile({
+    type: 'some',
+    fn: () => Promise.reject({ some: true }),
+  });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  await store.dispatch(actions.some('some'));
+  const result = selectors.some(store.getState());
+  expect(result).toEqual({ isPending: false, data: null, error: { some: true } });
 });
