@@ -3,12 +3,12 @@ import { createTile, createSyncTile } from 'redux-tiles';
 // we want to use `params` variable from `fn` as a returning value
 // so we can omit `fn` at all – it is a default behaviour!
 const currentValuesTile = createSyncTile({
-  type: ['calculator', 'currentValues'],
+  type: ['calculator', 'values', 'current'],
   initialState: { value: 10 }
 });
 
 const nextValuesTile = createSyncTile({
-  type: ['calculator', 'nextValues'],
+  type: ['calculator', 'values', 'next'],
 });
 
 // this is an api call tile
@@ -37,16 +37,16 @@ const calculateOffer = createTile({
   type: ['calculator', 'calculateOffer'],
   fn: async ({ params, dispatch, actions, selectors, getState }) => {
     // set nextValues
-    dispatch(actions.calculator.nextValues(params));
+    dispatch(actions.calculator.values.next(params));
     // calculate new offer
     await dispatch(actions.api.offer(params));
     // get next params, and if they are the same, change current
     // we have to do it, because another request might come, and
     // then we could introduce race condition
-    const nextValues = selectors.calculator.nextValues(getState());
+    const nextValues = selectors.calculator.values.next(getState());
     if (nextValues.value === params.value) {
       // after this dispatch we'll re-render offer
-      dispatch(actions.calculator.currentValues(params));
+      dispatch(actions.calculator.values.current(params));
     }
 
     // we don't really have to return anything; we just want to dispatch
