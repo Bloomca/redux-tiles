@@ -41,6 +41,7 @@ const userTile = createTile({
   // all passed middleware, and params – object with which dispatched
   // function was invoked
   // e.g. here: dispatch(actions.hn_api.user({ id: 'someID' }));
+  // result of the promise will be placed under `data` inside state
   fn: ({ api, params }) => api.get(`/api/user/${params.id}`),
   
   // nesting allows you to separate your data (first argument is params
