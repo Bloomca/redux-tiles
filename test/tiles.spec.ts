@@ -107,6 +107,19 @@ test('createSyncTile should update values after dispatching action correctly', (
   expect(result).toBe('some');
 });
 
+test('createTile should have correct default initial state', async () => {
+  const someTile = createTile({
+    type: 'some',
+    fn: () => Promise.resolve({ some: true }),
+  });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  const result = selectors.some(store.getState());
+  expect(result).toEqual({ isPending: false, error: null, data: null });
+});
+
 test('createTile should update values after dispatching action correctly', async () => {
   const someTile = createTile({
     type: 'some',
