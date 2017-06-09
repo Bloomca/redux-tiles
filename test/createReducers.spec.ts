@@ -50,7 +50,7 @@ test('createReducers should create no nesting by default', () => {
 
   expect(newState).toEqual({
     some: { data: null, isPending: true, error: null },
-    another: { data: null, isPending: false, error: null }
+    another: null,
   });
 });
 
@@ -119,8 +119,14 @@ test('createReducers should create correct nesting', () => {
     fn: () => Promise.resolve('more info'),
   });
 
+  const thirdModule = createTile({
+    type: ['another', 'withNesting'],
+    fn: () => Promise.resolve('more info'),
+    nesting: ({ id }) => [id],
+  });
+
   const reducer = createReducers([
-    firstModule, secondModule
+    firstModule, secondModule, thirdModule
   ]);
 
   const newState = reducer({}, {
@@ -133,7 +139,8 @@ test('createReducers should create correct nesting', () => {
       nesting: { data: null, isPending: true, error: null }
     },
     another: {
-      nesting: { data: null, isPending: false, error: null }
+      nesting: null,
+      withNesting: {}
     }
   });
 });
