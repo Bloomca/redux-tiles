@@ -55,15 +55,28 @@ const userTile = createTile({
   // downloaded, then it won't be downloaded again at all, unless
   // we will invoke with the second parameter `forceAsync: true`:
   // dispatch(actions.hn_api.user({ id: 'someID' }, { forceAsync: true }));
+  //
+  // also, it means that there will be only one simulatenous request
+  // other dispatches will return exactly the same promise
   caching: true,
 });
 ```
 
 ## Caching
 
-As it was already mentioned, you can set property `caching` to `true`, and it will make same requests to query only once, and after you will have to send an object with a key `forceAsync: true` as a second parameter to invoked function, to execute your function again.
+Asynchronous tiles support caching out of the box, you just have to set property `caching` to `true`. It will make two things happen – it won't invoke the same function if the data is already presented there, and also it will prevent the same function be invoked again in case it is already being processing (but dispatched action will return exactly the same promise, so you can safely await for it, and then query the state - it will be an updated value). The latter case is interesting – it basically means that we get rid of race conditions, and we are safe to query same endpoints in a declarative way, without worrying of several requests to same endpoints.
 
-But also there is another caching, which is enabled if you use [our middleware](./createMiddleware.md). It tracks all requests based on type of the module and nesting, and stores promises, and in case it was invoked again, it will simple wait existing promise, so you can await result without any additional requests. Because of that, you should be very careful on Node.js – please, instantiate store for each request, in case you want to dispatch some async requests.
+If you have already dispatched an action with enabled caching, and you want to invoke this action again, then you would have to send an object with a key `forceAsync: true` as a second parameter to invoked function:
+```js
+dispatch(actions.api.users({ id: 'someID' }, { forceAsync: true }));
+```
+
+Though the same promise thing might seem as a magical part, it is not! In order to make it work for each requests in Node.js, we keep this object inside middleware (so it belongs to the instance of a store), and it means that in order to make it work we have to use [redux-tiles' middleware](./createMiddleware.md), or pass `promisesStorage` object to [redux-thunk](https://github.com/gaearon/redux-thunk):
+```js
+applyMiddleware(thunk.withExtraArgument({ promisesStorage: {} }))
+```
+
+Redux-tiles' middleware will inject this object automatically. This object is also crucial for server-side rendering, in case we want to prefetch data – this object collects all requests (regardless of caching; it will just filter same actions if caching is enabled) and `waitTiles` will await all of them.
 
 ## Function
 
