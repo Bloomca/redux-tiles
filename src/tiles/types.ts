@@ -2,7 +2,7 @@ export type ReducerObject = { [key: string]: Function|Object };
 
 export interface IOverloadedAction {
   (params?: any, additionalParams?: any): any;
-  reset?: Function;
+  [key: string]: any;
 }
 
 export interface ITile {
@@ -31,6 +31,7 @@ export interface ITileParams {
 export interface ISyncTileParams {
   type: string|string[];
   fn?: Function;
+  fns?: { [key: string]: (params?: any, additionalParams?: any) => any };
   nesting?: ((params: any) => string[])|undefined;
   initialState?: any;
   selectorFallback?: any;
