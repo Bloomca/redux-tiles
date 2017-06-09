@@ -39,11 +39,7 @@ export const itemsByPageTile = createTile({
     const end = offset + pageSize;
     const ids = data.slice(offset, end);
     await dispatch(actions.hn_api.items({ ids }));
-    return ids.map(id => {
-      const data = selectors.hn_api.item(getState(), { id });
-
-      return data;
-    });
+    return ids.map(id => selectors.hn_api.item(getState(), { id }).data);
   },
   // we can safely nest them this way, and be sure that individual items will be cached
   // so, changing number of items on the page might not even require a single new request
