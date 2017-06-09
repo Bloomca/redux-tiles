@@ -24,6 +24,21 @@ test('action should detect thunk middleware', () => {
   expect(fn.calledWith({ dispatch, getState, params })).toBe(true);
 });
 
+test('action should detect thunk middleware with additional params', () => {
+  const fn = stub().returns(Promise.resolve());
+  const tile = createTile({
+    type: 'Some',
+    fn
+  });
+
+  const dispatch = () => {};
+  const getState = () => {};
+  const params = {};
+  const additionalParams = { some: true };
+  tile.action(params)(dispatch, getState, additionalParams);
+  expect(fn.calledWith({ dispatch, getState, params, some: true })).toBe(true);
+});
+
 test('action should detect our middleware', () => {
   const fn = stub().returns(Promise.resolve());
   const tile = createTile({

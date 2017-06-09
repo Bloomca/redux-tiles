@@ -51,10 +51,13 @@ export function asyncAction({
     const path: string[]|null = nesting ? nesting(params) : null;
 
     const getIdentificator: string = createType({ type, path });
-    const activePromise: Promise<any>|undefined = promisesStorage[getIdentificator];
 
-    if (activePromise) {
-      return activePromise;
+    if (caching) {
+      const activePromise: Promise<any>|undefined = promisesStorage[getIdentificator];
+
+      if (activePromise) {
+        return activePromise;
+      }
     }
 
     if (caching && !forceAsync) {
@@ -70,10 +73,7 @@ export function asyncAction({
       payload: { path }
     });
 
-    const promise: Promise<any> = fn({ params, dispatch, getState, ...middlewares });
-    promisesStorage[getIdentificator] = promise;
-
-    return promise
+    const promise: Promise<any> = fn({ params, dispatch, getState, ...middlewares })
       .then((data: any) => {
         dispatch({
           type: SUCCESS,
@@ -89,6 +89,10 @@ export function asyncAction({
         });
         promisesStorage[getIdentificator] = undefined;
       });
+
+    promisesStorage[getIdentificator] = promise;
+
+    return promise;
   });
 }
 

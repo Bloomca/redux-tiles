@@ -1,5 +1,6 @@
 import { createTile, createSyncTile, createEntities, createMiddleware } from '../src';
 import { createStore, applyMiddleware } from 'redux';
+import { sleep } from 'delounce';
 import { spy } from 'sinon';
 
 test('createTile should be able to reflect all passed info', () => {
@@ -146,4 +147,42 @@ test('createTile should update values after dispatching action with rejection co
   await store.dispatch(actions.some('some'));
   const result = selectors.some(store.getState());
   expect(result).toEqual({ isPending: false, data: null, error: { some: true } });
+});
+
+test('createTile should keep only one active request if caching', async () => {
+  const someTile = createTile({
+    type: 'some',
+    caching: true,
+    fn: async () => {
+      await sleep(10);
+
+      return { some: true };
+    }
+  });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  const promise1 = store.dispatch(actions.some('some'));
+  const promise2 = store.dispatch(actions.some('some'));
+  expect(promise1).toBe(promise2);
+});
+
+test('createTile should keep different requests if caching', async () => {
+  const someTile = createTile({
+    type: 'some',
+    caching: true,
+    fn: async () => {
+      await sleep(10);
+
+      return { some: true };
+    }
+  });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  const promise1 = store.dispatch(actions.some('some'));
+  const promise2 = store.dispatch(actions.some('some'));
+  expect(promise1).toBe(promise2);
 });
