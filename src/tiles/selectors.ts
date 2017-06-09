@@ -9,7 +9,7 @@ export function changeDefaultReducer(newReducer: string): void {
 }
 
 function checkValue(result: any, defaultValue?: any): {} {
-  return result === undefined ? defaultValue : result;
+  return result === undefined || result === null ? defaultValue : result;
 }
 
 interface ILookupParams {

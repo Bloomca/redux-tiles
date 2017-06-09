@@ -1,5 +1,5 @@
 import { spy, stub } from 'sinon';
-import { createTile } from '../src/tiles';
+import { createTile, createSyncTile } from '../src/tiles';
 import { asyncAction, syncAction } from '../src/tiles/actions';
 
 test('should create an action', () => {
@@ -220,4 +220,33 @@ test('async Action should invoke action with different params', async () => {
   await Promise.all([promise1, promise2]);
 
   expect(action.calledTwice).toBe(true);
+});
+
+test('createSyncTile should attach all functions from fns to action', () => {
+  const tile = createSyncTile({
+    type: ['some'],
+    fns: {
+      add: () => {},
+    }
+  });
+
+  expect(tile.action.add).toBeInstanceOf(Function);
+});
+
+test('createSyncTile should execute functions from fns correctly', () => {
+  const tile = createSyncTile({
+    type: ['some'],
+    fns: {
+      add: ({ params }) => params,
+    }
+  });
+
+  const dispatch = spy();
+  const middlewares = { dispatch };
+  const params = { some: 123 };
+  tile.action.add(params)(middlewares);
+
+  const arg = dispatch.getCall(0).args[0];
+
+  expect(arg.payload.data).toBe(params);
 });

@@ -19,8 +19,7 @@ npm install --save redux-tiles
 
 This package was built with the idea in mind, that people will use it usually using some bundling tool – [Webpack](https://webpack.js.org/), [Browserify](http://browserify.org/) or [Rollup](http://rollupjs.org/). The package itself is written in TypeScript, and therefore provides typings out of the box.
 
-If you for some reason don't use bundler, you can use UMD builds, which are located in [dist folder](https://unpkg.com/redux-tiles@0.4.7/dist/). Just include it in your page via `script` tag, and then you will have it under `window.ReduxTiles` global variable.
-
+If you for some reason don't use bundler, you can use UMD builds, which are located in [dist folder](https://unpkg.com/redux-tiles@0.6.0/dist/). Just include it in your page via `script` tag, and then you will have it under `window.ReduxTiles` global variable.
 
 ## TOC:
 
@@ -93,13 +92,13 @@ It is better to see in a small example:
 import { createTile, createEntities, createMiddleware } from 'redux-tiles';
 import { createStore, applyMiddleware } from 'redux';
 
-const firstTile = createTile({
+const clientDataTile = createTile({
   type: ['client', 'data'],
   fn: ({ api, params}) => api.get('/client/info'),
 });
 
 const tiles = [
-  firstTile,
+  clientDataTile,
 ];
 
 const { actions, reducer, selectors } = createEntities(tiles);
@@ -261,8 +260,6 @@ res.send(renderApplication(req));
 ```
 
 There is also a package [delounce](https://github.com/Bloomca/delounce), from where you can get `limit` function, which will render the application if requests are taking too long.
-
-Examples are coming soon!
 
 ## Selectors
 
