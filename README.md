@@ -3,13 +3,16 @@
 [![Build Status](https://travis-ci.org/Bloomca/redux-tiles.svg?branch=master)](https://travis-ci.org/Bloomca/redux-tiles)
 [![npm version](https://badge.fury.io/js/redux-tiles.svg)](https://badge.fury.io/js/redux-tiles)
 
-Redux is an awesome library to keep state management sane on scale. The problem, though, is that it is toooo verbose, and often you'd feel like you are doing literally the same thing again and again. This library tries to provide minimal abstraction on top of Redux, to allow easy composability, easy async requests, and sane testability.
+**[Documentation](https://bloomca.github.io/redux-tiles/)**
 
+Redux is an awesome library to keep state management sane on scale. The problem, though, is that it is toooo verbose, and often you'd feel like you are doing literally the same thing again and again. This library tries to provide minimal abstraction on top of Redux, to allow easy composability, easy async requests, and sane testability.
 >**[More about rationale behind this library](http://blog.bloomca.me/2017/06/02/why-i-created-redux-tiles-library.html)**<br>
+>
 >**[Examples](./examples)**
-> - [calculator](./examples/calculator)
-> - [hacker news API](./examples/hacker-news-api)
-> - [github API](./examples/github-api)
+> * [Calculator](./examples/calculator)
+> * [TodoMVC](./examples/todomvc)
+> * [Hacker News API](./examples/hacker-news-api)
+> * [Github API](./examples/github-api)
 
 ## Installation
 
@@ -35,6 +38,8 @@ If you for some reason don't use bundler, you can use UMD builds, which are loca
 - [Tests](#user-content-tests)
 
 ## Example of use
+
+> [More comprehensive example](https://bloomca.github.io/redux-tiles/introduction/Example.html)
 
 ```javascript
 import { createTile, createSyncTile } from 'redux-tiles';
@@ -121,7 +126,7 @@ createStore(reducer, applyMiddleware(middleware));
 
 Tiles are the heart of this library. They are intended to be very easy to use, compose and to test.
 There are two types of tiles – asynchronous and synchronous. Modern applications are very dynamic, so async ones will be likely used more often. Also, don't constrain yourself into the mindset that async tiles are only for API communication – it might be anything, which involves some asynchronous interaction (as well as composing other tiles) – for instance, long polling implementation.
-
+> [Full documentation for async tiles](https://bloomca.github.io/redux-tiles/api/createTile.html)
 ```javascript
 import { createTile } from 'redux-tiles';
 
@@ -162,6 +167,8 @@ const photos = createTile({
 ```
 
 We also sometimes want to keep some sync info (e.g. list of notifications), or we want to store some numbers for calculator, or active filters ([todoMVC](http://todomvc.com/) is a good example of a lot of synchronous operations). In this situation we will use `createSyncTile`, which has no meta data like `isPending` or `error`, but keeps all returned data from a function directly in state.
+
+> [Full documentation for sync tiles](https://bloomca.github.io/redux-tiles/api/createSyncTile.html)
 
 ```javascript
 import { createSyncTile } from 'redux-tiles';
@@ -256,6 +263,7 @@ const infoTile = createTile({
 
 In order to use this library, you have to apply middleware, which will handle functions returned from dispatched actions. Very basic one is provided by this package:
 
+> [Full documentation for middleware](https://bloomca.github.io/redux-tiles/api/createMiddleware.html)
 ```javascript
 import { createMiddleware } from 'redux-tiles';
 
