@@ -78,7 +78,7 @@ console.log(JSON.stringify(store.getState(), null, 2));
       terms: {
         isPending: false,
         data: {
-          url: 'some',
+          url: 'https://example.com/terms.pdf',
           size: 512
         },
         error: null,
