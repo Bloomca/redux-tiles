@@ -77,6 +77,46 @@ export const itemsByPageTile = createTile({
 
 The last tile contains main business logic for our application, but it does not contain any direct api request, so if in the future response for some endpoint will change, or we will have to do different requests to get the same data, we can change it only inside these small tiles (parsing data or dispatching other small tiles).
 
+Let's put it together now – we will need to create all entities, and then redux store with reducer and middleware.
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import { createEntities, createMiddleware } from 'redux-tiles';
+
+const tiles = [
+  storiesTile,
+  itemTile,
+  itemsTile,
+  itemsByPageTile
+];
+
+// we create store only from redux-tiles, so we don't have to specify
+// second argument, which is a namespace in the store
+const { actions, reducer, selectors } = createEntities(tiles);
+
+// we will need `waitTiles` later to wait for all requests
+const { middleware, waitTiles } = createMiddleware({ api, actions, selectors });
+
+const store = createStore(
+  reducer,
+  applyMiddleware(middleware)
+);
+```
+
+And now we can download our front page with top stories!
+
+```javascript
+// download first page of topstories
+store.dispatch(actions.hn_api.pages({ type: 'topstories' }));
+
+// wait all requests – here it is just a single one
+await app.waitTiles();
+
+// let's check that we downloaded 30 stories
+const { data } = app.selectors.hn_api.pages(store.getState(), { type: 'topstories' });
+assert(data.length, 30); // will be true!
+```
+
 ## Links to implementation
 
 - [complete code](https://github.com/Bloomca/redux-tiles/tree/master/examples/hacker-news-api)

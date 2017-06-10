@@ -70,6 +70,66 @@ const calculateOffer = createTile({
 });
 ```
 
+Now let's put everything together and create a store:
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import { createEntities, createMiddleware } from 'redux-tiles';
+
+const tiles = [
+  currentValuesTile,
+  nextValuesTile,
+  calculateOfferRequest,
+  calculateOffer
+];
+
+// we create store only from redux-tiles, so we don't have to specify
+// second argument, which is a namespace in the store
+const { actions, reducer, selectors } = createEntities(tiles);
+const { middleware, waitTiles } = createMiddleware({ api, actions, selectors });
+
+const store = createStore(
+  reducer,
+  applyMiddleware(middleware)
+);
+```
+
+Now let's execute our code, in situation close to real. We'll dispatch one offer request, and then, after some time, another. Along the code we will look into current state:
+
+```javascript
+import { sleep } from 'delounce';
+
+// 10, because we stated it in our initialState!
+const { value } = selectors.calculator.values.current(store.getState()); 
+
+// let's assume this request will take 200ms
+store.dispatch(actions.calculator.calculateOffer({ value: 15 }));
+
+await sleep(150);
+
+// still 10, because only 150ms passed
+const { value } = selectors.calculator.values.current(store.getState());
+
+// 15, because calculateOffer changed it immediately
+const { value } = selectors.calculator.values.next(store.getState());
+
+// again, 200ms
+store.dispatch(actions.calculator.calculateOffer({ value: 30 }));
+
+await sleep(150);
+
+// still 10, because old version was declined, and new has not arrived yet
+const { value } = selectors.calculator.values.current(store.getState());
+
+// 30, because calculateOffer changed it immediately
+const { value } = selectors.calculator.values.next(store.getState());
+
+await sleep(150);
+
+// finally 30, because we have not dispatched other offer calculations
+const { value } = selectors.calculator.values.current(store.getState());
+```
+
 ## Links to implementation
 
 - [complete code](https://github.com/Bloomca/redux-tiles/tree/master/examples/calculator)
