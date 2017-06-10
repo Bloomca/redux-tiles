@@ -4,3 +4,4 @@ These are examples of typical usage of redux-tiles. Please, be aware that none o
 
 - [Calculator](./calculator/calculator-tiles.js)
 - [HackerNews API](./hacker-news-api/hn-tiles.js)
+- [Github API](./github-api/github-tiles.js)
