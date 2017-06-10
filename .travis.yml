@@ -2,3 +2,5 @@ language: node_js
 node_js:
 - '6.10'
 script: npm run test
+after_success:
+  - cat ./coverage/lcov.info|./node_modules/coveralls/bin/coveralls.js
