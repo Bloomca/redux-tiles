@@ -7,8 +7,9 @@ Redux is an awesome library to keep state management sane on scale. The problem,
 
 >**[More about rationale behind this library](http://blog.bloomca.me/2017/06/02/why-i-created-redux-tiles-library.html)**<br>
 >**[Examples](./examples)**
-> - [hacker news API](./examples/hacker-news-api)
 > - [calculator](./examples/calculator)
+> - [hacker news API](./examples/hacker-news-api)
+> - [github API](./examples/github-api)
 
 ## Installation
 
@@ -19,7 +20,7 @@ npm install --save redux-tiles
 
 This package was built with the idea in mind, that people will use it usually using some bundling tool – [Webpack](https://webpack.js.org/), [Browserify](http://browserify.org/) or [Rollup](http://rollupjs.org/). The package itself is written in TypeScript, and therefore provides typings out of the box.
 
-If you for some reason don't use bundler, you can use UMD builds, which are located in [dist folder](https://unpkg.com/redux-tiles@0.6.0/dist/). Just include it in your page via `script` tag, and then you will have it under `window.ReduxTiles` global variable.
+If you for some reason don't use bundler, you can use UMD builds, which are located in [dist folder](https://unpkg.com/redux-tiles@0.6.1/dist/). Just include it in your page via `script` tag, and then you will have it under `window.ReduxTiles` global variable.
 
 ## TOC:
 
@@ -52,13 +53,19 @@ const loginStatus = createSyncTile({
 // to compose different requests
 const authRequest = createTile({
   type: ['user', 'authRequest'],
-  fn: ({ params, api, dispatch, actions }) => api.post('/login', params),
+  // we have access to dispatch, actions, selectors, etc –
+  // we can pass all what we need when creating middleware
+  // it allows us to test easier, and also compose other tiles
+  fn: ({ params, api, dispatch, actions, getState }) =>
+    api.post('/login', params),
 });
 
 // actual business logic
+// note that we don't use direct `api` calls here
+// we just compose other basic tiles
 const authUser = createTile({
   type: ['user', 'auth'],
-  fn: async ({ params, api, dispatch, actions, selectors, getState }) => {
+  fn: async ({ params, dispatch, actions, selectors, getState }) => {
     // login user
     await dispatch(actions.tiles.user.authRequest(params));
     
@@ -102,6 +109,9 @@ const tiles = [
 ];
 
 const { actions, reducer, selectors } = createEntities(tiles);
+
+// we inject `actions` and `selectors` into middleware, so they
+// will be available inside `fn` function of all tiles
 const { middleware } = createMiddleware({ actions, selectors });
 
 createStore(reducer, applyMiddleware(middleware));
@@ -110,7 +120,7 @@ createStore(reducer, applyMiddleware(middleware));
 ## Tiles API
 
 Tiles are the heart of this library. They are intended to be very easy to use, compose and to test.
-There are two types of tiles – asynchronous and synchronous. Modern applications are very dynamic, so async ones will be likely used more often.
+There are two types of tiles – asynchronous and synchronous. Modern applications are very dynamic, so async ones will be likely used more often. Also, don't constrain yourself into the mindset that async tiles are only for API communication – it might be anything, which involves some asynchronous interaction (as well as composing other tiles) – for instance, long polling implementation.
 
 ```javascript
 import { createTile } from 'redux-tiles';
@@ -151,7 +161,7 @@ const photos = createTile({
 });
 ```
 
-We also sometimes want to keep some sync info (e.g. list of notifications), or we want to store some numbers 
+We also sometimes want to keep some sync info (e.g. list of notifications), or we want to store some numbers for calculator, or active filters ([todoMVC](http://todomvc.com/) is a good example of a lot of synchronous operations). In this situation we will use `createSyncTile`, which has no meta data like `isPending` or `error`, but keeps all returned data from a function directly in state.
 
 ```javascript
 import { createSyncTile } from 'redux-tiles';
@@ -171,7 +181,32 @@ const notifications = createSyncTile({
       data: processData(params.data),
     };
   },
-  
+
+  // alternatively, if you perform some actions on existing data,
+  // it might be useful to write more declarative actions
+  // they have exactly the same signature and dispatch returned data
+  // to the tile
+  fns: {
+    add: ({ params, selectors, getState}) => {
+      const currentData = selectors.notifications(getState(), params);
+
+      return {
+        ...currentData,
+        data: currentData.concat(params.data),
+      };
+    },
+  },
+
+  // you can pass initial state to sync tile
+  // please, be careful with it! if you use nesting, then
+  // you have to specify nested items (otherwise selectors will
+  // return undefined for your nested item)
+  initialState: {
+    terms: {
+      type: 'terms',
+      data: []
+    },
+  },
   
   // nesting works the same way
   nesting: ({ type }) => [type],
@@ -201,8 +236,18 @@ const infoTile = createTile({
   type: ['info', 'storage'],
   
   // params here and in nesting are the same object
-  fn: ({ params, api }) => api.get('/storage', params),
+  fn: ({ params: { quantity, id }, api }) => api.get('/storage', { quantity, id }),
   
+  // in the state they will be kept with the following structure:
+  // {
+  //   someId: {
+  //     5: {
+  //       isPending: true,
+  //       data: null,
+  //       error: null,
+  //     },
+  //   },
+  // }
   nesting: ({ quantity, id }) => [id, quantity],
 });
 ```
@@ -231,11 +276,13 @@ const { middleware, waitTiles } = createMiddleware({ actions, selectors, api });
 applyMiddleware(middleware);
 ```
 
-Also, [redux-thunk](https://github.com/gaearon/redux-thunk) is supported, but with it you can't provide your own properties. There is nothing bad to just import actions and selectors on top of the files, but then testing might require much more mocking, which can make your tests more brittle.
+Also, [redux-thunk](https://github.com/gaearon/redux-thunk) is supported, and in order to pass your own properties you should [inject this object to redux-thunk](https://github.com/gaearon/redux-thunk#injecting-a-custom-argument). Also, there is nothing bad to just import actions and selectors on top of the files, but then testing might require much more mocking, which can make your tests more brittle.
 
 ## Server-side Rendering
 
 Redux-tiles support requests on the server side. In order to do that correctly, you are supposed to create actions for each request in Node.js. Redux-Tiles has caching for async requests (and keeps them inside middleware, so they are not shared between different user requests) – it keeps list of all active promises, so you might accidentaly share this part of the memory with other users!
+
+Also, to make this part of functionality working, you have to use redux-tiles middleware, or pass `promisesStorage` object to redux-thunk additional object (more in [caching section in docs](https://bloomca.github.io/redux-tiles/api/createTile.html#caching)).
 
 ```javascript
 import { createMiddleware, createEntities } from 'redux-tiles';
