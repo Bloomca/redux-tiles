@@ -17,6 +17,9 @@
   * [createSelectors](./api/createSelectors.md)
   * [createEntities](./api/createEntities.md)
 
+* [Advanced](./advanced/README.md)
+  * [Integration with existing project](./advanced/integration.md)
+
 * [Examples](./examples/README.md)
   * [Calculator](./examples/calculator.md)
   * [HackerNews API](./examples/hacker-news-api.md)
