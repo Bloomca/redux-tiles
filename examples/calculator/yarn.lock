@@ -2281,9 +2281,9 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
-redux-tiles@^0.4.10:
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/redux-tiles/-/redux-tiles-0.4.10.tgz#e80fd832a736a4c52ecbc991ea8d9918d09e71b1"
+redux-tiles@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/redux-tiles/-/redux-tiles-0.6.1.tgz#a1675a481557109d274d85ffc5030e7312118a46"
   dependencies:
     lodash "^4.17.4"
     redux "^3.6.0"

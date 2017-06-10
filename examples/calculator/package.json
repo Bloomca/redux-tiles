@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "redux": "^3.6.0",
-    "redux-tiles": "^0.4.10"
+    "redux-tiles": "^0.6.1"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
