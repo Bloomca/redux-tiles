@@ -33,3 +33,5 @@ const objectTiles = {
   popup
 };
 ```
+
+To learn more about actual selector functions, please read [advanced guide](../advanced/selectors.md). It addresses questions like why do we need such functions and how to use them.

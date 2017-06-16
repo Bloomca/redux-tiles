@@ -178,3 +178,8 @@ const {
 ```
 
 In fact, you likely won't need to get any of those data from a tile, because there are utilities to combine all of them together, but it is helpful for understanding, that under the hood all components are presented.
+
+## More information
+
+* [Nesting](../advanced/nesting.md)
+* [Selectors](../advanced/selectors.md)

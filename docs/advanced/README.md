@@ -6,3 +6,4 @@ These topics are not necessarily advanced, but they definitely are not so import
 
 * [Integration with existing project](./integration.md)
 * [Nesting](./nesting.md)
+* [Selectors](./selectors.md)

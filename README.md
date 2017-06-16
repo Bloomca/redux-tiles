@@ -325,6 +325,8 @@ There is also a package [delounce](https://github.com/Bloomca/delounce), from wh
 
 ## Selectors
 
+> [Full documentation on selectors](https://bloomca.github.io/redux-tiles/advanced/selectors.html)
+
 All tiles provide selectors. After you've collected all tiles, invoke `createSelectors` function with possible change of default namespace, and after you can just use it based on the passed type:
 
 ```javascript

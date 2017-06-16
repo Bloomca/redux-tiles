@@ -112,3 +112,8 @@ export const todosTile = createSyncTile({
   initialState: [],
 });
 ```
+
+## More information
+
+* [Nesting](../advanced/nesting.md)
+* [Selectors](../advanced/selectors.md)

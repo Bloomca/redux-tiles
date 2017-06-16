@@ -20,6 +20,7 @@
 * [Advanced](./advanced/README.md)
   * [Integration with existing project](./advanced/integration.md)
   * [Nesting](./advanced/nesting.md)
+  * [Selectors](./advanced/selectors.md)
 
 * [Examples](./examples/README.md)
   * [Calculator](./examples/calculator.md)
