@@ -5,3 +5,4 @@ These topics are not necessarily advanced, but they definitely are not so import
 ## TOC
 
 * [Integration with existing project](./integration.md)
+* [Nesting](./nesting.md)
