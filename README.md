@@ -225,6 +225,8 @@ const notifications = createSyncTile({
 
 ## Nesting
 
+> [Full documentation on nesting](https://bloomca.github.io/redux-tiles/advanced/nesting.html)
+
 Very often we have to separate some info, and with canonical redux we have to write something like this:
 ```javascript
 case ACTION.SOME_CONSTANT:
@@ -290,6 +292,8 @@ applyMiddleware(middleware);
 Also, [redux-thunk](https://github.com/gaearon/redux-thunk) is supported, and in order to pass your own properties you should [inject this object to redux-thunk](https://github.com/gaearon/redux-thunk#injecting-a-custom-argument). Also, there is nothing bad to just import actions and selectors on top of the files, but then testing might require much more mocking, which can make your tests more brittle.
 
 ## Server-side Rendering
+
+> [Article about SSR with prefetch](http://blog.bloomca.me/2017/06/11/server-side-rendering-with-prefetch.html)
 
 Redux-tiles support requests on the server side. In order to do that correctly, you are supposed to create actions for each request in Node.js. Redux-Tiles has caching for async requests (and keeps them inside middleware, so they are not shared between different user requests) – it keeps list of all active promises, so you might accidentaly share this part of the memory with other users!
 
