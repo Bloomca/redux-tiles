@@ -49,6 +49,7 @@ test('waitTiles should wait until all promises will be resolved in storage',  as
         data: { success: true },
         isPending: false,
         error: null,
+        fetched: true,
       },
     },
     second: {
@@ -56,6 +57,7 @@ test('waitTiles should wait until all promises will be resolved in storage',  as
         data: { data: 'some' },
         isPending: false,
         error: null,
+        fetched: true,
       },
     },
   });
@@ -84,6 +86,7 @@ test('waitTiles should wait until all promises will be resolved in storage',  as
         data: { success: true },
         isPending: false,
         error: null,
+        fetched: true,
       },
     },
     second_tile: {
@@ -91,6 +94,7 @@ test('waitTiles should wait until all promises will be resolved in storage',  as
         data: { data: 'some' },
         isPending: false,
         error: null,
+        fetched: true,
       },
     },
   });

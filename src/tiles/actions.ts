@@ -27,11 +27,25 @@ function proccessMiddleware(args: any[]): IProcessedMiddleware {
   throw new Error('Redux-Tiles expects own middleware, or redux-thunk');
 }
 
-function shouldBeFetched({ getState, selectors, params }: any): boolean {
-  const { isPending, data, error } = selectors.get(getState(), params);
+export function shouldBeFetched({ getState, selectors, params }: any): boolean {
+  const { isPending, fetched, error } = selectors.get(getState(), params);
 
-  // == intentionally to check on empty objects
-  return error == null && data == null && isPending !== true;
+  // if it is pending, then we have to wait anyway
+  if (isPending) {
+    return false;
+  }
+
+  // in case it was not fetched yet, we have to fetch it for the first time
+  if (fetched === false) {
+    return true;
+  }
+
+  // and if error is not null or undefined, we have to re-fetch it again
+  if (error != null) {
+    return true;
+  }
+
+  return false;
 }
 
 function handleMiddleware(fn: Function): FnResult {

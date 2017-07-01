@@ -32,7 +32,7 @@ test('createTile should return default value if not in the state', () => {
 
   const data = syncTile.selectors.get({});
 
-  expect(data).toEqual({ data: null, error: null, isPending: false });
+  expect(data).toEqual({ data: null, error: null, isPending: false, fetched: false });
 });
 
 test('createTile should return overriden value if not in the state', () => {
@@ -45,7 +45,7 @@ test('createTile should return overriden value if not in the state', () => {
 
   const data = tile.selectors.get({});
 
-  expect(data).toEqual({ isPending: false, error: null, data: { myProperty: true } });
+  expect(data).toEqual({ isPending: false, error: null, data: { myProperty: true }, fetched: false });
 });
 
 test('createTile should create new state if error', () => {
@@ -61,7 +61,7 @@ test('createTile should create new state if error', () => {
     error: new Error('some')
   };
   const newState: {} = someTile.reducer({}, action);
-  expect(newState).toEqual({ isPending: false, error, data: null });
+  expect(newState).toEqual({ isPending: false, error, data: null, fetched: true, });
 });
 
 test('createSyncTile should return overriden value if not in the state', () => {
@@ -118,7 +118,7 @@ test('createTile should have correct default initial state', async () => {
   const { middleware } = createMiddleware();
   const store = createStore(reducer, applyMiddleware(middleware));
   const result = selectors.some(store.getState());
-  expect(result).toEqual({ isPending: false, error: null, data: null });
+  expect(result).toEqual({ isPending: false, error: null, data: null, fetched: false });
 });
 
 test('createTile should update values after dispatching action correctly', async () => {
@@ -132,7 +132,7 @@ test('createTile should update values after dispatching action correctly', async
   const store = createStore(reducer, applyMiddleware(middleware));
   await store.dispatch(actions.some('some'));
   const result = selectors.some(store.getState());
-  expect(result).toEqual({ isPending: false, error: null, data: { some: true } });
+  expect(result).toEqual({ isPending: false, error: null, data: { some: true }, fetched: true });
 });
 
 test('createTile should update values after dispatching action with rejection correctly', async () => {
@@ -146,7 +146,7 @@ test('createTile should update values after dispatching action with rejection co
   const store = createStore(reducer, applyMiddleware(middleware));
   await store.dispatch(actions.some('some'));
   const result = selectors.some(store.getState());
-  expect(result).toEqual({ isPending: false, data: null, error: { some: true } });
+  expect(result).toEqual({ isPending: false, data: null, error: { some: true }, fetched: true });
 });
 
 test('createTile should keep only one active request if caching', async () => {
