@@ -70,6 +70,7 @@ export interface IData {
   isPending: boolean;
   error: any;
   data: any;
+  fetched: boolean;
 }
 
 export type SyncData = any;

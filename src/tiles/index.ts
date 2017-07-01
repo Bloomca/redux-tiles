@@ -52,7 +52,8 @@ export function createTile(params: ITileParams): ITile {
     selectorFallback: {
       isPending: false,
       error: null,
-      data: selectorFallback
+      data: selectorFallback,
+      fetched: false,
     },
     tileName: type,
     nesting
@@ -77,17 +78,20 @@ export function createTile(params: ITileParams): ITile {
     [types.START]: {
       data: null,
       isPending: true,
-      error: null
+      error: null,
+      fetched: false,
     },
     [types.FAILURE]: (_storeState: {}, storeAction: IReducerAction): IData => ({
       data: null,
       isPending: false,
-      error: storeAction.error
+      error: storeAction.error,
+      fetched: true,
     }),
     [types.SUCCESS]: (_storeState: {}, storeAction: IReducerAction): IData => ({
       error: null,
       isPending: false,
-      data: storeAction.payload && storeAction.payload.data
+      data: storeAction.payload && storeAction.payload.data,
+      fetched: true,
     }),
     [types.RESET]: initialState
   };

@@ -127,7 +127,7 @@ test('asyncAction should\'t invoke dispatch if is loading with caching', async (
     type: 'some',
     START, FAILURE, SUCCESS,
     selectors: {
-      get: () => ({ isPending: true }),
+      get: () => ({ isPending: true, error: null, fetched: false }),
     },
     fn: () => Promise.resolve(13),
     caching: true
