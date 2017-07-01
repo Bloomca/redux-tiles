@@ -27,7 +27,7 @@
     "docs:prepare": "gitbook install",
     "docs:build": "yarn run docs:prepare && gitbook build -g bloomca/redux-tiles",
     "docs:watch": "gitbook serve",
-    "docs:publish": "yarn run docs:clean && yarn run docs:build && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:bloomca/redux-tiles gh-pages --force",
+    "docs:publish": "yarn run docs:clean && yarn run docs:build && cp CNAME _book && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:bloomca/redux-tiles gh-pages --force",
     "test": "jest",
     "test:watch": "jest --watch"
   },
