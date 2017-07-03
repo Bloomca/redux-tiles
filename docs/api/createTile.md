@@ -16,12 +16,13 @@ The default data structure, which keeps data inside (and will be returned if we 
 ```javascript
 {
   isPending: false, // true while your async function performing some actions
+  fetched: true, // true in case the result was fetched, either with success or failure
   data: { yourData: ... }, // data resolved from the promise, returned by your function
   error: null, // will be the error which was thrown from your function
 }
 ```
 
-You can't affect this structure at all – your data will go either to `data` field, or either to `error` in case of throwing an error. By this contract you can be sure inside your components the interface, so there is no way to have `isLoading`, `isPending`, `isUpdating` and so on – whatever seems more semantic for each use-case. Yes, it is not that elegant, but much more consistent; same argument for `data` field.
+You can't affect this structure at all – your data will go either to `data` field, or either to `error` in case of throwing an error. `fetched` field allows you to keep falsy values inside `data`, so you can return from `fn` without problems. By this contract you can be sure inside your components the interface, so there is no way to have `isLoading`, `isPending`, `isUpdating` and so on – whatever seems more semantic for each use-case. Yes, it is not that elegant, but much more consistent; same argument for `data` field.
 
 ## API to create new tile
 
@@ -46,9 +47,8 @@ const userTile = createTile({
   
   // nesting allows you to separate your data (first argument is params
   // from fn). It means that all requests will have their own isPending,
-  // data and error, as well as caching
-  // it is an optional parameter
-  // arbitrary nesting is supported
+  // fetched, data and error, as well as caching
+  // it is an optional parameter, arbitrary nesting is supported
   nesting: ({ id }) => [id],
 
   // this is an aggressive caching for specific item – if it was

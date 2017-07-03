@@ -41,6 +41,7 @@ export const reducer = (state, action) => {
         ...state,
         [action.payload.id]: {
           isPending: true,
+          fetched: false,
           error: null,
           data: null,
         },
@@ -50,6 +51,8 @@ export const reducer = (state, action) => {
         ...state,
         [action.payload.id]: {
           isPending: false,
+          // note that fetched is true, despite error!
+          fetched: true,
           error: action.error,
           data: null,
         },
@@ -59,6 +62,7 @@ export const reducer = (state, action) => {
         ...state,
         [actions.payload.id]: {
           isPending: false,
+          fetched: true,
           error: null,
           data: action.payload.data,
         },

@@ -62,8 +62,8 @@ const store = createStore(reducer, applyMiddleware(middleware));
 // single responsibility – fetch documents and show notifications
 store.dispatch(actions.documents.fetchWithNotification({ type: 'terms' }));
 
-// this function will wait all dispatched actions, which can be used in
-// server-side rendering
+// this function will wait all dispatched actions, which can be helpful in
+// server-side rendering, to wait all requests
 await waitTiles();
 // let's dispatch another notification, to take a look 
 store.dispatch(actions.ui.notifications({ type: 'agreement', data: 'Our agreement!' }));
@@ -77,6 +77,7 @@ console.log(JSON.stringify(store.getState(), null, 2));
     api: {
       terms: {
         isPending: false,
+        fetched: true,
         data: {
           url: 'https://example.com/terms.pdf',
           size: 512
@@ -87,6 +88,7 @@ console.log(JSON.stringify(store.getState(), null, 2));
     fetchWithNotification: {
       terms: {
         isPending: false,
+        fetched: true,
         data: { ourData: 'some' },
         error: null,
       },

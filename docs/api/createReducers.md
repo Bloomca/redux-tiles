@@ -22,7 +22,7 @@ const userTiles = [userLogin, userData, userPreferences];
 const uiTiles = [notifications, popup];
 const arrayTiles = [
   ...userTiles,
-  ...uiTiles
+  ...uiTiles,
 ];
 
 const objectTiles = {
@@ -30,6 +30,6 @@ const objectTiles = {
   userData,
   userPreferences,
   notifications,
-  popup
+  popup,
 };
 ```

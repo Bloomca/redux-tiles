@@ -64,12 +64,15 @@ Selectors have the same nesting structure, as actions, so a tile wth type `['som
 ```js
 {
   isPending: false,
+  fetched: false,
   data: null,
   error: null,
 }
 ```
 
-There is no default value for sync tiles, because we don't have any metadata there, and we are able to keep there anything (except `undefined`, as it is not accepted by redux store); so selectors for it solve only access to nested properties and reducer namespace problem.
+There is no default value for sync tiles, because we don't have any metadata there, and we are able to keep there anything (except `undefined`, as it is not accepted by redux store); so selectors for it solve only access to nested properties and reducer namespace problem. If you want to pass default value to sync tile, use `initialState` property.
+
+Also, you can keep anything as `data` in async tile, even `null` or `undefined` – `fetched` field allows you to check whether request was proceed or not.
 
 Your typical code using [connect](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) will look like the following:
 
@@ -84,9 +87,10 @@ const mapStateToProps = (state, { params: { id } } => ({
 const mapStateToProps = state => ({
   // in case of missing value will be
   // {
-  //   isPending: ...
-  //   error: ...
-  //   data: ...
+  //   isPending: false,
+  //   fetched: false,
+  //   error: null,
+  //   data: null,
   // }
   item: selectors.api.item(state, { id }),
 });
@@ -101,6 +105,7 @@ As it was mentioned previously, by default tile without nesting sets it's value 
 ```js
 {
   isPending: false,
+  fetched: false,
   data: null,
   error: null,
 }
