@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Bloomca/redux-tiles/badge.svg?branch=master)](https://coveralls.io/github/Bloomca/redux-tiles?branch=master)
 [![dependencies Status](https://david-dm.org/bloomca/redux-tiles/status.svg)](https://david-dm.org/bloomca/redux-tiles)
 
-**[Documentation](https://bloomca.github.io/redux-tiles/)**
+**[Documentation](https://redux-tiles.js.org/)**
 
 Redux is an awesome library to keep state management sane on scale. The problem, though, is that it is toooo verbose, and often you'd feel like you are doing literally the same thing again and again. This library tries to provide minimal abstraction on top of Redux, to allow easy composability, easy async requests, and sane testability.
 It is possible to start using this library [in existing project](https://bloomca.github.io/redux-tiles/advanced/integration.html), adding new functionality gradually.
@@ -42,7 +42,7 @@ If you for some reason don't use bundler, you can use UMD builds, which are loca
 
 ## Example of use
 
-> [More comprehensive example](https://bloomca.github.io/redux-tiles/introduction/Example.html)
+> [More comprehensive example](https://redux-tiles.js.org/introduction/Example.html)
 
 ```javascript
 import { createTile, createSyncTile } from 'redux-tiles';
@@ -129,7 +129,7 @@ createStore(reducer, applyMiddleware(middleware));
 
 Tiles are the heart of this library. They are intended to be very easy to use, compose and to test.
 There are two types of tiles – asynchronous and synchronous. Modern applications are very dynamic, so async ones will be likely used more often. Also, don't constrain yourself into the mindset that async tiles are only for API communication – it might be anything, which involves some asynchronous interaction (as well as composing other tiles) – for instance, long polling implementation.
-> [Full documentation for async tiles](https://bloomca.github.io/redux-tiles/api/createTile.html)
+> [Full documentation for async tiles](https://redux-tiles.js.org/api/createTile.html)
 ```javascript
 import { createTile } from 'redux-tiles';
 
@@ -153,6 +153,7 @@ const photos = createTile({
   // { 5:
   //    10: {
   //      isPending: true,
+  //      fetched: false,
   //      data: null,
   //      error: null,
   //   },
@@ -169,9 +170,9 @@ const photos = createTile({
 });
 ```
 
-We also sometimes want to keep some sync info (e.g. list of notifications), or we want to store some numbers for calculator, or active filters ([todoMVC](http://todomvc.com/) is a good example of a lot of synchronous operations). In this situation we will use `createSyncTile`, which has no meta data like `isPending` or `error`, but keeps all returned data from a function directly in state.
+We also sometimes want to keep some sync info (e.g. list of notifications), or we want to store some numbers for calculator, or active filters ([todoMVC](http://todomvc.com/) is a good example of a lot of synchronous operations). In this situation we will use `createSyncTile`, which has no meta data like `isPending`, `error` or `fetched`, but keeps all returned data from a function directly in state.
 
-> [Full documentation for sync tiles](https://bloomca.github.io/redux-tiles/api/createSyncTile.html)
+> [Full documentation for sync tiles](https://redux-tiles.js.org/api/createSyncTile.html)
 
 ```javascript
 import { createSyncTile } from 'redux-tiles';
@@ -225,7 +226,7 @@ const notifications = createSyncTile({
 
 ## Nesting
 
-> [Full documentation on nesting](https://bloomca.github.io/redux-tiles/advanced/nesting.html)
+> [Full documentation on nesting](https://redux-tiles.js.org/advanced/nesting.html)
 
 Very often we have to separate some info, and with canonical redux we have to write something like this:
 ```javascript
@@ -255,6 +256,7 @@ const infoTile = createTile({
   //   someId: {
   //     5: {
   //       isPending: true,
+  //       fetched: false,
   //       data: null,
   //       error: null,
   //     },
@@ -268,7 +270,7 @@ const infoTile = createTile({
 
 In order to use this library, you have to apply middleware, which will handle functions returned from dispatched actions. Very basic one is provided by this package:
 
-> [Full documentation for middleware](https://bloomca.github.io/redux-tiles/api/createMiddleware.html)
+> [Full documentation for middleware](https://redux-tiles.js.org/api/createMiddleware.html)
 ```javascript
 import { createMiddleware } from 'redux-tiles';
 
@@ -297,7 +299,7 @@ Also, [redux-thunk](https://github.com/gaearon/redux-thunk) is supported, and in
 
 Redux-tiles support requests on the server side. In order to do that correctly, you are supposed to create actions for each request in Node.js. Redux-Tiles has caching for async requests (and keeps them inside middleware, so they are not shared between different user requests) – it keeps list of all active promises, so you might accidentaly share this part of the memory with other users!
 
-Also, to make this part of functionality working, you have to use redux-tiles middleware, or pass `promisesStorage` object to redux-thunk additional object (more in [caching section in docs](https://bloomca.github.io/redux-tiles/api/createTile.html#caching)).
+Also, to make this part of functionality working, you have to use redux-tiles middleware, or pass `promisesStorage` object to redux-thunk additional object (more in [caching section in docs](https://redux-tiles.js.org/api/createTile.html#caching)).
 
 ```javascript
 import { createMiddleware, createEntities } from 'redux-tiles';
@@ -325,7 +327,7 @@ There is also a package [delounce](https://github.com/Bloomca/delounce), from wh
 
 ## Selectors
 
-> [Full documentation on selectors](https://bloomca.github.io/redux-tiles/advanced/selectors.html)
+> [Full documentation on selectors](https://redux-tiles.js.org/advanced/selectors.html)
 
 All tiles provide selectors. After you've collected all tiles, invoke `createSelectors` function with possible change of default namespace, and after you can just use it based on the passed type:
 
@@ -344,7 +346,7 @@ const selectors = createSelectors(tiles);
 
 // second argument is params with which you dispatch action – it will get data
 // for corresponding nesting
-const { isPending, data, error } = selectors.user.auth(state, { id: '456' });
+const { isPending, fetched, data, error } = selectors.user.auth(state, { id: '456' });
 ```
 
 ## Tests
@@ -366,7 +368,8 @@ assert(tile.reflect === params); // true
 
 ## Contributing
 
-All suggestions or participating are welcome! Also, if you have any idea about improving API, or bringing some common functionality, don't hesitate, but please create an issue!
+All suggestions or participating are welcome! If you have any idea about improving API, or bringing some common functionality, don't hesitate, but please create an issue.
+Also, in case you really think something is missing or wrong, please create an issue first, where we will discuss the problem and possible solutions, and then we can agree on implementation details.
 
 ## LICENSE
 
