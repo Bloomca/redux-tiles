@@ -4962,9 +4962,9 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-tiles@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/redux-tiles/-/redux-tiles-0.6.1.tgz#a1675a481557109d274d85ffc5030e7312118a46"
+redux-tiles@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/redux-tiles/-/redux-tiles-0.7.0.tgz#312f27db25036757a088bedb196f2c505d9ae0e4"
   dependencies:
     lodash "^4.17.4"
     redux "^3.6.0"

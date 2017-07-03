@@ -20,8 +20,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "firebase": "^4.1.1",
-    "redux": "^3.6.0",
-    "redux-tiles": "^0.6.1"
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
