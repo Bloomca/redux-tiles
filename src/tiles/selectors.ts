@@ -1,5 +1,5 @@
-import { get, isString } from 'lodash';
 import { createType, ensureArray } from '../helpers';
+import { get, isString } from '../utils';
 import { ICreateSelectorsTypes, IData, ISelectors, SyncData } from './types';
 
 export let DEFAULT_REDUCER: string = '';

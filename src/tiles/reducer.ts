@@ -1,5 +1,5 @@
-import { forEachRight, get, isFunction, mapValues } from 'lodash';
 import { Action, Reducer } from 'redux';
+import { get, isFunction, mapValues } from '../utils';
 import { ReducerObject } from './types';
 
 /**
@@ -53,9 +53,9 @@ export function reducerCreator({ action, state, newValue }: any): any {
   let result: any = {};
   let lookupPath: string[];
 
-  // index stays as it was in original array, so the first
-  // element in the iteration has `i` of the last element!
-  forEachRight(path, (el: string, i: number) => {
+  const length: number = path.length;
+  for (let i: number = length - 1; i >= 0; i = i - 1) {
+    const el: string = path[i];
     const isLastItem: boolean = i === path.length - 1;
     const newNestedResult: any = {
       [el]: isLastItem ? newValue : result
@@ -66,7 +66,7 @@ export function reducerCreator({ action, state, newValue }: any): any {
       ...oldState,
       ...newNestedResult
     };
-  });
+  }
 
   return {
     ...state,
