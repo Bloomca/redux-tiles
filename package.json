@@ -1,6 +1,6 @@
 {
   "name": "redux-tiles",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Library to create and easily compose redux pieces together in less verbose manner",
   "jsnext:main": "lib/es2015/index.js",
   "module": "lib/es2015/index.js",
@@ -53,10 +53,8 @@
   },
   "homepage": "https://github.com/Bloomca/redux-tiles#readme",
   "devDependencies": {
-    "@types/lodash": "^4.14.64",
     "@types/redux": "^3.6.0",
     "@types/sinon": "^2.2.2",
-    "babel-plugin-lodash": "^3.2.11",
     "babel-preset-es2015-rollup": "^3.0.0",
     "coveralls": "^2.13.1",
     "cross-env": "^5.0.0",
@@ -90,7 +88,6 @@
     ]
   },
   "dependencies": {
-    "lodash": "^4.17.4",
     "redux": "^3.6.0"
   }
 }
