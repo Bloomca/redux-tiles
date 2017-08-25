@@ -16,7 +16,6 @@ var config = {
     babel({
       exclude: 'node_modules/**',
       presets: 'es2015-rollup',
-      plugins: ['lodash']
     }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(env)

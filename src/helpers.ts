@@ -1,12 +1,12 @@
-import { isArray, isString } from 'lodash';
+import { isArray, isString } from './utils';
 
 export function ensureArray(value: string|string[]): string[] {
-  return isString(value) ? [value] : value;
+  return isString(value) ? [(value as string)] : (value as string[]);
 }
 
 export function populateHash(hash: any, path: string[]|string, value: any): { [key: string]: any } {
   if (isString(path)) {
-    return populateHash(hash, [path], value);
+    return populateHash(hash, [(path as string)], value);
   }
 
   if (path.length === 1) {
@@ -24,7 +24,7 @@ export function populateHash(hash: any, path: string[]|string, value: any): { [k
 
 export function iterate(tiles: any[]|{ [key: string]: any }): any[] {
   return isArray(tiles)
-    ? tiles
+    ? (tiles as any[])
     : Object.keys(tiles).reduce((arr: any[], key: string) => {
       const values: any = (tiles as { [key: string]: any })[key];
       return arr.concat(values);
