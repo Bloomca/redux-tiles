@@ -44,7 +44,7 @@ const fetchDocumentWithNotification = createTile({
     
     await sleep(params.timeout || 5000);
     // sending type without data we will close notification
-    dispatch(actions.ui.notifications({ type: params.type });
+    dispatch(actions.ui.notifications({ type: params.type }));
 
     return { ourData: 'some' };
   },
