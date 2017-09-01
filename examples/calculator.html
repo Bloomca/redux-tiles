@@ -1,0 +1,644 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Calculator · Redux-Tiles documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="author" content="Seva Zaikov <seva.zaikov@gmail.com>">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="hacker-news-api.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../original_readme.html">
+            
+                <a href="../original_readme.html">
+            
+                    
+                    Read Me
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../introduction/">
+            
+                <a href="../introduction/">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../introduction/Motivation.html">
+            
+                <a href="../introduction/Motivation.html">
+            
+                    
+                    Motivation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../introduction/Boilerplate.html">
+            
+                <a href="../introduction/Boilerplate.html">
+            
+                    
+                    Redux Boilerplate Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../introduction/Comparison.html">
+            
+                <a href="../introduction/Comparison.html">
+            
+                    
+                    Comparison with other Solutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../introduction/Example.html">
+            
+                <a href="../introduction/Example.html">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../api/createTile.html">
+            
+                <a href="../api/createTile.html">
+            
+                    
+                    createTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../api/createSyncTile.html">
+            
+                <a href="../api/createSyncTile.html">
+            
+                    
+                    createSyncTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../api/createMiddleware.html">
+            
+                <a href="../api/createMiddleware.html">
+            
+                    
+                    createMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../api/createActions.html">
+            
+                <a href="../api/createActions.html">
+            
+                    
+                    createActions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../api/createReducers.html">
+            
+                <a href="../api/createReducers.html">
+            
+                    
+                    createReducers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../api/createSelectors.html">
+            
+                <a href="../api/createSelectors.html">
+            
+                    
+                    createSelectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../api/createEntities.html">
+            
+                <a href="../api/createEntities.html">
+            
+                    
+                    createEntities
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../advanced/">
+            
+                <a href="../advanced/">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../advanced/integration.html">
+            
+                <a href="../advanced/integration.html">
+            
+                    
+                    Integration with existing project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../advanced/nesting.html">
+            
+                <a href="../advanced/nesting.html">
+            
+                    
+                    Nesting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../advanced/selectors.html">
+            
+                <a href="../advanced/selectors.html">
+            
+                    
+                    Selectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Examples
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.6.1" data-path="calculator.html">
+            
+                <a href="calculator.html">
+            
+                    
+                    Calculator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="hacker-news-api.html">
+            
+                <a href="hacker-news-api.html">
+            
+                    
+                    HackerNews API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Calculator</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="calculator-example">Calculator example</h1>
+<p>Let&apos;s build a calculator &#x2013; we want to fetch offers based on value, but we want to display only calculated value, so while new offer is being calculated, we should show the latest calculated.</p>
+<p>We&apos;ll need to store two sets of data &#x2013; current value and next value. Both of these are sync, and they don&apos;t really need any fancy stuff inside them:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createSyncTile } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+
+<span class="hljs-keyword">const</span> currentValuesTile = createSyncTile({
+  type: [<span class="hljs-string">&apos;calculator&apos;</span>, <span class="hljs-string">&apos;values&apos;</span>, <span class="hljs-string">&apos;current&apos;</span>],
+  initialState: { value: <span class="hljs-number">10</span> }
+});
+
+<span class="hljs-keyword">const</span> nextValuesTile = createSyncTile({
+  type: [<span class="hljs-string">&apos;calculator&apos;</span>, <span class="hljs-string">&apos;values&apos;</span>, <span class="hljs-string">&apos;next&apos;</span>],
+});
+</code></pre>
+<p>Note that we did not specify <code>fn</code> property &#x2013; because we want params with which we invoke function, to be passed to the state, we don&apos;t have to specify it at all! So, default function looks like that:</p>
+<pre><code class="lang-javascript">fn: ({ params }) =&gt; params
+</code></pre>
+<p>Next, we have to create an API call. The goal of redux-tiles library is to provide composable way to write less verbose Redux code, so we should try to atomize all actions, so this call will be responsible only for this single api request:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> calculateOfferRequest = createTile({
+  type: [<span class="hljs-string">&apos;api&apos;</span>, <span class="hljs-string">&apos;offer&apos;</span>],
+  fn: ({ api, params }) =&gt; api.get(<span class="hljs-string">&apos;/offer&apos;</span>, params),
+  <span class="hljs-comment">// nesting can be more complicated, than just list of params</span>
+  nesting: ({ value }) =&gt; {
+    <span class="hljs-keyword">if</span> (!value) {
+      <span class="hljs-keyword">return</span> [<span class="hljs-string">&apos;default&apos;</span>];
+    }
+
+    <span class="hljs-keyword">return</span> [value];
+  },
+  caching: <span class="hljs-literal">true</span>,
+});
+</code></pre>
+<p>So, function is pretty simple, but we also add nesting, so we process many requests simultaneously (and no race conditions could be introduced here), and also, as calculator usually makes a lot of requests, it makes sense to cache them.
+Nesting here is a little bit trickier than just returning list of arguments &#x2013; in fact, you don&apos;t have to return even arrrays of the same length! Don&apos;t be afrad to use <code>default</code> values, selectors use the same <code>nesting</code> function to calculate path, so it will be resolved correctly.</p>
+<p>And now, after we created all auxiliary tiles, we can create main business logic tile. It will accept new parameters for calculator, set them as next values, then perform api requests by dispatching <code>calculateOfferRequest</code> tile, and after, if next values are still the same, we set them as current values (we don&apos;t want to create junky change of offer details):</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> calculateOffer = createTile({
+  type: [<span class="hljs-string">&apos;calculator&apos;</span>, <span class="hljs-string">&apos;calculateOffer&apos;</span>],
+  fn: <span class="hljs-keyword">async</span> ({ params, dispatch, actions, selectors, getState }) =&gt; {
+    <span class="hljs-comment">// set nextValues</span>
+    dispatch(actions.calculator.values.next(params));
+    <span class="hljs-comment">// calculate new offer</span>
+    <span class="hljs-keyword">await</span> dispatch(actions.api.offer(params));
+    <span class="hljs-comment">// get next params, and if they are the same, change current</span>
+    <span class="hljs-comment">// we have to do it, because another request might come, and</span>
+    <span class="hljs-comment">// then we could introduce race condition</span>
+    <span class="hljs-keyword">const</span> nextValues = selectors.calculator.values.next(getState());
+    <span class="hljs-keyword">if</span> (nextValues.value === params.value) {
+      <span class="hljs-comment">// after this dispatch we&apos;ll re-render offer</span>
+      dispatch(actions.calculator.values.current(params));
+    }
+
+    <span class="hljs-comment">// we don&apos;t really have to return anything; we just want to dispatch</span>
+    <span class="hljs-comment">// actions from this tile</span>
+    <span class="hljs-comment">// but if you want, it is possible to add meaningful resolving params</span>
+    <span class="hljs-comment">// and nesting for separation</span>
+  },
+});
+</code></pre>
+<p>Now let&apos;s put everything together and create a store:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createStore, applyMiddleware } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux&apos;</span>;
+<span class="hljs-keyword">import</span> { createEntities, createMiddleware } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+
+<span class="hljs-keyword">const</span> tiles = [
+  currentValuesTile,
+  nextValuesTile,
+  calculateOfferRequest,
+  calculateOffer
+];
+
+<span class="hljs-comment">// we create store only from redux-tiles, so we don&apos;t have to specify</span>
+<span class="hljs-comment">// second argument, which is a namespace in the store</span>
+<span class="hljs-keyword">const</span> { actions, reducer, selectors } = createEntities(tiles);
+<span class="hljs-keyword">const</span> { middleware, waitTiles } = createMiddleware({ api, actions, selectors });
+
+<span class="hljs-keyword">const</span> store = createStore(
+  reducer,
+  applyMiddleware(middleware)
+);
+</code></pre>
+<p>Now let&apos;s execute our code, in situation close to real. We&apos;ll dispatch one offer request, and then, after some time, another. Along the code we will look into current state:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { sleep } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;delounce&apos;</span>;
+
+<span class="hljs-comment">// 10, because we stated it in our initialState!</span>
+<span class="hljs-keyword">const</span> { value } = selectors.calculator.values.current(store.getState()); 
+
+<span class="hljs-comment">// let&apos;s assume this request will take 200ms</span>
+store.dispatch(actions.calculator.calculateOffer({ value: <span class="hljs-number">15</span> }));
+
+<span class="hljs-keyword">await</span> sleep(<span class="hljs-number">150</span>);
+
+<span class="hljs-comment">// still 10, because only 150ms passed</span>
+<span class="hljs-keyword">const</span> { value } = selectors.calculator.values.current(store.getState());
+
+<span class="hljs-comment">// 15, because calculateOffer changed it immediately</span>
+<span class="hljs-keyword">const</span> { value } = selectors.calculator.values.next(store.getState());
+
+<span class="hljs-comment">// again, 200ms</span>
+store.dispatch(actions.calculator.calculateOffer({ value: <span class="hljs-number">30</span> }));
+
+<span class="hljs-keyword">await</span> sleep(<span class="hljs-number">150</span>);
+
+<span class="hljs-comment">// still 10, because old version was declined, and new has not arrived yet</span>
+<span class="hljs-keyword">const</span> { value } = selectors.calculator.values.current(store.getState());
+
+<span class="hljs-comment">// 30, because calculateOffer changed it immediately</span>
+<span class="hljs-keyword">const</span> { value } = selectors.calculator.values.next(store.getState());
+
+<span class="hljs-keyword">await</span> sleep(<span class="hljs-number">150</span>);
+
+<span class="hljs-comment">// finally 30, because we have not dispatched other offer calculations</span>
+<span class="hljs-keyword">const</span> { value } = selectors.calculator.values.current(store.getState());
+</code></pre>
+<h2 id="links-to-implementation">Links to implementation</h2>
+<ul>
+<li><a href="https://github.com/Bloomca/redux-tiles/tree/master/examples/calculator" target="_blank">complete code</a></li>
+<li><a href="https://github.com/Bloomca/redux-tiles/tree/master/examples/calculator/calculator-tiles.js" target="_blank">tiles code</a></li>
+<li><a href="https://github.com/Bloomca/redux-tiles/tree/master/examples/calculator/__test__/app.spec.js" target="_blank">tests code</a></li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Examples">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="hacker-news-api.html" class="navigation navigation-next " aria-label="Next page: HackerNews API">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Calculator","level":"1.6.1","depth":2,"next":{"title":"HackerNews API","level":"1.6.2","depth":2,"path":"examples/hacker-news-api.md","ref":"./examples/hacker-news-api.md","articles":[]},"previous":{"title":"Examples","level":"1.6","depth":1,"path":"examples/README.md","ref":"./examples/README.md","articles":[{"title":"Calculator","level":"1.6.1","depth":2,"path":"examples/calculator.md","ref":"./examples/calculator.md","articles":[]},{"title":"HackerNews API","level":"1.6.2","depth":2,"path":"examples/hacker-news-api.md","ref":"./examples/hacker-news-api.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":[],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Seva Zaikov <seva.zaikov@gmail.com>","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Redux-Tiles documentation","gitbook":"*"},"file":{"path":"examples/calculator.md","mtime":"2017-07-01T14:58:58.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-01T06:09:48.368Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

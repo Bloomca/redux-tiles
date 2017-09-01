@@ -1,0 +1,626 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Nesting · Redux-Tiles documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="author" content="Seva Zaikov <seva.zaikov@gmail.com>">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="selectors.html" />
+    
+    
+    <link rel="prev" href="integration.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../original_readme.html">
+            
+                <a href="../original_readme.html">
+            
+                    
+                    Read Me
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../introduction/">
+            
+                <a href="../introduction/">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../introduction/Motivation.html">
+            
+                <a href="../introduction/Motivation.html">
+            
+                    
+                    Motivation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../introduction/Boilerplate.html">
+            
+                <a href="../introduction/Boilerplate.html">
+            
+                    
+                    Redux Boilerplate Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../introduction/Comparison.html">
+            
+                <a href="../introduction/Comparison.html">
+            
+                    
+                    Comparison with other Solutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../introduction/Example.html">
+            
+                <a href="../introduction/Example.html">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../api/createTile.html">
+            
+                <a href="../api/createTile.html">
+            
+                    
+                    createTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../api/createSyncTile.html">
+            
+                <a href="../api/createSyncTile.html">
+            
+                    
+                    createSyncTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../api/createMiddleware.html">
+            
+                <a href="../api/createMiddleware.html">
+            
+                    
+                    createMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../api/createActions.html">
+            
+                <a href="../api/createActions.html">
+            
+                    
+                    createActions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../api/createReducers.html">
+            
+                <a href="../api/createReducers.html">
+            
+                    
+                    createReducers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../api/createSelectors.html">
+            
+                <a href="../api/createSelectors.html">
+            
+                    
+                    createSelectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../api/createEntities.html">
+            
+                <a href="../api/createEntities.html">
+            
+                    
+                    createEntities
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="integration.html">
+            
+                <a href="integration.html">
+            
+                    
+                    Integration with existing project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.2" data-path="nesting.html">
+            
+                <a href="nesting.html">
+            
+                    
+                    Nesting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="selectors.html">
+            
+                <a href="selectors.html">
+            
+                    
+                    Selectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../examples/">
+            
+                <a href="../examples/">
+            
+                    
+                    Examples
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../examples/calculator.html">
+            
+                <a href="../examples/calculator.html">
+            
+                    
+                    Calculator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../examples/hacker-news-api.html">
+            
+                <a href="../examples/hacker-news-api.html">
+            
+                    
+                    HackerNews API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Nesting</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="nesting">Nesting</h1>
+<p>Very often we have entities which should be treated the same way (e.g. same caching, same requests, same operations performed on them before storing), but separated by some identificator (or maybe several). The canonical example is downloading items by id &#x2013; one by one; usually we have a page for a specific item, which we download and then store in the state, separating it by id.</p>
+<p>That&apos;s how it will look like in traditional redux with <a href="https://github.com/gaearon/redux-thunk" target="_blank">redux-thunk middleware</a> &#x2013; let&apos;s start with action:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> api <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../api&apos;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> FETCH_ITEM_START = <span class="hljs-string">&apos;FETCH_ITEM_START&apos;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> FETCH_ITEM_FAILURE = <span class="hljs-string">&apos;FETCH_ITEM_FAILURE&apos;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> FETCH_ITEM_SUCCESS = <span class="hljs-string">&apos;FETCH_ITEM_SUCCESS&apos;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> fetchItem = ({ id }) =&gt; {
+  <span class="hljs-keyword">return</span> (dispatch) =&gt; {
+    dispatch({
+      type: FETCH_ITEM_START,
+      payload: { id },
+    });
+
+    <span class="hljs-keyword">return</span> api
+      .get(<span class="hljs-string">`/api/item/<span class="hljs-subst">${id}</span>`</span>)
+      .then(data =&gt; dispatch({
+        type: FETCH_ITEM_SUCCESS,
+        payload: { data, id },
+      }))
+      .catch(error =&gt; dispatch({
+        type: FETCH_ITEM_FAILURE,
+        payload: { id },
+        error,
+      }));
+  };
+};
+</code></pre>
+<p>Have you noticed how each time we passed <code>payload: { id }</code> in each dispatch invokation? That&apos;s because we have to differentiate each request (so we know which request is being loading, and which is already done)! So in reducer we have to merge our state carefully:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> reducer = (state, action) =&gt; {
+  <span class="hljs-keyword">switch</span> (action.type) {
+    <span class="hljs-keyword">case</span> FETCH_ITEM_START:
+      <span class="hljs-keyword">return</span> {
+        ...state,
+        [action.payload.id]: {
+          isPending: <span class="hljs-literal">true</span>,
+          fetched: <span class="hljs-literal">false</span>,
+          error: <span class="hljs-literal">null</span>,
+          data: <span class="hljs-literal">null</span>,
+        },
+      };
+    <span class="hljs-keyword">case</span> FETCH_ITEM_FAILURE:
+      <span class="hljs-keyword">return</span> {
+        ...state,
+        [action.payload.id]: {
+          isPending: <span class="hljs-literal">false</span>,
+          <span class="hljs-comment">// note that fetched is true, despite error!</span>
+          fetched: <span class="hljs-literal">true</span>,
+          error: action.error,
+          data: <span class="hljs-literal">null</span>,
+        },
+      };
+    <span class="hljs-keyword">case</span> FETCH_ITEM_SUCCESS:
+      <span class="hljs-keyword">return</span> {
+        ...state,
+        [actions.payload.id]: {
+          isPending: <span class="hljs-literal">false</span>,
+          fetched: <span class="hljs-literal">true</span>,
+          error: <span class="hljs-literal">null</span>,
+          data: action.payload.data,
+        },
+      };
+    <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">return</span> state;
+  }
+}
+</code></pre>
+<p>So, we had to merge everything by hand, and therefore it introduces couple of problems. First, we violate <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself" target="_blank">DRY principle</a>, second, we add one more possible place for bugs, so we have to write tests for this functionality, and third, it is just verbose.</p>
+<p>Redux-tiles aims to solve this exact problem with just one more line of code. The same exact code will look the following with using tiles:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { createTile } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> itemTile = createTile({
+  type: [<span class="hljs-string">&apos;api&apos;</span>, <span class="hljs-string">&apos;item&apos;</span>],
+  fn: ({ api, params }) =&gt; api.get(<span class="hljs-string">`/api/item/<span class="hljs-subst">${params.id}</span>`</span>),
+  <span class="hljs-comment">// we are supposed to return an array, and it can have any length</span>
+  <span class="hljs-comment">// and it will be correctly merged to the whole deepness</span>
+  nesting: ({ id }) =&gt; [id],
+  <span class="hljs-comment">// as a free bonus, we can cache our responses, and they will be</span>
+  <span class="hljs-comment">// cached also by `id` values</span>
+  caching: <span class="hljs-literal">true</span>,
+});
+</code></pre>
+<p>This code will do exactly the same as was described in &quot;raw&quot; redux code &#x2013; it will fetch given resource and put all metadata under <code>id</code> in the state.</p>
+<p>Let&apos;s look at another example, pagination. Usually for pagination we specify two things &#x2013; page size and page number. So let&apos;s code this tile:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> itemsWithPaginationTile = createTile({
+  type: [<span class="hljs-string">&apos;api&apos;</span>, <span class="hljs-string">&apos;items&apos;</span>],
+  fn: ({ params, api }) =&gt; api.get(<span class="hljs-string">&apos;/api/items&apos;</span>, {
+    pageSize: params.pageSize,
+    pageNumber: params.pageNumber,
+  }),
+  <span class="hljs-comment">// we have more deep nesting here &#x2013; it will be handled correctly!</span>
+  nesting: (para
+  ms) =&gt; [params.pageSize, params.pageNumber],
+  <span class="hljs-comment">// pages will be cached independently</span>
+  caching: <span class="hljs-literal">true</span>,
+});
+</code></pre>
+<p>Also, it works exactly the same way for sync tiles, so if you want to keep some sync data separated by some identifiers, this will suit you perfectly.</p>
+<p>So, as you can see, redux-tiles relieves some of the burden from you &#x2013; you don&apos;t have to test your merging implementation, and you can easily get caching for nested items.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="integration.html" class="navigation navigation-prev " aria-label="Previous page: Integration with existing project">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="selectors.html" class="navigation navigation-next " aria-label="Next page: Selectors">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Nesting","level":"1.5.2","depth":2,"next":{"title":"Selectors","level":"1.5.3","depth":2,"path":"advanced/selectors.md","ref":"./advanced/selectors.md","articles":[]},"previous":{"title":"Integration with existing project","level":"1.5.1","depth":2,"path":"advanced/integration.md","ref":"./advanced/integration.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Seva Zaikov <seva.zaikov@gmail.com>","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Redux-Tiles documentation","gitbook":"*"},"file":{"path":"advanced/nesting.md","mtime":"2017-07-03T21:21:26.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-01T06:09:48.368Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

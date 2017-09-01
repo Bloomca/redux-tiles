@@ -1,0 +1,682 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>createTile · Redux-Tiles documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="author" content="Seva Zaikov <seva.zaikov@gmail.com>">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="createSyncTile.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../original_readme.html">
+            
+                <a href="../original_readme.html">
+            
+                    
+                    Read Me
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../introduction/">
+            
+                <a href="../introduction/">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../introduction/Motivation.html">
+            
+                <a href="../introduction/Motivation.html">
+            
+                    
+                    Motivation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../introduction/Boilerplate.html">
+            
+                <a href="../introduction/Boilerplate.html">
+            
+                    
+                    Redux Boilerplate Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../introduction/Comparison.html">
+            
+                <a href="../introduction/Comparison.html">
+            
+                    
+                    Comparison with other Solutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../introduction/Example.html">
+            
+                <a href="../introduction/Example.html">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.4.1" data-path="createTile.html">
+            
+                <a href="createTile.html">
+            
+                    
+                    createTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="createSyncTile.html">
+            
+                <a href="createSyncTile.html">
+            
+                    
+                    createSyncTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="createMiddleware.html">
+            
+                <a href="createMiddleware.html">
+            
+                    
+                    createMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="createActions.html">
+            
+                <a href="createActions.html">
+            
+                    
+                    createActions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="createReducers.html">
+            
+                <a href="createReducers.html">
+            
+                    
+                    createReducers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="createSelectors.html">
+            
+                <a href="createSelectors.html">
+            
+                    
+                    createSelectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="createEntities.html">
+            
+                <a href="createEntities.html">
+            
+                    
+                    createEntities
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../advanced/">
+            
+                <a href="../advanced/">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../advanced/integration.html">
+            
+                <a href="../advanced/integration.html">
+            
+                    
+                    Integration with existing project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../advanced/nesting.html">
+            
+                <a href="../advanced/nesting.html">
+            
+                    
+                    Nesting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../advanced/selectors.html">
+            
+                <a href="../advanced/selectors.html">
+            
+                    
+                    Selectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../examples/">
+            
+                <a href="../examples/">
+            
+                    
+                    Examples
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../examples/calculator.html">
+            
+                <a href="../examples/calculator.html">
+            
+                    
+                    Calculator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../examples/hacker-news-api.html">
+            
+                <a href="../examples/hacker-news-api.html">
+            
+                    
+                    HackerNews API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >createTile</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="createtile-api">CreateTile API</h1>
+<p>This is the main function of the library &#x2013; it is a factory, which creates you all needed entities: actions, reducer, constants and selectors. Also, &quot;default&quot; <code>createTile</code> is asynchronous (I personally find such modules more often, so it is a default version), and it supports this lifecycle out of the box.</p>
+<p>The basic tile will look like this:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createTile } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+
+<span class="hljs-keyword">const</span> { action, selectors, reducer, constants, reflect } = createTile({
+  type: [<span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;info&apos;</span>],
+  fn: ({ api, params }) =&gt; api.get(<span class="hljs-string">&apos;/user/info&apos;</span>, params),
+});
+</code></pre>
+<p>The default data structure, which keeps data inside (and will be returned if we use <code>selectors.get</code>), is the following:</p>
+<pre><code class="lang-javascript">{
+  isPending: <span class="hljs-literal">false</span>, <span class="hljs-comment">// true while your async function performing some actions</span>
+  fetched: <span class="hljs-literal">true</span>, <span class="hljs-comment">// true in case the result was fetched, either with success or failure</span>
+  data: { yourData: ... }, <span class="hljs-comment">// data resolved from the promise, returned by your function</span>
+  error: <span class="hljs-literal">null</span>, <span class="hljs-comment">// will be the error which was thrown from your function</span>
+}
+</code></pre>
+<p>You can&apos;t affect this structure at all &#x2013; your data will go either to <code>data</code> field, or either to <code>error</code> in case of throwing an error. <code>fetched</code> field allows you to keep falsy values inside <code>data</code>, so you can return from <code>fn</code> without problems. By this contract you can be sure inside your components the interface, so there is no way to have <code>isLoading</code>, <code>isPending</code>, <code>isUpdating</code> and so on &#x2013; whatever seems more semantic for each use-case. Yes, it is not that elegant, but much more consistent; same argument for <code>data</code> field.</p>
+<h2 id="api-to-create-new-tile">API to create new tile</h2>
+<p>Now let&apos;s take a look closer into passed object when we create a new tile:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createTile } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+
+<span class="hljs-keyword">const</span> userTile = createTile({
+  <span class="hljs-comment">// type will be reflected in store, so it will be stored</span>
+  <span class="hljs-comment">// under state.hn_api.user (so the first element in the array</span>
+  <span class="hljs-comment">// can serve like an umbrella!)</span>
+  type: [<span class="hljs-string">&apos;hn_api&apos;</span>, <span class="hljs-string">&apos;user&apos;</span>],
+
+  <span class="hljs-comment">// function for async tile should return a promise, otherwise it</span>
+  <span class="hljs-comment">// will fail. function gets one parameter, object, which contains</span>
+  <span class="hljs-comment">// all passed middleware, and params &#x2013; object with which dispatched</span>
+  <span class="hljs-comment">// function was invoked</span>
+  <span class="hljs-comment">// e.g. here: dispatch(actions.hn_api.user({ id: &apos;someID&apos; }));</span>
+  <span class="hljs-comment">// result of the promise will be placed under `data` inside state</span>
+  fn: ({ api, params }) =&gt; api.get(<span class="hljs-string">`/api/user/<span class="hljs-subst">${params.id}</span>`</span>),
+
+  <span class="hljs-comment">// nesting allows you to separate your data (first argument is params</span>
+  <span class="hljs-comment">// from fn). It means that all requests will have their own isPending,</span>
+  <span class="hljs-comment">// fetched, data and error, as well as caching</span>
+  <span class="hljs-comment">// it is an optional parameter, arbitrary nesting is supported</span>
+  nesting: ({ id }) =&gt; [id],
+
+  <span class="hljs-comment">// this is an aggressive caching for specific item &#x2013; if it was</span>
+  <span class="hljs-comment">// downloaded, then it won&apos;t be downloaded again at all, unless</span>
+  <span class="hljs-comment">// we will invoke with the second parameter `forceAsync: true`:</span>
+  <span class="hljs-comment">// dispatch(actions.hn_api.user({ id: &apos;someID&apos; }, { forceAsync: true }));</span>
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// also, it means that there will be only one simulatenous request</span>
+  <span class="hljs-comment">// other dispatches will return exactly the same promise</span>
+  caching: <span class="hljs-literal">true</span>,
+});
+</code></pre>
+<h2 id="caching">Caching</h2>
+<p>Asynchronous tiles support caching out of the box, you just have to set property <code>caching</code> to <code>true</code>. It will make two things happen &#x2013; it won&apos;t invoke the same function if the data is already presented there, and also it will prevent the same function be invoked again in case it is already being processing (but dispatched action will return exactly the same promise, so you can safely await for it, and then query the state - it will be an updated value). The latter case is interesting &#x2013; it basically means that we get rid of race conditions, and we are safe to query same endpoints in a declarative way, without worrying of several requests to same endpoints.</p>
+<p>If you have already dispatched an action with enabled caching, and you want to invoke this action again, then you would have to send an object with a key <code>forceAsync: true</code> as a second parameter to invoked function:</p>
+<pre><code class="lang-js">dispatch(actions.api.users({ id: <span class="hljs-string">&apos;someID&apos;</span> }, { forceAsync: <span class="hljs-literal">true</span> }));
+</code></pre>
+<p>Though the same promise thing might seem as a magical part, it is not! In order to make it work for each requests in Node.js, we keep this object inside middleware (so it belongs to the instance of a store), and it means that in order to make it work we have to use <a href="createMiddleware.html">redux-tiles&apos; middleware</a>, or pass <code>promisesStorage</code> object to <a href="https://github.com/gaearon/redux-thunk" target="_blank">redux-thunk</a>:</p>
+<pre><code class="lang-js">applyMiddleware(thunk.withExtraArgument({ promisesStorage: {} }))
+</code></pre>
+<p>Redux-tiles&apos; middleware will inject this object automatically. This object is also crucial for server-side rendering, in case we want to prefetch data &#x2013; this object collects all requests (regardless of caching; it will just filter same actions if caching is enabled) and <code>waitTiles</code> will await all of them.</p>
+<h2 id="function">Function</h2>
+<p>Property <code>fn</code> is an obvious target to perform some API requests, but there are no restrictions on usage of it, so you can do whatever you want &#x2013; starting from sleeping several seconds and to polling of some new data.</p>
+<p>Let&apos;s implement both of these cases, starting with sleep. We will show notification for 5 seconds, and after close it:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createTile } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+<span class="hljs-keyword">import</span> { sleep } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;delounce&apos;</span>;
+
+<span class="hljs-keyword">const</span> showNotification = createTile({
+  type: [<span class="hljs-string">&apos;ui&apos;</span>, <span class="hljs-string">&apos;showNotifications&apos;</span>],
+  fn: <span class="hljs-keyword">async</span> ({ dispatch, actions, params }) =&gt; {
+    dispatch(actions.ui.notifications(params));
+    <span class="hljs-keyword">await</span> sleep(<span class="hljs-number">5000</span>);
+    <span class="hljs-comment">// let&apos;s assume that sending only id will close notification</span>
+    dispatch(actions.ui.notifications({ id: params.id }));
+
+    <span class="hljs-comment">// in this case this data is pretty much useless</span>
+    <span class="hljs-comment">// but sometimes it is helpful</span>
+    <span class="hljs-keyword">return</span> { closed: <span class="hljs-literal">true</span> };
+  },
+  <span class="hljs-comment">// so we can check whether notification is going to be closed,</span>
+  <span class="hljs-comment">// it is not really needed, but it costs nothing to us, so we can</span>
+  <span class="hljs-comment">// remove/add it in no time</span>
+  nesting: ({ id }) =&gt; [id],
+});
+</code></pre>
+<p>Now let&apos;s go to more complex example &#x2013; polling of the user data. For example, we billed user, and now we are awaiting updated profile details:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createTile } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+<span class="hljs-keyword">import</span> { sleep } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;delounce&apos;</span>;
+
+<span class="hljs-keyword">const</span> pollDetails = createTile({
+  type: [<span class="hljs-string">&apos;polling&apos;</span>, <span class="hljs-string">&apos;details&apos;</span>],
+  fn: <span class="hljs-keyword">async</span> ({ dispatch, actions, params, selectors, getState }) =&gt; {
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+      <span class="hljs-keyword">await</span> sleep(<span class="hljs-number">3000</span>);
+      <span class="hljs-keyword">await</span> dispatch(actions.user.data());
+      <span class="hljs-keyword">const</span> { data } = selectors.user.data(getState());
+      <span class="hljs-keyword">if</span> (data.card !== params.card) {
+        <span class="hljs-comment">// same thing &#x2013; this one is not particularly helpful data,</span>
+        <span class="hljs-comment">// but it might be useful</span>
+        <span class="hljs-keyword">return</span> { card: data.card };
+      }
+    }
+  },
+});
+</code></pre>
+<p>Polling is a great example of hitting the boundaries of this library &#x2013; it is not intended to solve complex asynchronous flows, it is all about composition of small units. So, if you need even more complicated behaviour, or some tweeks like stopping of the polling, etc, then I can recommend to take a look at something like <a href="https://github.com/redux-saga/redux-saga" target="_blank">Redux-saga</a>.
+But if you have them just in couple of places, when you should be good sticking with redux-tiles.</p>
+<h2 id="returned-object-api">Returned object API</h2>
+<p>When we create a new tile, we get in response object with all needed entities. As you will see later, it is advised to use special utilities to combine them together, but it is possible to do it by hand, in case you need. So, let&apos;s take a closer look:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createTile } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+
+<span class="hljs-keyword">const</span> {
+  <span class="hljs-comment">// this is an actual action, which you can dispatch if you want to</span>
+  <span class="hljs-comment">// there is no magic behind it, except that it has a property `reset`,</span>
+  <span class="hljs-comment">// which is a function to reset reducer to default state (synchronously)</span>
+  action,
+
+  <span class="hljs-comment">// reducer function. this one is really tricky &#x2013; in order to use it correctly,</span>
+  <span class="hljs-comment">// you would have to combine it by yourself (so array passed in `type` will</span>
+  <span class="hljs-comment">// make it not that easy)</span>
+  <span class="hljs-comment">// also, in case you want to combine it by yourself, keep in mind that</span>
+  <span class="hljs-comment">// it can be attached only to the root without using `createReducers`</span>
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// so, to conclude, this one, unfortunately, has some magic and it is better</span>
+  <span class="hljs-comment">// to combine using `createReducers` from this library</span>
+  reducer,
+
+  <span class="hljs-comment">// object with START, SUCCESS, FAILURE and RESET strings</span>
+  <span class="hljs-comment">// strings are unique by using type</span>
+  <span class="hljs-comment">// you can use them anywhere you want &#x2013; for instance, in redux-saga</span>
+  constants,
+
+  <span class="hljs-comment">// object with two methods &#x2013; get and getAll</span>
+  <span class="hljs-comment">// get can get nested data, while getAll returns you all data</span>
+  <span class="hljs-comment">// despite of nesting. getAll is a very rare function, you</span>
+  <span class="hljs-comment">// will be good with just get in 99%</span>
+  selectors,
+
+  <span class="hljs-comment">// passed `type` property. can be also reached via `reflect` property</span>
+  tileName,
+
+  <span class="hljs-comment">// object which you passed to `createTile`. that&apos;s the way to get</span>
+  <span class="hljs-comment">// your functions and to test them</span>
+  reflect
+} = createTile({
+  type: [<span class="hljs-string">&apos;api&apos;</span>, <span class="hljs-string">&apos;get&apos;</span>, <span class="hljs-string">&apos;client&apos;</span>],
+  fn: ({ api }) =&gt; api.get(<span class="hljs-string">&apos;/client/&apos;</span>),
+});
+</code></pre>
+<p>In fact, you likely won&apos;t need to get any of those data from a tile, because there are utilities to combine all of them together, but it is helpful for understanding, that under the hood all components are presented.</p>
+<h2 id="more-information">More information</h2>
+<ul>
+<li><a href="../advanced/nesting.html">Nesting</a></li>
+<li><a href="../advanced/selectors.html">Selectors</a></li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: API">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="createSyncTile.html" class="navigation navigation-next " aria-label="Next page: createSyncTile">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"createTile","level":"1.4.1","depth":2,"next":{"title":"createSyncTile","level":"1.4.2","depth":2,"path":"api/createSyncTile.md","ref":"./api/createSyncTile.md","articles":[]},"previous":{"title":"API","level":"1.4","depth":1,"path":"api/README.md","ref":"./api/README.md","articles":[{"title":"createTile","level":"1.4.1","depth":2,"path":"api/createTile.md","ref":"./api/createTile.md","articles":[]},{"title":"createSyncTile","level":"1.4.2","depth":2,"path":"api/createSyncTile.md","ref":"./api/createSyncTile.md","articles":[]},{"title":"createMiddleware","level":"1.4.3","depth":2,"path":"api/createMiddleware.md","ref":"./api/createMiddleware.md","articles":[]},{"title":"createActions","level":"1.4.4","depth":2,"path":"api/createActions.md","ref":"./api/createActions.md","articles":[]},{"title":"createReducers","level":"1.4.5","depth":2,"path":"api/createReducers.md","ref":"./api/createReducers.md","articles":[]},{"title":"createSelectors","level":"1.4.6","depth":2,"path":"api/createSelectors.md","ref":"./api/createSelectors.md","articles":[]},{"title":"createEntities","level":"1.4.7","depth":2,"path":"api/createEntities.md","ref":"./api/createEntities.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":[],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Seva Zaikov <seva.zaikov@gmail.com>","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Redux-Tiles documentation","gitbook":"*"},"file":{"path":"api/createTile.md","mtime":"2017-07-03T21:20:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-01T06:09:48.368Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

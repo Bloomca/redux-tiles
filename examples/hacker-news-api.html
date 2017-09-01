@@ -1,0 +1,626 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>HackerNews API · Redux-Tiles documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="author" content="Seva Zaikov <seva.zaikov@gmail.com>">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="calculator.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../original_readme.html">
+            
+                <a href="../original_readme.html">
+            
+                    
+                    Read Me
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../introduction/">
+            
+                <a href="../introduction/">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../introduction/Motivation.html">
+            
+                <a href="../introduction/Motivation.html">
+            
+                    
+                    Motivation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../introduction/Boilerplate.html">
+            
+                <a href="../introduction/Boilerplate.html">
+            
+                    
+                    Redux Boilerplate Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../introduction/Comparison.html">
+            
+                <a href="../introduction/Comparison.html">
+            
+                    
+                    Comparison with other Solutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../introduction/Example.html">
+            
+                <a href="../introduction/Example.html">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../api/createTile.html">
+            
+                <a href="../api/createTile.html">
+            
+                    
+                    createTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../api/createSyncTile.html">
+            
+                <a href="../api/createSyncTile.html">
+            
+                    
+                    createSyncTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../api/createMiddleware.html">
+            
+                <a href="../api/createMiddleware.html">
+            
+                    
+                    createMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../api/createActions.html">
+            
+                <a href="../api/createActions.html">
+            
+                    
+                    createActions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../api/createReducers.html">
+            
+                <a href="../api/createReducers.html">
+            
+                    
+                    createReducers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../api/createSelectors.html">
+            
+                <a href="../api/createSelectors.html">
+            
+                    
+                    createSelectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../api/createEntities.html">
+            
+                <a href="../api/createEntities.html">
+            
+                    
+                    createEntities
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../advanced/">
+            
+                <a href="../advanced/">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../advanced/integration.html">
+            
+                <a href="../advanced/integration.html">
+            
+                    
+                    Integration with existing project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../advanced/nesting.html">
+            
+                <a href="../advanced/nesting.html">
+            
+                    
+                    Nesting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../advanced/selectors.html">
+            
+                <a href="../advanced/selectors.html">
+            
+                    
+                    Selectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Examples
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="calculator.html">
+            
+                <a href="calculator.html">
+            
+                    
+                    Calculator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6.2" data-path="hacker-news-api.html">
+            
+                <a href="hacker-news-api.html">
+            
+                    
+                    HackerNews API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >HackerNews API</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="hackernews-api-with-redux-tiles">HackerNews API with redux-tiles</h1>
+<p>Let&apos;s build a real API tiles for hacker news. We will create a simple functionality, which will allow us to download pages by category (e.g. top stories, or new stories), with items automatically downloaded and populated as well.
+We will use official <a href="https://github.com/HackerNews/API" target="_blank">HN API</a>, which is hosted on firebase. API setup is out of scope of this tutorial, so if you have more questions, please use following links:</p>
+<ul>
+<li><a href="https://github.com/Bloomca/redux-tiles/blob/master/examples/hacker-news-api/api.js" target="_blank">Implementation in this example</a></li>
+<li><a href="https://firebase.google.com/" target="_blank">Firebase</a></li>
+<li><a href="https://firebase.google.com/docs/web/setup" target="_blank">Web setup</a></li>
+</ul>
+<p>We will start downloading list of stories by type. Hackernews API returns just an array of the size 500, we will add pagination to it later:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> storiesTile = createTile({
+  type: [<span class="hljs-string">&apos;hn_api&apos;</span>, <span class="hljs-string">&apos;stories&apos;</span>],
+  fn: ({ api, params }) =&gt; api.child(params.type).once(<span class="hljs-string">&apos;value&apos;</span>).then(snapshot =&gt; snapshot.val()),
+  nesting: ({ type }) =&gt; [type],
+  caching: <span class="hljs-literal">true</span>,
+});
+</code></pre>
+<p>Despite using Firebase, here we don&apos;t really want to do real-time updates, just for the sake of simplicity, so we don&apos;t subscribe or do something like that. We get 500 items for given type &#x2013; so we can download <code>topstories</code>, <code>new</code> and other categories using just this tile. We also cache results, so we can declaratively invoke it each time we need just a page, and be sure that it won&apos;t be downloaded again.</p>
+<p>Now let&apos;s create tile for a single item. It will just download a single item, placing it under id namespace:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> itemTile = createTile({
+  type: [<span class="hljs-string">&apos;hn_api&apos;</span>, <span class="hljs-string">&apos;item&apos;</span>],
+  fn: ({ api, params }) =&gt; api.child(<span class="hljs-string">`item/<span class="hljs-subst">${params.id}</span>`</span>).once(<span class="hljs-string">&apos;value&apos;</span>).then(snapshot =&gt; snapshot.val()) ,
+  nesting: ({ id }) =&gt; [id],
+  caching: <span class="hljs-literal">true</span>,
+});
+</code></pre>
+<p>As you can see, the implementation is extremely similar to the previous item, <code>storiesTile</code>. The thing is that they are performing almost the same operation &#x2013; request some API call, parse results (if needed &#x2013; here we don&apos;t have to), set up nesting and caching &#x2013; and, in fact, this is how it is supposed to be. The idea behind <code>redux-tiles</code> is that because of boilerplate-free code it is very cheap to create small &quot;tiles&quot;, which represent atomic piece of functionality, and then combine them later.
+Let&apos;s create tile for downloading list of items &#x2013; there is no such endpoint, so we will have to compose existing tile:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> itemsTile = createTile({
+  type: [<span class="hljs-string">&apos;hn_api&apos;</span>, <span class="hljs-string">&apos;items&apos;</span>],
+  fn: ({ dispatch, actions, params }) =&gt;
+    <span class="hljs-built_in">Promise</span>.all(params.ids.map(id =&gt;
+      dispatch(actions.hn_api.item({ id }))
+    ))
+});
+</code></pre>
+<p>We just iterate over ids and request all ids inside. If we want to perform only certain amount of simulatenous requests, we can chunkify these requests here (but for other tiles it will be completely abstracted).</p>
+<p>And finally, now we can create functionality for returning stories by type with pagination. The logic is the following:</p>
+<ul>
+<li>get list of all stories for this type</li>
+<li>calculate ids for given page</li>
+<li>download all items for these ids</li>
+<li>nest them into <code>[type, pageNumber, pageSize]</code></li>
+</ul>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> itemsByPageTile = createTile({
+  type: [<span class="hljs-string">&apos;hn_api&apos;</span>, <span class="hljs-string">&apos;pages&apos;</span>],
+  fn: <span class="hljs-keyword">async</span> ({ params: { type = <span class="hljs-string">&apos;topstories&apos;</span>, pageNumber = <span class="hljs-number">0</span>, pageSize = <span class="hljs-number">30</span> }, selectors, getState, actions, dispatch }) =&gt; {
+    <span class="hljs-comment">// we can always fetch stories, they are cached, so if this type</span>
+    <span class="hljs-comment">// was already fetched, there will be no new request</span>
+    <span class="hljs-keyword">await</span> dispatch(actions.hn_api.stories({ type }));
+    <span class="hljs-keyword">const</span> { data } = selectors.hn_api.stories(getState(), { type });
+    <span class="hljs-keyword">const</span> offset = pageNumber * pageSize;
+    <span class="hljs-keyword">const</span> end = offset + pageSize;
+    <span class="hljs-keyword">const</span> ids = data.slice(offset, end);
+
+    <span class="hljs-comment">// download list of ids for given page</span>
+    <span class="hljs-keyword">await</span> dispatch(actions.hn_api.items({ ids }));
+
+    <span class="hljs-comment">// populate ids with real values</span>
+    <span class="hljs-keyword">return</span> ids.map(id =&gt; selectors.hn_api.item(getState(), { id }).data);
+  },
+  <span class="hljs-comment">// we can safely nest them this way, and be sure that individual items will be cached</span>
+  <span class="hljs-comment">// so, changing number of items on the page might not even require a single new request</span>
+  nesting: ({ type = <span class="hljs-string">&apos;topstories&apos;</span>, pageNumber = <span class="hljs-number">0</span>, pageSize = <span class="hljs-number">50</span> }) =&gt; [type, pageSize, pageNumber],
+});
+</code></pre>
+<p>The last tile contains main business logic for our application, but it does not contain any direct api request, so if in the future response for some endpoint will change, or we will have to do different requests to get the same data, we can change it only inside these small tiles (parsing data or dispatching other small tiles).</p>
+<p>Let&apos;s put it together now &#x2013; we will need to create all entities, and then redux store with reducer and middleware.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createStore, applyMiddleware } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux&apos;</span>;
+<span class="hljs-keyword">import</span> { createEntities, createMiddleware } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+
+<span class="hljs-keyword">const</span> tiles = [
+  storiesTile,
+  itemTile,
+  itemsTile,
+  itemsByPageTile
+];
+
+<span class="hljs-comment">// we create store only from redux-tiles, so we don&apos;t have to specify</span>
+<span class="hljs-comment">// second argument, which is a namespace in the store</span>
+<span class="hljs-keyword">const</span> { actions, reducer, selectors } = createEntities(tiles);
+
+<span class="hljs-comment">// we will need `waitTiles` later to wait for all requests</span>
+<span class="hljs-keyword">const</span> { middleware, waitTiles } = createMiddleware({ api, actions, selectors });
+
+<span class="hljs-keyword">const</span> store = createStore(
+  reducer,
+  applyMiddleware(middleware)
+);
+</code></pre>
+<p>And now we can download our front page with top stories!</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// download first page of topstories</span>
+store.dispatch(actions.hn_api.pages({ type: <span class="hljs-string">&apos;topstories&apos;</span> }));
+
+<span class="hljs-comment">// wait all requests &#x2013; here it is just a single one</span>
+<span class="hljs-keyword">await</span> app.waitTiles();
+
+<span class="hljs-comment">// let&apos;s check that we downloaded 30 stories</span>
+<span class="hljs-keyword">const</span> { data } = app.selectors.hn_api.pages(store.getState(), { type: <span class="hljs-string">&apos;topstories&apos;</span> });
+assert(data.length, <span class="hljs-number">30</span>); <span class="hljs-comment">// will be true!</span>
+</code></pre>
+<h2 id="links-to-implementation">Links to implementation</h2>
+<ul>
+<li><a href="https://github.com/Bloomca/redux-tiles/tree/master/examples/hacker-news-api" target="_blank">complete code</a></li>
+<li><a href="https://github.com/Bloomca/redux-tiles/blob/master/examples/hacker-news-api/hn-tiles.js" target="_blank">tiles code</a></li>
+<li><a href="https://github.com/Bloomca/redux-tiles/blob/master/examples/hacker-news-api/__test__/app.spec.js" target="_blank">tests code</a></li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="calculator.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Calculator">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"HackerNews API","level":"1.6.2","depth":2,"previous":{"title":"Calculator","level":"1.6.1","depth":2,"path":"examples/calculator.md","ref":"./examples/calculator.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Seva Zaikov <seva.zaikov@gmail.com>","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Redux-Tiles documentation","gitbook":"*"},"file":{"path":"examples/hacker-news-api.md","mtime":"2017-07-01T14:58:58.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-01T06:09:48.368Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

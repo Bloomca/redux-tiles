@@ -1,0 +1,618 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Selectors · Redux-Tiles documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="author" content="Seva Zaikov <seva.zaikov@gmail.com>">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../examples/" />
+    
+    
+    <link rel="prev" href="nesting.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../original_readme.html">
+            
+                <a href="../original_readme.html">
+            
+                    
+                    Read Me
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../introduction/">
+            
+                <a href="../introduction/">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../introduction/Motivation.html">
+            
+                <a href="../introduction/Motivation.html">
+            
+                    
+                    Motivation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../introduction/Boilerplate.html">
+            
+                <a href="../introduction/Boilerplate.html">
+            
+                    
+                    Redux Boilerplate Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../introduction/Comparison.html">
+            
+                <a href="../introduction/Comparison.html">
+            
+                    
+                    Comparison with other Solutions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../introduction/Example.html">
+            
+                <a href="../introduction/Example.html">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../api/createTile.html">
+            
+                <a href="../api/createTile.html">
+            
+                    
+                    createTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../api/createSyncTile.html">
+            
+                <a href="../api/createSyncTile.html">
+            
+                    
+                    createSyncTile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../api/createMiddleware.html">
+            
+                <a href="../api/createMiddleware.html">
+            
+                    
+                    createMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../api/createActions.html">
+            
+                <a href="../api/createActions.html">
+            
+                    
+                    createActions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../api/createReducers.html">
+            
+                <a href="../api/createReducers.html">
+            
+                    
+                    createReducers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../api/createSelectors.html">
+            
+                <a href="../api/createSelectors.html">
+            
+                    
+                    createSelectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../api/createEntities.html">
+            
+                <a href="../api/createEntities.html">
+            
+                    
+                    createEntities
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="integration.html">
+            
+                <a href="integration.html">
+            
+                    
+                    Integration with existing project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="nesting.html">
+            
+                <a href="nesting.html">
+            
+                    
+                    Nesting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.3" data-path="selectors.html">
+            
+                <a href="selectors.html">
+            
+                    
+                    Selectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../examples/">
+            
+                <a href="../examples/">
+            
+                    
+                    Examples
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../examples/calculator.html">
+            
+                <a href="../examples/calculator.html">
+            
+                    
+                    Calculator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../examples/hacker-news-api.html">
+            
+                <a href="../examples/hacker-news-api.html">
+            
+                    
+                    HackerNews API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Selectors</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="selectors">Selectors</h1>
+<p>We keep all our data in redux state &#x2013; and all tiles are keeping their data under <code>type</code> namespace. It means that you can pretty easily access your data directly from the state object:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { createTile, createEntities } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+
+<span class="hljs-keyword">const</span> exampleTile = createTile({
+  type: [<span class="hljs-string">&apos;example&apos;</span>, <span class="hljs-string">&apos;nested&apos;</span>, <span class="hljs-string">&apos;tile&apos;</span>],
+  ...
+});
+
+<span class="hljs-keyword">const</span> tiles = [exampleTile];
+
+<span class="hljs-comment">// we specify namespace for tiles, it means that we will combine</span>
+<span class="hljs-comment">// reducers with tilesReducer under this key</span>
+<span class="hljs-keyword">const</span> { actions, reducer, selector } = createEntities(tiles, <span class="hljs-string">&apos;redux_tiles&apos;</span>);
+
+<span class="hljs-comment">// we get this nesting in actions object</span>
+dispatch(actions.example.nested.tile());
+
+<span class="hljs-comment">// to access data, we can use the same nesting, with top-level name</span>
+<span class="hljs-comment">// also, please note this will return null (if we have not dispatched</span>
+<span class="hljs-comment">// action from this tile yet), in order to be consistent with tiles</span>
+<span class="hljs-comment">// with nesting &#x2013; we cannot prefill data for nested values</span>
+<span class="hljs-keyword">const</span> result = state.redux_tiles.example.nested.tile;
+</code></pre>
+<p>So the pattern is pretty clear, right? So we can just access all our data directly!
+Well, not that fast. Let&apos;s take into consideration nesting, and then try to reach our example tile again:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> exampleTile = createTile({
+  type: [<span class="hljs-string">&apos;example&apos;</span>, <span class="hljs-string">&apos;nested&apos;</span>, <span class="hljs-string">&apos;tile&apos;</span>],
+  nesting: ({ type, query }) =&gt; [type, query],
+  ...
+});
+
+<span class="hljs-comment">// let&apos;s try to access our data, with type and query</span>
+<span class="hljs-comment">// this query might actually throw an error!</span>
+<span class="hljs-comment">// by default, state will contain only an empty object,</span>
+<span class="hljs-comment">// and all nested values will be presented _only_ in case</span>
+<span class="hljs-comment">// we dispatched some actions with such parameters!</span>
+<span class="hljs-keyword">const</span> result = state.redux_tiles.example.nested.tile.myType.myQuery;
+</code></pre>
+<p>So, it becomes a little bit trickier with nesting &#x2013; we have to use something like <a href="https://lodash.com/docs/4.17.4#get" target="_blank">get method from lodash</a>, which safely goes through properties; but also, using such access means that we&apos;d have to constantly check whether value was initialized or not, and to add default values everywhere.
+Also, in case we would like to change namespace of reducer, we will have to spend some time to find all occurrences.</p>
+<p>In order to solve all these problems and to abstract data accessing, we introduce concept of <em>selectors</em>. Selector is just a function, which retrieves your data somehow &#x2013; and you are highly encouraged to write your own selectors! For instance, if you feel that you repeat yourself in something like &quot;get id from application, if there is none, go to the latest record and if no luck again, take distributions and query them&quot;, it is a good sign to move all this functionality into <code>getId</code> selector. The recommended way to use selectors is to combine them via <code>createSelectors</code> or <code>createEntities</code>:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { createSelectors, createEntities } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;redux-tiles&apos;</span>;
+<span class="hljs-keyword">import</span> tiles <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../tiles&apos;</span>;
+
+<span class="hljs-keyword">const</span> selectorsFromCreateSelectors = createSelectors(tiles);
+<span class="hljs-keyword">const</span> { selectors, actions, reducer } = createEntities(tiles);
+
+expect(selectorsFromCreateSelectors).deepEqual(selectors); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>Selectors have the same nesting structure, as actions, so a tile wth type <code>[&apos;some&apos;, &apos;type&apos;]</code> will be accessible through <code>selectors.some.type</code>. Selector function takes two arguments &#x2013; the first one is state, and the second one is parameters (same as you pass as a first parameter to dispatched action of the tile) &#x2013; and this thing will actually give you current state or default value, which is the following data structure:</p>
+<pre><code class="lang-js">{
+  isPending: <span class="hljs-literal">false</span>,
+  fetched: <span class="hljs-literal">false</span>,
+  data: <span class="hljs-literal">null</span>,
+  error: <span class="hljs-literal">null</span>,
+}
+</code></pre>
+<p>There is no default value for sync tiles, because we don&apos;t have any metadata there, and we are able to keep there anything (except <code>undefined</code>, as it is not accepted by redux store); so selectors for it solve only access to nested properties and reducer namespace problem. If you want to pass default value to sync tile, use <code>initialState</code> property.</p>
+<p>Also, you can keep anything as <code>data</code> in async tile, even <code>null</code> or <code>undefined</code> &#x2013; <code>fetched</code> field allows you to check whether request was proceed or not.</p>
+<p>Your typical code using <a href="https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options" target="_blank">connect</a> will look like the following:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// with direct access:</span>
+<span class="hljs-keyword">const</span> mapStateToProps = (state, { params: { id } } =&gt; ({
+  <span class="hljs-comment">// in case of missing value will be undefined</span>
+  item: state.tiles.api.item[id],
+});
+
+<span class="hljs-comment">// and using selectors</span>
+<span class="hljs-keyword">const</span> mapStateToProps = state =&gt; ({
+  <span class="hljs-comment">// in case of missing value will be</span>
+  <span class="hljs-comment">// {</span>
+  <span class="hljs-comment">//   isPending: false,</span>
+  <span class="hljs-comment">//   fetched: false,</span>
+  <span class="hljs-comment">//   error: null,</span>
+  <span class="hljs-comment">//   data: null,</span>
+  <span class="hljs-comment">// }</span>
+  item: selectors.api.item(state, { id }),
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> connect(mapStateToProps)(Component);
+</code></pre>
+<h2 id="why-state-without-nesting-by-default-is-null">Why state without nesting by default is null?</h2>
+<p>As it was mentioned previously, by default tile without nesting sets it&apos;s value to null. While it is possible to set it to the typical data structure (for async tile, where we have metadata):</p>
+<pre><code class="lang-js">{
+  isPending: <span class="hljs-literal">false</span>,
+  fetched: <span class="hljs-literal">false</span>,
+  data: <span class="hljs-literal">null</span>,
+  error: <span class="hljs-literal">null</span>,
+}
+</code></pre>
+<p>We don&apos;t do it absolutely <em>intentionally</em>. The problem is that we&apos;d get inconsistency with data, which is taken from tiles with nesting (we cannot guess which values will be there! Of course, we could add intrinsic getter, but it will make things much more complicated.) &#x2013; so if you access data by hand, then at least you&apos;d get <em>almost</em> consistent result (almost &#x2013; with nesting, you&apos;ll have have to specify your fallback in case of no value).</p>
+<p>Once again, the recommended way to go is to use selectors, provided by tiles (and combined by <code>createSelectors</code> or <code>createEntities</code>).</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="nesting.html" class="navigation navigation-prev " aria-label="Previous page: Nesting">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../examples/" class="navigation navigation-next " aria-label="Next page: Examples">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Selectors","level":"1.5.3","depth":2,"next":{"title":"Examples","level":"1.6","depth":1,"path":"examples/README.md","ref":"./examples/README.md","articles":[{"title":"Calculator","level":"1.6.1","depth":2,"path":"examples/calculator.md","ref":"./examples/calculator.md","articles":[]},{"title":"HackerNews API","level":"1.6.2","depth":2,"path":"examples/hacker-news-api.md","ref":"./examples/hacker-news-api.md","articles":[]}]},"previous":{"title":"Nesting","level":"1.5.2","depth":2,"path":"advanced/nesting.md","ref":"./advanced/nesting.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Seva Zaikov <seva.zaikov@gmail.com>","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Redux-Tiles documentation","gitbook":"*"},"file":{"path":"advanced/selectors.md","mtime":"2017-07-03T21:23:55.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-09-01T06:09:48.368Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
