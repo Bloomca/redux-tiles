@@ -85,7 +85,7 @@ const authUser = createTile({
     }
 
     // set up synchronously user status
-    dispatch(actions.tiles.user.loginStatus({ true }));
+    dispatch(actions.tiles.user.loginStatus(true));
 
     return true;
   },
