@@ -27,9 +27,7 @@ function proccessMiddleware(args: any[]): IProcessedMiddleware {
   throw new Error('Redux-Tiles expects own middleware, or redux-thunk');
 }
 
-export function shouldBeFetched({ getState, selectors, params }: any): boolean {
-  const { isPending, fetched, error } = selectors.get(getState(), params);
-
+export function shouldBeFetched({ isPending, fetched, error }: any): boolean {
   // if it is pending, then we have to wait anyway
   if (isPending) {
     return false;
@@ -75,10 +73,11 @@ export function asyncAction({
     }
 
     if (caching && !forceAsync) {
-      const isFetchingNeeded: boolean = shouldBeFetched({ getState, selectors, params });
+      const { isPending, fetched, error, data } = selectors.get(getState(), params);
+      const isFetchingNeeded: boolean = shouldBeFetched({ isPending, fetched, error });
 
       if (!isFetchingNeeded) {
-        return Promise.resolve();
+        return Promise.resolve({ data, error, isPending });
       }
     }
 
