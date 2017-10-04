@@ -75,10 +75,7 @@ const authUser = createTile({
   type: ['user', 'auth'],
   fn: async ({ params, dispatch, actions, selectors, getState }) => {
     // login user
-    await dispatch(actions.tiles.user.authRequest(params));
-    
-    // check the result
-    const { data: { id }, error } = selectors.tiles.user.authRequest(getState());
+    const { data: { id }, error } = await dispatch(actions.tiles.user.authRequest(params));
 
     if (error) {
       throw new Error(error);

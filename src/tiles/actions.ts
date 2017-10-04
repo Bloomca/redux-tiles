@@ -27,9 +27,7 @@ function proccessMiddleware(args: any[]): IProcessedMiddleware {
   throw new Error('Redux-Tiles expects own middleware, or redux-thunk');
 }
 
-export function shouldBeFetched({ getState, selectors, params }: any): boolean {
-  const { isPending, fetched, error } = selectors.get(getState(), params);
-
+export function shouldBeFetched({ isPending, fetched, error }: any): boolean {
   // if it is pending, then we have to wait anyway
   if (isPending) {
     return false;
@@ -75,33 +73,38 @@ export function asyncAction({
     }
 
     if (caching && !forceAsync) {
-      const isFetchingNeeded: boolean = shouldBeFetched({ getState, selectors, params });
+      const { isPending, fetched, error, data } = selectors.get(getState(), params);
+      const isFetchingNeeded: boolean = shouldBeFetched({ isPending, fetched, error });
 
       if (!isFetchingNeeded) {
-        return Promise.resolve();
+        return Promise.resolve({ data, error, isPending });
       }
     }
 
     dispatch({
       type: START,
-      payload: { path }
+      payload: { path },
+      isPending: true
     });
 
     const promise: Promise<any> = fn({ params, dispatch, getState, ...middlewares })
       .then((data: any) => {
-        dispatch({
-          type: SUCCESS,
-          payload: { path, data }
-        });
         promisesStorage[getIdentificator] = undefined;
+        return dispatch({
+          type: SUCCESS,
+          payload: { path, data },
+          data,
+          isPending: false
+        });
       })
       .catch((error: any) => {
-        dispatch({
+        promisesStorage[getIdentificator] = undefined;
+        return dispatch({
           error,
           type: FAILURE,
-          payload: { path }
+          payload: { path },
+          isPending: false,
         });
-        promisesStorage[getIdentificator] = undefined;
       });
 
     promisesStorage[getIdentificator] = promise;
@@ -117,13 +120,15 @@ export function createResetAction({ type }: { type: string }): Function {
 export function syncAction({ SET, fn, nesting }: ISyncActionTypes): FnResult {
   return handleMiddleware(({ dispatch, getState, ...middlewares }: any, params: any) => {
     const path: string[]|null = nesting ? nesting(params) : null;
+    const data = fn({ params, dispatch, getState, ...middlewares });
 
     return dispatch({
       type: SET,
       payload: {
         path,
-        data: fn({ params, dispatch, getState, ...middlewares })
-      }
+        data
+      },
+      data
     });
   });
 }

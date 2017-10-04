@@ -92,7 +92,8 @@ test('createSyncTile should return params if no function was given', () => {
     payload: {
       path: null,
       data: params
-    }
+    },
+    data: params
   };
   expect(arg).toEqual(resultAction);
 });
@@ -103,8 +104,7 @@ test('createSyncTile should update values after dispatching action correctly', (
   const { reducer, actions, selectors } = createEntities(tiles);
   const { middleware } = createMiddleware();
   const store = createStore(reducer, applyMiddleware(middleware));
-  store.dispatch(actions.some('some'));
-  const result = selectors.some(store.getState());
+  const { data: result } = store.dispatch(actions.some('some'));
   expect(result).toBe('some');
 });
 
@@ -135,6 +135,34 @@ test('createTile should update values after dispatching action correctly', async
   expect(result).toEqual({ isPending: false, error: null, data: { some: true }, fetched: true });
 });
 
+test('createTile should receive data property after dispatching action correctly', async () => {
+  const someTile = createTile({
+    type: 'some',
+    fn: () => Promise.resolve({ some: true }),
+  });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  const { data: result } = await store.dispatch(actions.some('some'));
+  expect(result).toEqual({ some: true });
+});
+
+test('createTile should receive data property after dispatching action correctly with cached version', async () => {
+  const someTile = createTile({
+    type: 'some',
+    fn: () => Promise.resolve({ some: true }),
+    caching: true
+  });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  await store.dispatch(actions.some('some'));
+  const { data: result } = await store.dispatch(actions.some('some'));
+  expect(result).toEqual({ some: true });
+});
+
 test('createTile should update values after dispatching action with rejection correctly', async () => {
   const someTile = createTile({
     type: 'some',
@@ -147,6 +175,19 @@ test('createTile should update values after dispatching action with rejection co
   await store.dispatch(actions.some('some'));
   const result = selectors.some(store.getState());
   expect(result).toEqual({ isPending: false, data: null, error: { some: true }, fetched: true });
+});
+
+test('createTile should receive error property after dispatching action with rejection correctly', async () => {
+  const someTile = createTile({
+    type: 'some',
+    fn: () => Promise.reject({ some: true }),
+  });
+  const tiles = [someTile];
+  const { reducer, actions, selectors } = createEntities(tiles);
+  const { middleware } = createMiddleware();
+  const store = createStore(reducer, applyMiddleware(middleware));
+  const { error: result } = await store.dispatch(actions.some('some'));
+  expect(result).toEqual({ some: true });
 });
 
 test('createTile should keep only one active request if caching', async () => {
