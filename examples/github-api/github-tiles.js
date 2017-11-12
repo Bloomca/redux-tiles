@@ -49,8 +49,7 @@ export const drainRepositories = createTile({
     let pageNumber = 1;
     let repos = [];
     while (true) {
-      await dispatch(actions.gh_api.repos({ ...params, pageNumber }));
-      const { data: { pagination: { end }, items } } = selectors.gh_api.repos(getState(), { ...params, pageNumber });
+      const { data: { pagination: { end }, items } } = await dispatch(actions.gh_api.repos({ ...params, pageNumber }));
       repos = repos.concat(items);
 
       pageNumber++;
@@ -70,14 +69,10 @@ export const userWithRepos = createTile({
   type: ['gh_api', 'userWithRepos'],
   fn: async ({ dispatch, actions, params: { id }, selectors, getState }) => {
     const reposParams = { type: 'users', id };
-    await Promise.all([
+    const [{ data: user }, { data: repos }] = await Promise.all([
       dispatch(actions.gh_api.users({ id })),
       dispatch(actions.gh_api.drainRepos(reposParams))
     ]);
-
-    const state = getState();
-    const { data: user } = selectors.gh_api.users(state, { id });
-    const { data: repos } = selectors.gh_api.drainRepos(state, reposParams);
 
     return { user, repos };
   },
