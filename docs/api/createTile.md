@@ -116,8 +116,7 @@ const pollDetails = createTile({
   fn: async ({ dispatch, actions, params, selectors, getState }) => {
     while (true) {
       await sleep(3000);
-      await dispatch(actions.user.data());
-      const { data } = selectors.user.data(getState());
+      const { data } = await dispatch(actions.user.data());
       if (data.card !== params.card) {
         // same thing – this one is not particularly helpful data,
         // but it might be useful
