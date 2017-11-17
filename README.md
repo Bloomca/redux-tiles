@@ -135,8 +135,8 @@ const photos = createTile({
   // and also available under actions and selectors as:
   // actions.tiles.api.photos
   type: ['api', 'photos'],
-  
-  
+
+
   // params is an object with which we dispatch the action
   // you can pass only one parameter, so keep it as an object
   // with different properties
@@ -144,8 +144,8 @@ const photos = createTile({
   // all other properties are from your middleware
   // fn expects promise out of this function
   fn: ({ params, api }) => api.get('/photos', params),
-  
-  
+
+
   // to nest data:
   // { 5:
   //    10: {
@@ -176,8 +176,8 @@ import { createSyncTile } from 'redux-tiles';
 
 const notifications = createSyncTile({
   type: ['notifications'],
-  
-  
+
+
   // all parameters are the same as in async tile
   fn: ({ params, dispatch, actions }) => {
     // we can dispatch async actions – but we can't wait
@@ -195,8 +195,10 @@ const notifications = createSyncTile({
   // they have exactly the same signature and dispatch returned data
   // to the tile
   fns: {
-    add: ({ params, selectors, getState}) => {
-      const currentData = selectors.notifications(getState(), params);
+    add: ({ params, getData, selectors, getState }) => {
+      // same as:
+      // const currentData = selectors.notifications(getState(), params);
+      const currentData = getData();
 
       return {
         ...currentData,
@@ -215,7 +217,7 @@ const notifications = createSyncTile({
       data: []
     },
   },
-  
+
   // nesting works the same way
   nesting: ({ type }) => [type],
 });
@@ -244,10 +246,10 @@ Or with `Object.assign`, which will make it even less readable. This is a pretty
 ```javascript
 const infoTile = createTile({
   type: ['info', 'storage'],
-  
+
   // params here and in nesting are the same object
   fn: ({ params: { quantity, id }, api }) => api.get('/storage', { quantity, id }),
-  
+
   // in the state they will be kept with the following structure:
   // {
   //   someId: {
