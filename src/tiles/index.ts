@@ -124,6 +124,7 @@ export function createSyncTile(params: ISyncTileParams): ITile {
   const selectors: ISelectors = createSelectors(selectorParams);
 
   const actionParams: ISyncActionTypes = {
+    type,
     SET: types.SET,
     nesting,
     fn

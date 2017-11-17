@@ -8,6 +8,10 @@ export function changeDefaultReducer(newReducer: string): void {
   DEFAULT_REDUCER = newReducer;
 }
 
+export function getTopReducer(): string {
+  return DEFAULT_REDUCER;
+}
+
 function checkValue(result: any, defaultValue?: any): {} {
   return result === undefined || result === null ? defaultValue : result;
 }
