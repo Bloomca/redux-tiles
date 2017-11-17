@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
-import { createType } from '../helpers';
-import { DEFAULT_REDUCER } from './selectors';
+import { createType, ensureArray } from '../helpers';
+import { getTopReducer } from './selectors';
 import { IAsyncActionTypes, IPromiseObject, ISyncActionTypes } from './types';
 
 interface IProcessedMiddleware {
@@ -117,10 +117,20 @@ export function createResetAction({ type }: { type: string }): Function {
   return handleMiddleware(({ dispatch }: { dispatch: Dispatch<any> }) => dispatch({ type }));
 }
 
-export function syncAction({ SET, fn, nesting }: ISyncActionTypes): FnResult {
-  return handleMiddleware(({ dispatch, getState, ...middlewares }: any, params: any) => {
+export function syncAction({ SET, fn, nesting, type }: ISyncActionTypes): FnResult {
+  return handleMiddleware(({ dispatch, getState, selectors, ...middlewares }: any, params: any) => {
     const path: string[]|null = nesting ? nesting(params) : null;
-    const data = fn({ params, dispatch, getState, ...middlewares });
+
+    const topReducer = getTopReducer();
+    const nestedNames: string[] = ensureArray(type);
+    const topReducerArray: string[] = Boolean(topReducer) ? [topReducer] : [];
+
+    const selectorFn = topReducerArray
+      .concat(nestedNames)
+      .reduce((selectors, key) => selectors[key], selectors);
+
+    const getData = () => selectorFn(getState(), params);
+    const data = fn({ params, dispatch, getData, getState, ...middlewares });
 
     return dispatch({
       type: SET,

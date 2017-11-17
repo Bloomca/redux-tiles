@@ -82,7 +82,10 @@ test('createSyncTile should return params if no function was given', () => {
 
   const params = { some: 123 };
   const dispatch = spy();
-  syncTile.action(params)({ dispatch });
+  const selectors = {
+    some: () => {}
+  }
+  syncTile.action(params)({ dispatch, selectors });
 
   const call = dispatch.getCall(0);
   const arg = call.args[0];
@@ -102,7 +105,7 @@ test('createSyncTile should update values after dispatching action correctly', (
   const someTile = createSyncTile({ type: 'some' });
   const tiles = [someTile];
   const { reducer, actions, selectors } = createEntities(tiles);
-  const { middleware } = createMiddleware();
+  const { middleware } = createMiddleware({ actions, selectors });
   const store = createStore(reducer, applyMiddleware(middleware));
   const { data: result } = store.dispatch(actions.some('some'));
   expect(result).toBe('some');

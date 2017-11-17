@@ -24,8 +24,8 @@ export const filterTile = createSyncTile({
 export const todosTile = createSyncTile({
   type: ['todos', 'list'],
   fns: {
-    add: ({ params, selectors, getState }) => {
-      const list = selectors.todos.list(getState());
+    add: ({ params, getData }) => {
+      const list = getData();
       const newItem = {
         ...params,
         completed: false,
@@ -34,21 +34,13 @@ export const todosTile = createSyncTile({
 
       return list.concat(newItem);
     },
-    remove: ({ params, selectors, getState }) => {
-      const list = selectors.todos.list(getState());
-      return list.filter(item => item.id !== params.id);
-    },
-    toggle: ({ params, selectors, getState }) => {
-      const list = selectors.todos.list(getState());
-      return list.map(todo => todo.id === params.id
+    remove: ({ params, getData }) => getData().filter(item => item.id !== params.id),
+    toggle: ({ params, getData }) => getData().map(
+      todo => todo.id === params.id
         ? { ...todo, completed: !todo.completed }
         : todo
-      );
-    },
-    clearCompleted: ({ params, selectors, getState }) => {
-      const list = selectors.todos.list(getState());
-      return list.filter(({ completed }) => completed === false);
-    }
+    ),
+    clearCompleted: ({ params, getData }) => getData().filter(({ completed }) => completed === false)
   },
   initialState: [],
 });

@@ -40,7 +40,7 @@ const chooseParams = createSyncTile({
   // alternatively, if you perform some actions on existing data,
   // it might be useful to write more declarative actions
   // they have exactly the same signature and dispatch returned data
-  // to the tile; they will be available under 
+  // to the tile; they will be available under
   // actions.ui.params.add and actions.ui.params.remove
   fns: {
     add: ({ params, selectors, getState}) => {
@@ -66,8 +66,8 @@ const chooseParams = createSyncTile({
 
 ## Example
 
-Let's create a tile for todoMVC application. We have to perform a lot of 
-listing list of all notifications which were triggered. We won't remove them here for the sake of simplicity, but we can easily add it with filtering. 
+Let's create a tile for todoMVC application. We have to perform a lot of
+listing list of all notifications which were triggered. We won't remove them here for the sake of simplicity, but we can easily add it with filtering.
 
 ```javascript
 import { createSyncTile } from 'redux-tiles';
@@ -81,8 +81,11 @@ export const todosTile = createSyncTile({
   fns: {
     // this function will be available under
     // actions.todos.list.add
-    add: ({ params, selectors, getState }) => {
-      const list = selectors.todos.list(getState());
+    add: ({ params, getData }) => {
+      // getData is a special function which returns current value
+      // it is equivalent for the following:
+      // const list = selectors.todos.list(getState());
+      const list = getData();
       const newItem = {
         ...params,
         completed: false,

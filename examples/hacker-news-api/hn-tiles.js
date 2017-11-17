@@ -33,17 +33,12 @@ export const itemsByPageTile = createTile({
   fn: async ({ params: { type = 'topstories', pageNumber = 0, pageSize = 30 }, selectors, getState, actions, dispatch }) => {
     // we can always fetch stories, they are cached, so if this type
     // was already fetched, there will be no new request
-    const aaa = await dispatch(actions.hn_api.stories({ type }));
-    console.log(typeof aaa);
-    const data = aaa.data;
-    // const { data } = selectors.hn_api.stories(getState(), { type });
-    // console.log(aaa.data === data, 'comparing..', data && data.length);
+    const { data } = await dispatch(actions.hn_api.stories({ type }));
     const offset = pageNumber * pageSize;
     const end = offset + pageSize;
     const ids = data.slice(offset, end);
     await dispatch(actions.hn_api.items({ ids }));
     return ids.map(id => {
-      // console.log(selectors.hn_api.item(getState(), { id }));
       return selectors.hn_api.item(getState(), { id }).data
     });
   },

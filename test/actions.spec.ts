@@ -195,8 +195,11 @@ test('syncAction should dispatch processedData immediately', () => {
 
   const dispatch = spy();
   const getState = () => {};
+  const selectors = {
+    type: () => {}
+  }
 
-  action(params)({ dispatch, getState });
+  action(params)({ dispatch, getState, selectors });
 
   const call = dispatch.getCall(0);
   expect(call.args[0].payload.data).toEqual(params);
@@ -242,11 +245,58 @@ test('createSyncTile should execute functions from fns correctly', () => {
   });
 
   const dispatch = spy();
-  const middlewares = { dispatch };
+  const selectors = {
+    some: () => {}
+  };
+  const middlewares = { dispatch, selectors };
   const params = { some: 123 };
   tile.action.add(params)(middlewares);
 
   const arg = dispatch.getCall(0).args[0];
 
   expect(arg.payload.data).toBe(params);
+});
+
+test('createSyncTile should have getData fn', () => {
+  const tile = createSyncTile({
+    type: ['some'],
+    fn: spy()
+  });
+
+  const dispatch = () => {};
+  const selectors = {
+    some: spy()
+  };
+  const getState = () => {};
+  const middlewares = { dispatch, selectors, getState };
+  const params = { some: 123 };
+  tile.action(params)(middlewares);
+
+  const arg = tile.reflect.fn.getCall(0).args[0];
+  arg.getData();
+
+  expect(selectors.some.calledOnce).toBe(true);
+});
+
+test('getData fn in createSyncTile should handle nested types', () => {
+  const tile = createSyncTile({
+    type: ['some', 'additional'],
+    fn: spy()
+  });
+
+  const dispatch = () => {};
+  const selectors = {
+    some: {
+      additional: spy()
+    }
+  };
+  const getState = () => {};
+  const middlewares = { dispatch, selectors, getState };
+  const params = { some: 123 };
+  tile.action(params)(middlewares);
+
+  const arg = tile.reflect.fn.getCall(0).args[0];
+  arg.getData();
+
+  expect(selectors.some.additional.calledOnce).toBe(true);
 });
