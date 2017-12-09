@@ -1,6 +1,6 @@
-import { Action, Reducer } from 'redux';
-import { get, isFunction, mapValues } from '../utils';
-import { ReducerObject } from './types';
+import { Action, Reducer } from "redux";
+import { get, isFunction, mapValues } from "../utils";
+import { ReducerObject } from "./types";
 
 /**
  * @overview create reducer function from the object
@@ -9,11 +9,14 @@ import { ReducerObject } from './types';
  * reduce functions to change store as values
  * @return {Function} – function to act as a reducer
  */
-export function createReducerFromObject(initialState: any, handlers: ReducerObject): Reducer<any> {
+export function createReducerFromObject(
+  initialState: any,
+  handlers: ReducerObject
+): Reducer<any> {
   return function reducer(state: {} = initialState, action: Action): {} {
-    const handler: Function|{} = handlers[action.type];
+    const handler: Function | {} = handlers[action.type];
 
-    return typeof handler === 'function' ? handler(state, action) : state;
+    return typeof handler === "function" ? handler(state, action) : state;
   };
 }
 
@@ -24,14 +27,19 @@ export function createReducerFromObject(initialState: any, handlers: ReducerObje
  * newValues to set at store as values
  * @return {Function} – function to act as a reducer
  */
-export function createReducer(initialState: any, handlers: ReducerObject): Reducer<any> {
+export function createReducer(
+  initialState: any,
+  handlers: ReducerObject
+): Reducer<any> {
   return createReducerFromObject(
     initialState,
-    mapValues(handlers, (value: any) => (state: any, action: Action): any => reducerCreator({
-      state,
-      action,
-      newValue: isFunction(value) ? value(state, action) : value
-    }))
+    mapValues(handlers, (value: any) => (state: any, action: Action): any =>
+      reducerCreator({
+        state,
+        action,
+        newValue: isFunction(value) ? value(state, action) : value
+      })
+    )
   );
 }
 

@@ -14,6 +14,7 @@
     "package.json"
   ],
   "scripts": {
+    "precommit": "lint-staged",
     "clean": "rimraf lib dist coverage",
     "prepublish": "npm run clean && npm run test && npm run build",
     "build:es2015": "tsc -P tsconfig.json",
@@ -30,6 +31,9 @@
     "docs:publish": "yarn run docs:clean && yarn run docs:build && cp CNAME _book && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:bloomca/redux-tiles gh-pages --force",
     "test": "jest",
     "test:watch": "jest --watch"
+  },
+  "lint-staged": {
+    "*.ts": ["prettier --write", "git add"]
   },
   "repository": {
     "type": "git",
@@ -60,7 +64,10 @@
     "cross-env": "^5.0.0",
     "delounce": "^0.3.0",
     "gitbook-cli": "^2.3.0",
+    "husky": "^0.14.3",
     "jest": "^20.0.4",
+    "lint-staged": "^6.0.0",
+    "prettier": "1.9.1",
     "rimraf": "^2.6.1",
     "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.7.1",

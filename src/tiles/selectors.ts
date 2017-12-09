@@ -1,8 +1,8 @@
-import { createType, ensureArray } from '../helpers';
-import { get, isString } from '../utils';
-import { ICreateSelectorsTypes, IData, ISelectors, SyncData } from './types';
+import { createType, ensureArray } from "../helpers";
+import { get, isString } from "../utils";
+import { ICreateSelectorsTypes, IData, ISelectors, SyncData } from "./types";
 
-export let DEFAULT_REDUCER: string = '';
+export let DEFAULT_REDUCER: string = "";
 
 export function changeDefaultReducer(newReducer: string): void {
   DEFAULT_REDUCER = newReducer;
@@ -20,8 +20,8 @@ interface ILookupParams {
   selectorFallback: any;
   state: Object;
   params: any;
-  nesting: ((params: any) => string[])|undefined;
-  tileName: string|string[];
+  nesting: ((params: any) => string[]) | undefined;
+  tileName: string | string[];
 }
 
 /**
@@ -32,7 +32,13 @@ interface ILookupParams {
  * @param  {String} tileName – string to access module data
  * @return {Object} – stored data
  */
-function lookup({ state, params, nesting, tileName, selectorFallback }: ILookupParams): IData|SyncData {
+function lookup({
+  state,
+  params,
+  nesting,
+  tileName,
+  selectorFallback
+}: ILookupParams): IData | SyncData {
   let path: string[] = [];
   const topReducer: string = DEFAULT_REDUCER;
 
@@ -43,13 +49,16 @@ function lookup({ state, params, nesting, tileName, selectorFallback }: ILookupP
   const nestedNames: string[] = ensureArray(tileName);
   const topReducerArray: string[] = Boolean(topReducer) ? [topReducer] : [];
 
-  return checkValue(get(state, [...topReducerArray, ...nestedNames, ...path]), selectorFallback);
+  return checkValue(
+    get(state, [...topReducerArray, ...nestedNames, ...path]),
+    selectorFallback
+  );
 }
 
 interface ICheckArgumentsParams {
   state: {};
   params: any;
-  tileName: string|string[];
+  tileName: string | string[];
   fn: Function;
 }
 
@@ -62,12 +71,18 @@ interface ICheckArgumentsParams {
  * @param  {Function} fn – function to invoke if check was passed
  * @return {Any} – result of function invokation
  */
-function checkArguments({ state, params, tileName, fn }: ICheckArgumentsParams): {} {
+function checkArguments({
+  state,
+  params,
+  tileName,
+  fn
+}: ICheckArgumentsParams): {} {
   if (!state) {
     throw new Error(`
       Error in Redux-Tiles Selector – you have to provide
-      state as a first argument!. Error in "${createType({ type: tileName })}" tile.`
-    );
+      state as a first argument!. Error in "${createType({
+        type: tileName
+      })}" tile.`);
   }
 
   return fn(state, params);
@@ -79,22 +94,28 @@ function checkArguments({ state, params, tileName, fn }: ICheckArgumentsParams):
  * @param  {Function} nesting – function to create nested data inside store
  * @return {Object} – object with selectors for all and specific data
  */
-export function createSelectors(
-  { tileName, nesting, selectorFallback }: ICreateSelectorsTypes
-): ISelectors {
+export function createSelectors({
+  tileName,
+  nesting,
+  selectorFallback
+}: ICreateSelectorsTypes): ISelectors {
   const getAll: Function = (state: any): any => {
-    const topReducerArray: string[] = Boolean(DEFAULT_REDUCER) ? [DEFAULT_REDUCER] : [];
+    const topReducerArray: string[] = Boolean(DEFAULT_REDUCER)
+      ? [DEFAULT_REDUCER]
+      : [];
 
-    return checkValue(get(state, [...topReducerArray, ...ensureArray(tileName)]));
+    return checkValue(
+      get(state, [...topReducerArray, ...ensureArray(tileName)])
+    );
   };
 
-  const getSpecific: Function = (state: {}, params: any): IData|SyncData =>
+  const getSpecific: Function = (state: {}, params: any): IData | SyncData =>
     lookup({ state, params, nesting, tileName, selectorFallback });
 
   return {
     getAll: (state: any): {} =>
       checkArguments({ state, tileName, fn: getAll } as any),
-    get: (state: any, params?: any): IData|SyncData =>
+    get: (state: any, params?: any): IData | SyncData =>
       checkArguments({ state, params, tileName, fn: getSpecific })
   };
 }

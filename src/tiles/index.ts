@@ -1,8 +1,8 @@
-import { Reducer } from 'redux';
-import { createType } from '../helpers';
-import { asyncAction, createResetAction, syncAction } from './actions';
-import { createReducer } from './reducer';
-import { createSelectors } from './selectors';
+import { Reducer } from "redux";
+import { createType } from "../helpers";
+import { asyncAction, createResetAction, syncAction } from "./actions";
+import { createReducer } from "./reducer";
+import { createSelectors } from "./selectors";
 import {
   IAsyncActionTypes,
   ICreateSelectorsTypes,
@@ -15,27 +15,21 @@ import {
   ITileParams,
   ReducerObject,
   SyncData
-} from './types';
+} from "./types";
 
-const prefix: string = 'Redux_Tiles_';
+const prefix: string = "Redux_Tiles_";
 
 export interface ITypes {
   [key: string]: string;
 }
 
 export interface IReducerAction {
-  payload: { data: any }|undefined;
-  error: string|Object|undefined|null;
+  payload: { data: any } | undefined;
+  error: string | Object | undefined | null;
 }
 
 export function createTile(params: ITileParams): ITile {
-  const {
-    type,
-    fn,
-    caching,
-    nesting,
-    selectorFallback = null
-  } = params;
+  const { type, fn, caching, nesting, selectorFallback = null } = params;
   // initial state is equal to empty object, because of possible nesting
   // basically every object should contain default properties, so we handle
   // this situation using selectors
@@ -53,7 +47,7 @@ export function createTile(params: ITileParams): ITile {
       isPending: false,
       error: null,
       data: selectorFallback,
-      fetched: false,
+      fetched: false
     },
     tileName: type,
     nesting
@@ -79,25 +73,32 @@ export function createTile(params: ITileParams): ITile {
       data: null,
       isPending: true,
       error: null,
-      fetched: false,
+      fetched: false
     },
     [types.FAILURE]: (_storeState: {}, storeAction: IReducerAction): IData => ({
       data: null,
       isPending: false,
       error: storeAction.error,
-      fetched: true,
+      fetched: true
     }),
     [types.SUCCESS]: (_storeState: {}, storeAction: IReducerAction): IData => ({
       error: null,
       isPending: false,
       data: storeAction.payload && storeAction.payload.data,
-      fetched: true,
+      fetched: true
     }),
     [types.RESET]: initialState
   };
   const reducer: Reducer<any> = createReducer(initialState, reducerObject);
 
-  return { action, reducer, selectors, tileName: type, constants: types, reflect: params };
+  return {
+    action,
+    reducer,
+    selectors,
+    tileName: type,
+    constants: types,
+    reflect: params
+  };
 }
 
 export function createSyncTile(params: ISyncTileParams): ITile {
@@ -150,5 +151,12 @@ export function createSyncTile(params: ISyncTileParams): ITile {
   };
   const reducer: Reducer<any> = createReducer(initialState, reducerObject);
 
-  return { action, selectors, reducer, tileName: type, constants: types, reflect: params };
+  return {
+    action,
+    selectors,
+    reducer,
+    tileName: type,
+    constants: types,
+    reflect: params
+  };
 }

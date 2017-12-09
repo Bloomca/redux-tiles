@@ -1,7 +1,7 @@
-import { Dispatch } from 'redux';
-import { createType, ensureArray } from '../helpers';
-import { getTopReducer } from './selectors';
-import { IAsyncActionTypes, IPromiseObject, ISyncActionTypes } from './types';
+import { Dispatch } from "redux";
+import { createType, ensureArray } from "../helpers";
+import { getTopReducer } from "./selectors";
+import { IAsyncActionTypes, IPromiseObject, ISyncActionTypes } from "./types";
 
 interface IProcessedMiddleware {
   dispatch: Dispatch<{}>;
@@ -18,13 +18,13 @@ function proccessMiddleware(args: any[]): IProcessedMiddleware {
   } else if (args.length === 2) {
     // likely it is redux-thunk
     return { dispatch: args[0], getState: args[1] };
-  } else if (args.length === 1 && typeof args[0] === 'object') {
+  } else if (args.length === 1 && typeof args[0] === "object") {
     // our own middleware
     return args[0];
   }
 
   // no idea what it is
-  throw new Error('Redux-Tiles expects own middleware, or redux-thunk');
+  throw new Error("Redux-Tiles expects own middleware, or redux-thunk");
 }
 
 export function shouldBeFetched({ isPending, fetched, error }: any): boolean {
@@ -47,98 +47,138 @@ export function shouldBeFetched({ isPending, fetched, error }: any): boolean {
 }
 
 function handleMiddleware(fn: Function): FnResult {
-  return (fnParams: any, additionalParams: any): Function => (...args: any[]): any =>
-    fn(proccessMiddleware(args), fnParams, additionalParams);
+  return (fnParams: any, additionalParams: any): Function => (
+    ...args: any[]
+  ): any => fn(proccessMiddleware(args), fnParams, additionalParams);
 }
 
 export function asyncAction({
-  START, SUCCESS, FAILURE, fn, type, caching, nesting, selectors
+  START,
+  SUCCESS,
+  FAILURE,
+  fn,
+  type,
+  caching,
+  nesting,
+  selectors
 }: IAsyncActionTypes): FnResult {
-  return handleMiddleware((
-    { dispatch, getState, promisesStorage = {}, ...middlewares }:
-    { dispatch: Dispatch<{}>, promisesStorage: IPromiseObject, getState(): {} },
-    params: any,
-    { forceAsync }: { forceAsync?: boolean } = {}
-  ) => {
-    const path: string[]|null = nesting ? nesting(params) : null;
+  return handleMiddleware(
+    (
+      {
+        dispatch,
+        getState,
+        promisesStorage = {},
+        ...middlewares
+      }: {
+        dispatch: Dispatch<{}>;
+        promisesStorage: IPromiseObject;
+        getState(): {};
+      },
+      params: any,
+      { forceAsync }: { forceAsync?: boolean } = {}
+    ) => {
+      const path: string[] | null = nesting ? nesting(params) : null;
 
-    const getIdentificator: string = createType({ type, path });
+      const getIdentificator: string = createType({ type, path });
 
-    if (caching) {
-      const activePromise: Promise<any>|undefined = promisesStorage[getIdentificator];
+      if (caching) {
+        const activePromise: Promise<any> | undefined =
+          promisesStorage[getIdentificator];
 
-      if (activePromise) {
-        return activePromise;
+        if (activePromise) {
+          return activePromise;
+        }
       }
-    }
 
-    if (caching && !forceAsync) {
-      const { isPending, fetched, error, data } = selectors.get(getState(), params);
-      const isFetchingNeeded: boolean = shouldBeFetched({ isPending, fetched, error });
+      if (caching && !forceAsync) {
+        const { isPending, fetched, error, data } = selectors.get(
+          getState(),
+          params
+        );
+        const isFetchingNeeded: boolean = shouldBeFetched({
+          isPending,
+          fetched,
+          error
+        });
 
-      if (!isFetchingNeeded) {
-        return Promise.resolve({ data, error, isPending });
+        if (!isFetchingNeeded) {
+          return Promise.resolve({ data, error, isPending });
+        }
       }
-    }
 
-    dispatch({
-      type: START,
-      payload: { path },
-      isPending: true
-    });
-
-    const promise: Promise<any> = fn({ params, dispatch, getState, ...middlewares })
-      .then((data: any) => {
-        promisesStorage[getIdentificator] = undefined;
-        return dispatch({
-          type: SUCCESS,
-          payload: { path, data },
-          data,
-          isPending: false
-        });
-      })
-      .catch((error: any) => {
-        promisesStorage[getIdentificator] = undefined;
-        return dispatch({
-          error,
-          type: FAILURE,
-          payload: { path },
-          isPending: false,
-        });
+      dispatch({
+        type: START,
+        payload: { path },
+        isPending: true
       });
 
-    promisesStorage[getIdentificator] = promise;
+      const promise: Promise<any> = fn({
+        params,
+        dispatch,
+        getState,
+        ...middlewares
+      })
+        .then((data: any) => {
+          promisesStorage[getIdentificator] = undefined;
+          return dispatch({
+            type: SUCCESS,
+            payload: { path, data },
+            data,
+            isPending: false
+          });
+        })
+        .catch((error: any) => {
+          promisesStorage[getIdentificator] = undefined;
+          return dispatch({
+            error,
+            type: FAILURE,
+            payload: { path },
+            isPending: false
+          });
+        });
 
-    return promise;
-  });
+      promisesStorage[getIdentificator] = promise;
+
+      return promise;
+    }
+  );
 }
 
 export function createResetAction({ type }: { type: string }): Function {
-  return handleMiddleware(({ dispatch }: { dispatch: Dispatch<any> }) => dispatch({ type }));
+  return handleMiddleware(({ dispatch }: { dispatch: Dispatch<any> }) =>
+    dispatch({ type })
+  );
 }
 
-export function syncAction({ SET, fn, nesting, type }: ISyncActionTypes): FnResult {
-  return handleMiddleware(({ dispatch, getState, selectors, ...middlewares }: any, params: any) => {
-    const path: string[]|null = nesting ? nesting(params) : null;
+export function syncAction({
+  SET,
+  fn,
+  nesting,
+  type
+}: ISyncActionTypes): FnResult {
+  return handleMiddleware(
+    ({ dispatch, getState, selectors, ...middlewares }: any, params: any) => {
+      const path: string[] | null = nesting ? nesting(params) : null;
 
-    const topReducer = getTopReducer();
-    const nestedNames: string[] = ensureArray(type);
-    const topReducerArray: string[] = Boolean(topReducer) ? [topReducer] : [];
+      const topReducer = getTopReducer();
+      const nestedNames: string[] = ensureArray(type);
+      const topReducerArray: string[] = Boolean(topReducer) ? [topReducer] : [];
 
-    const selectorFn = topReducerArray
-      .concat(nestedNames)
-      .reduce((selectors, key) => selectors[key], selectors);
+      const selectorFn = topReducerArray
+        .concat(nestedNames)
+        .reduce((selectors, key) => selectors[key], selectors);
 
-    const getData = () => selectorFn(getState(), params);
-    const data = fn({ params, dispatch, getData, getState, ...middlewares });
+      const getData = () => selectorFn(getState(), params);
+      const data = fn({ params, dispatch, getData, getState, ...middlewares });
 
-    return dispatch({
-      type: SET,
-      payload: {
-        path,
+      return dispatch({
+        type: SET,
+        payload: {
+          path,
+          data
+        },
         data
-      },
-      data
-    });
-  });
+      });
+    }
+  );
 }
