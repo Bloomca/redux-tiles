@@ -3,11 +3,11 @@ export function isArray(arrayToCheck: any): boolean {
 }
 
 export function isString(stringToCheck: any): boolean {
-  return typeof stringToCheck === 'string';
+  return typeof stringToCheck === "string";
 }
 
 export function isFunction(functionToCheck: any): boolean {
-  return typeof functionToCheck === 'function';
+  return typeof functionToCheck === "function";
 }
 
 export function get(object: any, path: string[]): any {

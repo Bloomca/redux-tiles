@@ -1,6 +1,6 @@
-import { iterate, populateHash } from './helpers';
-import { IPromiseObject, ITile } from './tiles/types';
-import { isArray } from './utils';
+import { iterate, populateHash } from "./helpers";
+import { IPromiseObject, ITile } from "./tiles/types";
+import { isArray } from "./utils";
 
 export function createActions(tiles: ITile[]): any {
   // this storage will keep all promises

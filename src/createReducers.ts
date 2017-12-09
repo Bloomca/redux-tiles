@@ -1,28 +1,36 @@
-import { combineReducers, Reducer } from 'redux';
-import { iterate, populateHash } from './helpers';
-import { changeDefaultReducer, DEFAULT_REDUCER } from './tiles/selectors';
-import { ITile } from './tiles/types';
-import { isFunction, isString } from './utils';
+import { combineReducers, Reducer } from "redux";
+import { iterate, populateHash } from "./helpers";
+import { changeDefaultReducer, DEFAULT_REDUCER } from "./tiles/selectors";
+import { ITile } from "./tiles/types";
+import { isFunction, isString } from "./utils";
 
 export function createNestedReducers(value: any): Reducer<any> {
-  return combineReducers(Object.keys(value).reduce((hash: any, key: string) => {
-    const elem: Function|{} = value[key];
-    hash[key] = isFunction(elem) ? elem : createNestedReducers(elem);
+  return combineReducers(
+    Object.keys(value).reduce((hash: any, key: string) => {
+      const elem: Function | {} = value[key];
+      hash[key] = isFunction(elem) ? elem : createNestedReducers(elem);
 
-    return hash;
-  }, {}));
+      return hash;
+    }, {})
+  );
 }
 
-export function createReducers(modules: ITile[], topReducer: string = DEFAULT_REDUCER): Reducer<any> {
+export function createReducers(
+  modules: ITile[],
+  topReducer: string = DEFAULT_REDUCER
+): Reducer<any> {
   if (topReducer !== DEFAULT_REDUCER) {
     changeDefaultReducer(topReducer);
   }
 
-  const nestedModules: any = iterate(modules).reduce((hash: any, module: ITile) => {
-    populateHash(hash, module.tileName, module.reducer);
+  const nestedModules: any = iterate(modules).reduce(
+    (hash: any, module: ITile) => {
+      populateHash(hash, module.tileName, module.reducer);
 
-    return hash;
-  }, {});
+      return hash;
+    },
+    {}
+  );
 
   return createNestedReducers(nestedModules);
 }
