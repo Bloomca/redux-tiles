@@ -4,6 +4,7 @@
 [![npm version](https://badge.fury.io/js/redux-tiles.svg)](https://badge.fury.io/js/redux-tiles)
 [![Coverage Status](https://coveralls.io/repos/github/Bloomca/redux-tiles/badge.svg?branch=master)](https://coveralls.io/github/Bloomca/redux-tiles?branch=master)
 [![dependencies Status](https://david-dm.org/bloomca/redux-tiles/status.svg)](https://david-dm.org/bloomca/redux-tiles)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 **[Documentation](https://redux-tiles.js.org/)**
 
