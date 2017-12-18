@@ -11,6 +11,14 @@
 Redux is an awesome library to keep state management sane on scale. The problem, though, is that it is toooo verbose, and often you'd feel like you are doing literally the same thing again and again. This library tries to provide minimal abstraction on top of Redux, to allow easy composability, easy async requests, and sane testability.
 It is possible to start using this library [in existing project](https://bloomca.github.io/redux-tiles/advanced/integration.html), adding new functionality gradually.
 >**[More about rationale behind this library](http://blog.bloomca.me/2017/06/02/why-i-created-redux-tiles-library.html)**<br>
+
+Features:
+- built-in async handling
+- nesting (no several levels merging of state)
+- caching (call your requests declaratively, while only one will be fired)
+- semantic separation of reducers (no manual `combineReducers`)
+
+> You can see [comparison between redux-tiles and vanilla redux](https://bloomca.github.io/redux-tiles-playground/)
 >
 >**[Examples](./examples)**
 > * [Calculator](./examples/calculator)
