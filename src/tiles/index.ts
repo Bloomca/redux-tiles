@@ -125,10 +125,10 @@ export function createSyncTile(params: ISyncTileParams): ITile {
   const selectors: ISelectors = createSelectors(selectorParams);
 
   const actionParams: ISyncActionTypes = {
-    type,
     SET: types.SET,
     nesting,
-    fn
+    fn,
+    selector: selectors.get
   };
   const action: IOverloadedAction = syncAction(actionParams);
   action.reset = createResetAction({ type: types.RESET });
