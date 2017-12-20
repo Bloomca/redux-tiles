@@ -51,10 +51,10 @@ export interface IAsyncActionTypes {
 }
 
 export interface ISyncActionTypes {
-  type: string | string[];
   SET: string;
   fn: Function;
   nesting: ((params: any) => string[]) | undefined;
+  selector: Function;
 }
 
 export interface IPromiseObject {

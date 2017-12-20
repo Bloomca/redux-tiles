@@ -1,19 +1,19 @@
-import { spy, stub } from 'sinon';
-import { createTile, createSyncTile } from '../src/tiles';
-import { asyncAction, syncAction } from '../src/tiles/actions';
+import { spy, stub } from "sinon";
+import { createTile, createSyncTile } from "../src/tiles";
+import { asyncAction, syncAction } from "../src/tiles/actions";
 
-test('should create an action', () => {
+test("should create an action", () => {
   const tile = createTile({
-    type: 'Some'
+    type: "Some"
   });
 
   expect(tile.action).toBeInstanceOf(Function);
 });
 
-test('action should detect thunk middleware', () => {
+test("action should detect thunk middleware", () => {
   const fn = stub().returns(Promise.resolve());
   const tile = createTile({
-    type: 'Some',
+    type: "Some",
     fn
   });
 
@@ -24,10 +24,10 @@ test('action should detect thunk middleware', () => {
   expect(fn.calledWith({ dispatch, getState, params })).toBe(true);
 });
 
-test('action should detect thunk middleware with additional params', () => {
+test("action should detect thunk middleware with additional params", () => {
   const fn = stub().returns(Promise.resolve());
   const tile = createTile({
-    type: 'Some',
+    type: "Some",
     fn
   });
 
@@ -39,10 +39,10 @@ test('action should detect thunk middleware with additional params', () => {
   expect(fn.calledWith({ dispatch, getState, params, some: true })).toBe(true);
 });
 
-test('action should detect our middleware', () => {
+test("action should detect our middleware", () => {
   const fn = stub().returns(Promise.resolve());
   const tile = createTile({
-    type: 'Some',
+    type: "Some",
     fn
   });
 
@@ -54,15 +54,15 @@ test('action should detect our middleware', () => {
   expect(fn.calledWith({ dispatch, getState, params, actions })).toBe(true);
 });
 
-
-test('asyncAction should invoke dispatch correct number of times', async () => {
+test("asyncAction should invoke dispatch correct number of times", async () => {
   const fn = stub();
   fn.returns(new Promise(res => res({ data: true })));
-  const START = 'START';
-  const SUCCESS = 'SUCCESS';
+  const START = "START";
+  const SUCCESS = "SUCCESS";
   const action = asyncAction({
-    type: ['some'],
-    START, SUCCESS,
+    type: ["some"],
+    START,
+    SUCCESS,
     fn
   });
 
@@ -75,15 +75,16 @@ test('asyncAction should invoke dispatch correct number of times', async () => {
   expect(dispatch.calledTwice).toBe(true);
 });
 
-test('asyncAction should invoke dispatch with correct types', async () => {
+test("asyncAction should invoke dispatch with correct types", async () => {
   const fn = stub();
   fn.returns(new Promise(res => res({ data: true })));
-  const START = 'START';
-  const SUCCESS = 'SUCCESS';
+  const START = "START";
+  const SUCCESS = "SUCCESS";
   const action = asyncAction({
-    type: ['some'],
-    START, SUCCESS,
-    fn,
+    type: ["some"],
+    START,
+    SUCCESS,
+    fn
   });
 
   const dispatch = spy();
@@ -98,15 +99,17 @@ test('asyncAction should invoke dispatch with correct types', async () => {
   expect(secondDispatch.args[0].type).toBe(SUCCESS);
 });
 
-test('asyncAction should invoke dispatch with error', async () => {
+test("asyncAction should invoke dispatch with error", async () => {
   const fn = stub();
-  fn.returns(new Promise((res, reject) => reject({ error: 'some' })));
-  const START = 'START';
-  const FAILURE = 'FAILURE';
-  const SUCCESS = 'SUCCESS';
+  fn.returns(new Promise((res, reject) => reject({ error: "some" })));
+  const START = "START";
+  const FAILURE = "FAILURE";
+  const SUCCESS = "SUCCESS";
   const action = asyncAction({
-    type: ['some'],
-    START, FAILURE, SUCCESS,
+    type: ["some"],
+    START,
+    FAILURE,
+    SUCCESS,
     fn
   });
 
@@ -119,15 +122,17 @@ test('asyncAction should invoke dispatch with error', async () => {
   expect(secondDispatch.args[0].type).toBe(FAILURE);
 });
 
-test('asyncAction should\'t invoke dispatch if is loading with caching', async () => {
-  const START = 'START';
-  const FAILURE = 'FAILURE';
-  const SUCCESS = 'SUCCESS';
+test("asyncAction should't invoke dispatch if is loading with caching", async () => {
+  const START = "START";
+  const FAILURE = "FAILURE";
+  const SUCCESS = "SUCCESS";
   const action = asyncAction({
-    type: 'some',
-    START, FAILURE, SUCCESS,
+    type: "some",
+    START,
+    FAILURE,
+    SUCCESS,
     selectors: {
-      get: () => ({ isPending: true, error: null, fetched: false }),
+      get: () => ({ isPending: true, error: null, fetched: false })
     },
     fn: () => Promise.resolve(13),
     caching: true
@@ -141,15 +146,17 @@ test('asyncAction should\'t invoke dispatch if is loading with caching', async (
   expect(dispatch.notCalled).toBe(true);
 });
 
-test('asyncAction should\'t invoke dispatch if loaded with caching', async () => {
-  const START = 'START';
-  const FAILURE = 'FAILURE';
-  const SUCCESS = 'SUCCESS';
+test("asyncAction should't invoke dispatch if loaded with caching", async () => {
+  const START = "START";
+  const FAILURE = "FAILURE";
+  const SUCCESS = "SUCCESS";
   const action = asyncAction({
-    type: ['some'],
-    START, FAILURE, SUCCESS,
+    type: ["some"],
+    START,
+    FAILURE,
+    SUCCESS,
     selectors: {
-      get: () => ({ isPending: false, data: { a: 'b' } })
+      get: () => ({ isPending: false, data: { a: "b" } })
     },
     caching: true
   });
@@ -162,15 +169,17 @@ test('asyncAction should\'t invoke dispatch if loaded with caching', async () =>
   expect(dispatch.notCalled).toBe(true);
 });
 
-test('asyncAction should invoke dispatch if loaded with caching, but with force', async () => {
-  const START = 'START';
-  const FAILURE = 'FAILURE';
-  const SUCCESS = 'SUCCESS';
+test("asyncAction should invoke dispatch if loaded with caching, but with force", async () => {
+  const START = "START";
+  const FAILURE = "FAILURE";
+  const SUCCESS = "SUCCESS";
   const action = asyncAction({
-    type: ['some'],
-    START, FAILURE, SUCCESS,
+    type: ["some"],
+    START,
+    FAILURE,
+    SUCCESS,
     selectors: {
-      get: () => ({ isLoading: false, data: { a: 'b' } }),
+      get: () => ({ isLoading: false, data: { a: "b" } })
     },
     fn: () => Promise.resolve(),
     caching: true
@@ -184,11 +193,11 @@ test('asyncAction should invoke dispatch if loaded with caching, but with force'
   expect(dispatch.callCount).toBe(2);
 });
 
-test('syncAction should dispatch processedData immediately', () => {
-  const TYPE = 'TYPE';
+test("syncAction should dispatch processedData immediately", () => {
+  const TYPE = "TYPE";
   const params = { some: true };
   const action = syncAction({
-    type: ['type'],
+    type: ["type"],
     TYPE,
     fn: () => params
   });
@@ -197,7 +206,7 @@ test('syncAction should dispatch processedData immediately', () => {
   const getState = () => {};
   const selectors = {
     type: () => {}
-  }
+  };
 
   action(params)({ dispatch, getState, selectors });
 
@@ -205,13 +214,13 @@ test('syncAction should dispatch processedData immediately', () => {
   expect(call.args[0].payload.data).toEqual(params);
 });
 
-test('async Action should invoke action with different params', async () => {
+test("async Action should invoke action with different params", async () => {
   const action = stub();
   action.returns(new Promise(res => setTimeout(() => res({ some: true }), 10)));
   const tile = createTile({
-    type: ['some', 'nested', 'type'],
+    type: ["some", "nested", "type"],
     fn: action,
-    nesting: ({ id }) => [id],
+    nesting: ({ id }) => [id]
   });
 
   const promisesStorage = {};
@@ -225,22 +234,22 @@ test('async Action should invoke action with different params', async () => {
   expect(action.calledTwice).toBe(true);
 });
 
-test('createSyncTile should attach all functions from fns to action', () => {
+test("createSyncTile should attach all functions from fns to action", () => {
   const tile = createSyncTile({
-    type: ['some'],
+    type: ["some"],
     fns: {
-      add: () => {},
+      add: () => {}
     }
   });
 
   expect(tile.action.add).toBeInstanceOf(Function);
 });
 
-test('createSyncTile should execute functions from fns correctly', () => {
+test("createSyncTile should execute functions from fns correctly", () => {
   const tile = createSyncTile({
-    type: ['some'],
+    type: ["some"],
     fns: {
-      add: ({ params }) => params,
+      add: ({ params }) => params
     }
   });
 
@@ -257,46 +266,43 @@ test('createSyncTile should execute functions from fns correctly', () => {
   expect(arg.payload.data).toBe(params);
 });
 
-test('createSyncTile should have getData fn', () => {
+test("createSyncTile should get currentData", () => {
   const tile = createSyncTile({
-    type: ['some'],
+    type: ["some"],
     fn: spy()
   });
 
   const dispatch = () => {};
-  const selectors = {
-    some: spy()
-  };
-  const getState = () => {};
-  const middlewares = { dispatch, selectors, getState };
+  const getState = () => ({ some: true });
+  const middlewares = { dispatch, getState };
   const params = { some: 123 };
   tile.action(params)(middlewares);
 
   const arg = tile.reflect.fn.getCall(0).args[0];
-  arg.getData();
+  const data = arg.getData();
 
-  expect(selectors.some.calledOnce).toBe(true);
+  expect(data).toBe(true);
 });
 
-test('getData fn in createSyncTile should handle nested types', () => {
+test("getData fn in createSyncTile should handle nested types", () => {
   const tile = createSyncTile({
-    type: ['some', 'additional'],
+    type: ["some", "additional"],
     fn: spy()
   });
 
   const dispatch = () => {};
-  const selectors = {
+  const getState = () => ({
     some: {
-      additional: spy()
+      additional: "some string"
     }
-  };
-  const getState = () => {};
-  const middlewares = { dispatch, selectors, getState };
+  });
+
+  const middlewares = { dispatch, getState };
   const params = { some: 123 };
   tile.action(params)(middlewares);
 
   const arg = tile.reflect.fn.getCall(0).args[0];
-  arg.getData();
+  const data = arg.getData();
 
-  expect(selectors.some.additional.calledOnce).toBe(true);
+  expect(data).toBe("some string");
 });

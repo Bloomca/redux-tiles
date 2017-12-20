@@ -154,22 +154,19 @@ export function syncAction({
   SET,
   fn,
   nesting,
-  type
+  selector
 }: ISyncActionTypes): FnResult {
   return handleMiddleware(
-    ({ dispatch, getState, selectors, ...middlewares }: any, params: any) => {
+    ({ dispatch, getState, ...middlewares }: any, params: any) => {
       const path: string[] | null = nesting ? nesting(params) : null;
-
-      const topReducer = getTopReducer();
-      const nestedNames: string[] = ensureArray(type);
-      const topReducerArray: string[] = Boolean(topReducer) ? [topReducer] : [];
-
-      const selectorFn = topReducerArray
-        .concat(nestedNames)
-        .reduce((selectors, key) => selectors[key], selectors);
-
-      const getData = () => selectorFn(getState(), params);
-      const data = fn({ params, dispatch, getData, getState, ...middlewares });
+      const getData = () => selector(getState(), params);
+      const data = fn({
+        params,
+        dispatch,
+        getState,
+        getData,
+        ...middlewares
+      });
 
       return dispatch({
         type: SET,
